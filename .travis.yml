@@ -1,26 +1,44 @@
 language: cpp
-compiler:
-  - clang
-  - gcc
 
 env:
-  - LLVM_VERSION=3.6
+  global:
+    - secure: "kFPcTSi1z80VfIOxFqZYXqfmaWX1+S5e0ZQ9Fr9DN5NcWB0UqKpzTumtxiOs5GHduQOSczFR6I3ISvXbcQyFoPayfzGwC2gcIUvYA9YMTTEpWE/tH0FazORsp3wqnIMsQc9SLkxlchJGgmCWC+Cmbfz+1B6SmuFVCAZyxkRXrwA="
+
+branches:
+  only: master
+
+matrix:
+  include:
+    - compiler: gcc
+      env: GCC_VERSION=4.8
+    - compiler: gcc
+      env: GCC_VERSION=4.9
+    - compiler: gcc
+      env: GCC_VERSION=5
+    - compiler: clang
+      env: LLVM_VERSION=3.5
+    - compiler: clang
+      env: LLVM_VERSION=3.6
+    - compiler: clang
+      env: LLVM_VERSION=3.7
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main'
+  - sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.5 main'
   - sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.6 main'
+  - sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main'
   - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
   - sudo apt-get update -qq --allow-unauthenticated
 
 install:
-  # g++ 5
+  # g++
   - if [ "$CXX" = "g++" ]; then
-      sudo apt-get install -qq g++-5;
-      export CXX="g++-5"; $CXX --version;
+      sudo apt-get install -qq g++-${GCC_VERSION};
+      export CXX="g++-${GCC_VERSION}"; $CXX --version;
     fi
 
-  # g++ clang++
+  # clang++
   - if [ "$CXX" = "clang++" ]; then
       sudo apt-get install -qq --allow-unauthenticated llvm-${LLVM_VERSION}-dev clang-${LLVM_VERSION};
       dpkg --get-selections | grep hold;
@@ -32,4 +50,14 @@ before_script:
   - cd build
   - cmake ..
 
-script: make
+script: if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then make ; fi
+
+addons:
+  coverity_scan:
+    project:
+      name: "michalwy/harpoon"
+      description: "Build submitted via Travis CI"
+    notification_email: michalwy@gmail.com
+    build_command_prepend: ""
+    build_command:   "make"
+    branch_pattern: coverity_scan
