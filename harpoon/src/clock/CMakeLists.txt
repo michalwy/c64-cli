@@ -5,6 +5,7 @@ set(SOURCE_FILES
 	)
 
 set(INCLUDE_FILES
+	tick.hh
 	clock.hh
 	)
 

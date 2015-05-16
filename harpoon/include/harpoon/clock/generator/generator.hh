@@ -2,12 +2,16 @@
 #define HARPOON_CLOCK_GENERATOR_HH
 
 #include "harpoon/harpoon.hh"
+#include "harpoon/clock/tick.hh"
 
 #include <atomic>
 
 namespace harpoon {
 namespace clock {
 namespace generator {
+
+using tick = harpoon::clock::tick;
+using atomic_tick = harpoon::clock::atomic_tick;
 
 class generator {
 public:
@@ -26,20 +30,20 @@ public:
 		return _frequency;
 	}
 
-	std::uint_fast64_t get_tick() const {
+	tick get_tick() const {
 		return _tick;
 	}
 
-	virtual std::uint_fast64_t wait_for_tick(std::uint_fast64_t tick) {
+	virtual tick wait_for_tick(tick tick) {
 		while (_tick < tick);
 		return _tick;
 	}
 
-	virtual std::uint_fast64_t wait_tick(std::uint_fast64_t tick_count = 1) {
+	virtual tick wait_tick(std::uint_fast64_t tick_count = 1) {
 		return wait_for_tick(_tick.load() + tick_count);
 	}
 
-	void tick() {
+	void next_tick() {
 		if (is_running()) {
 			++_tick;
 		}
@@ -53,21 +57,21 @@ public:
 	virtual void stop();
 
 protected:
-	void set_tick(std::uint64_t tick) {
+	void set_tick(tick tick) {
 		_tick = tick;
 	}
 
-	std::atomic_uint_fast64_t& get_atomic_tick() {
+	atomic_tick& get_atomic_tick() {
 		return _tick;
 	}
 
-	const std::atomic_uint_fast64_t& get_atomic_tick() const {
+	const atomic_tick& get_atomic_tick() const {
 		return _tick;
 	}
 
 private:
 	std::uint32_t _frequency{};
-	std::atomic_uint_fast64_t _tick{};
+	atomic_tick _tick{};
 	std::atomic_bool _running{};
 };
 

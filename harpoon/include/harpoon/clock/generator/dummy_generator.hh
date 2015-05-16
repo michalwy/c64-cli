@@ -15,14 +15,14 @@ public:
 
 	virtual ~dummy_generator();
 
-	std::uint_fast64_t wait_for_tick(std::uint64_t tick) {
+	tick wait_for_tick(tick tick) {
 		while (get_atomic_tick() < tick) {
-			this->tick();
+			this->next_tick();
 		}
 		return get_atomic_tick();
 	}
 
-	std::uint_fast64_t wait_tick(std::uint64_t tick_count = 1) {
+	tick wait_tick(std::uint_fast64_t tick_count = 1) {
 		return wait_for_tick(get_atomic_tick().load() + tick_count);
 	}
 

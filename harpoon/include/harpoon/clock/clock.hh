@@ -3,6 +3,7 @@
 
 #include "harpoon/harpoon.hh"
 #include "harpoon/hardware_component.hh"
+#include "harpoon/clock/tick.hh"
 #include "harpoon/clock/generator/generator.hh"
 
 namespace harpoon {
@@ -19,15 +20,15 @@ public:
 		_generator = generator;
 	}
 
-	std::uint64_t get_tick() const {
+	tick get_tick() const {
 		return _generator->get_tick();
 	}
 
-	std::uint_fast64_t wait_for_tick(std::uint64_t tick) {
+	tick wait_for_tick(tick tick) {
 		return _generator->wait_for_tick(tick);
 	}
 
-	std::uint_fast64_t wait_tick(std::uint64_t tick_count = 1) {
+	tick wait_tick(std::uint_fast64_t tick_count = 1) {
 		return _generator->wait_tick(tick_count);
 	}
 
