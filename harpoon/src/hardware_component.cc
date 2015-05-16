@@ -37,7 +37,10 @@ const log::log_ptr& hardware_component::get_log() const {
 }
 
 void hardware_component::log(const std::ostream& stream) const {
-	get_log()->out(stream);
+	auto& log = get_log();
+	if (log) {
+		get_log()->out(stream);
+	}
 }
 
 void hardware_component::prepare() {
