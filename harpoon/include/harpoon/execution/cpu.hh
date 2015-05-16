@@ -16,7 +16,7 @@ public:
 };
 
 using cpu_ptr = std::shared_ptr<cpu>;
-
+using cpu_weak_ptr = std::weak_ptr<cpu>;
 }
 }
 

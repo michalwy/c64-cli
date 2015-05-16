@@ -76,6 +76,7 @@ private:
 };
 
 using generator_ptr = std::shared_ptr<generator>;
+using generator_weak_ptr = std::weak_ptr<generator>;
 
 }
 }

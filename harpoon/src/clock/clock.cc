@@ -13,8 +13,3 @@ void clock::shutdown() {
 	_generator->stop();
 	hardware_component::shutdown();
 }
-
-void clock::cleanup() {
-	_generator.reset();
-	hardware_component::cleanup();
-}

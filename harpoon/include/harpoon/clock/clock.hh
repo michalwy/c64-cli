@@ -35,8 +35,6 @@ public:
 	virtual void boot();
 	virtual void shutdown();
 
-	virtual void cleanup();
-
 	virtual ~clock();
 
 private:
@@ -44,6 +42,7 @@ private:
 };
 
 using clock_ptr = std::shared_ptr<clock>;
+using clock_weak_ptr = std::weak_ptr<clock>;
 template<typename... Args>
 clock_ptr make_clock(Args&&... args) {
 	return std::make_shared<clock>(std::forward<Args>(args)...);

@@ -18,6 +18,7 @@ public:
 };
 
 using execution_unit_ptr = std::shared_ptr<execution_unit>;
+using execution_unit_weak_ptr = std::weak_ptr<execution_unit>;
 
 }
 }

@@ -29,6 +29,7 @@ public:
 };
 
 using dummy_generator_ptr = std::shared_ptr<dummy_generator>;
+using dummy_generator_weak_ptr = std::weak_ptr<dummy_generator>;
 template<typename... Args>
 dummy_generator_ptr make_dummy_generator(Args&&... args) {
 	return std::make_shared<dummy_generator>(std::forward<Args>(args)...);
