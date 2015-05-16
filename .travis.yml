@@ -4,9 +4,6 @@ env:
   global:
     - secure: "kFPcTSi1z80VfIOxFqZYXqfmaWX1+S5e0ZQ9Fr9DN5NcWB0UqKpzTumtxiOs5GHduQOSczFR6I3ISvXbcQyFoPayfzGwC2gcIUvYA9YMTTEpWE/tH0FazORsp3wqnIMsQc9SLkxlchJGgmCWC+Cmbfz+1B6SmuFVCAZyxkRXrwA="
 
-branches:
-  only: master
-
 matrix:
   include:
     - compiler: gcc
