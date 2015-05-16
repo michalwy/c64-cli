@@ -1,11 +1,9 @@
 #ifndef HARPOON_CLOCK_GENERATOR_THREADED_GENERATOR_HH
 #define HARPOON_CLOCK_GENERATOR_THREADED_GENERATOR_HH
 
-#include "../../harpoon.hh"
-#include "generator.hh"
+#include "harpoon/harpoon.hh"
+#include "harpoon/clock/generator/generator.hh"
 
-#include <string>
-#include <memory>
 #include <thread>
 
 namespace harpoon {

@@ -1,8 +1,8 @@
 #ifndef HARPOON_CLOCK_CLOCK_HH
 #define HARPOON_CLOCK_CLOCK_HH
 
-#include "../harpoon.hh"
-#include "../hardware_component.hh"
+#include "harpoon/harpoon.hh"
+#include "harpoon/hardware_component.hh"
 
 namespace harpoon {
 namespace clock {

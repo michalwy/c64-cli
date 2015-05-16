@@ -1,7 +1,7 @@
 #ifndef HARPOON_CLOCK_GENERATOR_HH
 #define HARPOON_CLOCK_GENERATOR_HH
 
-#include "../../harpoon.hh"
+#include "harpoon/harpoon.hh"
 
 #include <atomic>
 
