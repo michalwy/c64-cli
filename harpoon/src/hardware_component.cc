@@ -4,7 +4,7 @@
 using namespace harpoon;
 
 hardware_component::~hardware_component() {
-	log(component_debug << "Destroying component.");
+	log(component_debug << "Destroying");
 }
 
 void hardware_component::add_component(const hardware_component_ptr& component) {
@@ -41,20 +41,30 @@ void hardware_component::log(const std::ostream& stream) const {
 }
 
 void hardware_component::prepare() {
+	log(component_notice << "Preparing");
 	for (auto& component : _components) {
 		component->prepare();
 	}
-	boot();
 }
 
 void hardware_component::cleanup() {
-	shutdown();
+	log(component_notice << "Cleanup");
 	for (auto& component : _components) {
 		component->cleanup();
 	}
 	_components.clear();
 }
 
-void hardware_component::boot() {}
+void hardware_component::boot() {
+	log(component_notice << "Booting");
+	for (auto& component : _components) {
+		component->boot();
+	}
+}
 
-void hardware_component::shutdown() {}
+void hardware_component::shutdown() {
+	log(component_notice << "Shutdown");
+	for (auto& component : _components) {
+		component->shutdown();
+	}
+}
