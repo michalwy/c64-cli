@@ -3,14 +3,13 @@
 #include "harpoon/execution/cpu.hh"
 #include "harpoon/clock/clock.hh"
 #include "harpoon/clock/generator/dummy_generator.hh"
+#include "harpoon/clock/generator/threaded_generator.hh"
 #include "harpoon/log/console_log.hh"
 
 #include <memory>
 #include <condition_variable>
 #include <mutex>
 #include <csignal>
-
-using dummy_generator = harpoon::clock::generator::dummy_generator;
 
 static std::condition_variable signal_condition_variable{};
 static std::mutex signal_mutex{};
@@ -30,7 +29,9 @@ int main(int argc, char* argv[]) {
 	auto execution_unit = harpoon::execution::make_up_execution_unit("Execution unit");
 	computer_system->set_main_execution_unit(execution_unit);
 
-	auto clock = harpoon::clock::make_clock<10, dummy_generator>("Clock#1");
+	auto clock = harpoon::clock::make_clock(
+		std::static_pointer_cast<harpoon::clock::generator::generator>(
+			harpoon::clock::generator::make_threaded_generator(1)), "Clock#1");
 	computer_system->add_component(clock);
 
 	computer_system->prepare();

@@ -26,16 +26,17 @@ public:
 		return _frequency;
 	}
 
-	std::uint64_t get_tick() const {
+	std::uint_fast64_t get_tick() const {
 		return _tick;
 	}
 
-	void wait_for_tick(std::uint64_t tick) {
-		while (_tick.load() < tick);
+	virtual std::uint_fast64_t wait_for_tick(std::uint_fast64_t tick) {
+		while (_tick < tick);
+		return _tick;
 	}
 
-	void wait_tick(std::uint64_t tick_count = 1) {
-		wait_for_tick(_tick.load() + tick_count);
+	virtual std::uint_fast64_t wait_tick(std::uint_fast64_t tick_count = 1) {
+		return wait_for_tick(_tick.load() + tick_count);
 	}
 
 	void tick() {
@@ -69,6 +70,8 @@ private:
 	std::atomic_uint_fast64_t _tick{};
 	std::atomic_bool _running{};
 };
+
+using generator_ptr = std::shared_ptr<generator>;
 
 }
 }

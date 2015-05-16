@@ -24,7 +24,7 @@ void threaded_generator::stop() {
 
 	if (_thread) {
 		_thread->join();
-		_thread.reset(nullptr);
+		_thread.reset();
 	}
 }
 

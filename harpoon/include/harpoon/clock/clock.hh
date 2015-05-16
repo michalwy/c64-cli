@@ -3,62 +3,49 @@
 
 #include "harpoon/harpoon.hh"
 #include "harpoon/hardware_component.hh"
+#include "harpoon/clock/generator/generator.hh"
 
 namespace harpoon {
 namespace clock {
 
-template<std::uint32_t frequency, typename Generator>
 class clock : public hardware_component {
 public:
 
 	using hardware_component::hardware_component;
-	clock(const std::string& name = "") : hardware_component(name) {}
+	clock(const generator::generator_ptr& generator, const std::string& name = "") 
+		: hardware_component(name), _generator(generator) {}
 
-	virtual ~clock() {};
-
-	const Generator& get_generator() const {
-		return _generator;
-	}
-
-	Generator& get_generator() {
-		return _generator;
+	void set_generator(const generator::generator_ptr& generator) {
+		_generator = generator;
 	}
 
 	std::uint64_t get_tick() const {
-		return _generator.get_tick();
+		return _generator->get_tick();
 	}
 
-	void wait_for_tick(std::uint64_t tick) {
-		_generator.wait_for_tick(tick);
+	std::uint_fast64_t wait_for_tick(std::uint64_t tick) {
+		return _generator->wait_for_tick(tick);
 	}
 
-	void wait_tick(std::uint64_t tick_count = 1) {
-		_generator.wait_tick(tick_count);
+	std::uint_fast64_t wait_tick(std::uint64_t tick_count = 1) {
+		return _generator->wait_tick(tick_count);
 	}
 
-	void start() {
-		_generator.start();
-	}
-	void stop() {
-		_generator.stop();
-	}
+	virtual void boot();
+	virtual void shutdown();
 
-	virtual void boot() {
-		start();
-	}
-	virtual void shutdown() {
-		stop();
-	}
+	virtual void cleanup();
+
+	virtual ~clock();
 
 private:
-	Generator _generator{frequency};
+	generator::generator_ptr _generator{};
 };
 
-template<std::uint32_t frequency, typename Generator>
-using clock_ptr = std::shared_ptr<clock<frequency, Generator>>;
-template<std::uint32_t frequency, typename Generator, typename... Args>
-clock_ptr<frequency, Generator> make_clock(Args&&... args) {
-	return std::make_shared<clock<frequency, Generator>>(std::forward<Args>(args)...);
+using clock_ptr = std::shared_ptr<clock>;
+template<typename... Args>
+clock_ptr make_clock(Args&&... args) {
+	return std::make_shared<clock>(std::forward<Args>(args)...);
 }
 
 
