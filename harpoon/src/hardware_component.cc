@@ -65,10 +65,12 @@ void hardware_component::boot() {
 	for (auto& component : _components) {
 		component->boot();
 	}
+	_running = true;
 }
 
 void hardware_component::shutdown() {
 	log(component_notice << "Shutdown");
+	_running = false;
 	for (auto& component : _components) {
 		component->shutdown();
 	}

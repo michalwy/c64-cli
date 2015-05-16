@@ -3,8 +3,7 @@
 
 #include "harpoon/harpoon.hh"
 #include "harpoon/hardware_component.hh"
-
-#include <memory>
+#include "harpoon/clock/clock.hh"
 
 namespace harpoon {
 namespace execution {
@@ -14,7 +13,16 @@ public:
 
 	using hardware_component::hardware_component;
 
+	void set_clock(const clock::clock_ptr& clock);
+	
+	clock::clock_ptr get_clock() const {
+		return _clock.lock();
+	}
+
 	virtual ~execution_unit();
+
+private:
+	clock::clock_weak_ptr _clock{};
 };
 
 using execution_unit_ptr = std::shared_ptr<execution_unit>;

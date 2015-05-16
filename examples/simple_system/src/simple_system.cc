@@ -1,10 +1,10 @@
 #include "simple_computer_system.hh"
-#include "harpoon/execution/up_execution_unit.hh"
-#include "harpoon/execution/cpu.hh"
-#include "harpoon/clock/clock.hh"
-#include "harpoon/clock/generator/dummy_generator.hh"
-#include "harpoon/clock/generator/threaded_generator.hh"
+#include "simple_cpu.hh"
+
 #include "harpoon/log/console_log.hh"
+#include "harpoon/clock/clock.hh"
+#include "harpoon/clock/generator/threaded_generator.hh"
+#include "harpoon/execution/up_execution_unit.hh"
 
 #include <memory>
 #include <condition_variable>
@@ -31,8 +31,11 @@ int main(int argc, char* argv[]) {
 
 	auto clock = harpoon::clock::make_clock(
 		std::static_pointer_cast<harpoon::clock::generator::generator>(
-			harpoon::clock::generator::make_threaded_generator(1)), "Clock#1");
-	computer_system->add_component(clock);
+			harpoon::clock::generator::make_threaded_generator(1000)), "Clock#1");
+	execution_unit->set_clock(clock);
+
+	auto cpu = std::make_shared<simple_cpu>("CPU#0");
+	execution_unit->set_cpu(cpu);
 
 	computer_system->prepare();
 	computer_system->boot();

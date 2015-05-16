@@ -5,6 +5,7 @@
 #include "harpoon/clock/tick.hh"
 
 #include <atomic>
+#include <thread>
 
 namespace harpoon {
 namespace clock {
@@ -35,7 +36,7 @@ public:
 	}
 
 	virtual tick wait_for_tick(tick tick) {
-		while (_tick < tick);
+		while (_tick < tick && is_running());
 		return _tick;
 	}
 

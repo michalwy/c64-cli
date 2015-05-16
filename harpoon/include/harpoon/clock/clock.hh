@@ -32,6 +32,10 @@ public:
 		return _generator->wait_tick(tick_count);
 	}
 
+	bool is_running() const {
+		return _generator->is_running();
+	}
+
 	virtual void boot();
 	virtual void shutdown();
 

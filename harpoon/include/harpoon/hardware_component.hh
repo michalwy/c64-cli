@@ -5,6 +5,7 @@
 #include "harpoon/log/log.hh"
 
 #include <list>
+#include <atomic>
 
 namespace harpoon {
 
@@ -55,6 +56,10 @@ public:
 	virtual void boot();
 	virtual void shutdown();
 
+	bool is_running() const {
+		return _running;
+	}
+
 private:
 	void set_parent_component(const hardware_component_ptr& parent_component) {
 		_parent_component = parent_component;
@@ -64,6 +69,7 @@ private:
 	hardware_component_weak_ptr _parent_component{};
 	std::list<hardware_component_ptr> _components{};
 	log::log_ptr _log{};
+	std::atomic_bool _running{false};
 };
 
 #define component_critical (log_debug_c(get_name()))
