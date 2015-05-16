@@ -19,16 +19,11 @@ public:
 
 	virtual ~threaded_generator();
 
-	bool is_running() const {
-		return _running;
-	}
-
 	virtual void start();
 	virtual void stop();
 
 private:
 	std::unique_ptr<std::thread> _thread{};
-	bool _running{};
 };
 
 }

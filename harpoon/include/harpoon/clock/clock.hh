@@ -29,11 +29,11 @@ public:
 	}
 
 	void wait_for_tick(std::uint64_t tick) {
-		_generator.wait_for_tick();
+		_generator.wait_for_tick(tick);
 	}
 
 	void wait_tick(std::uint64_t tick_count = 1) {
-		_generator.wait_tick();
+		_generator.wait_tick(tick_count);
 	}
 
 	void start() {
