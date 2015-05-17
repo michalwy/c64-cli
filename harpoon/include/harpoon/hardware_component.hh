@@ -37,10 +37,10 @@ public:
 		return _parent_component.lock();
 	}
 
-	void add_component(const hardware_component_ptr& component);
+	void add_component(const hardware_component_weak_ptr& component);
 
 	void replace_component(const hardware_component_weak_ptr& old_component,
-						   const hardware_component_ptr& new_component);
+						   const hardware_component_weak_ptr& new_component);
 
 	void set_log(const log::log_ptr& log) {
 		_log = log;

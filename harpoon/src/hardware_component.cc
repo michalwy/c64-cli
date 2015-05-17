@@ -7,16 +7,19 @@ hardware_component::~hardware_component() {
 	log(component_debug << "Destroying");
 }
 
-void hardware_component::add_component(const hardware_component_ptr& component) {
-	_components.push_back(component);
-	component->set_parent_component(shared_from_this());
+void hardware_component::add_component(const hardware_component_weak_ptr& component) {
 
-	log(component_debug << "Adding component: " << component->get_name());
+	hardware_component_ptr ptr = component.lock();
+
+	_components.push_back(ptr);
+	ptr->set_parent_component(shared_from_this());
+
+	log(component_debug << "Adding component: " << ptr->get_name());
 }
 
 
 void hardware_component::replace_component(const hardware_component_weak_ptr& old_component,
-										   const hardware_component_ptr& new_component) {
+										   const hardware_component_weak_ptr& new_component) {
 	hardware_component_ptr old_ptr = old_component.lock();
 	if (old_ptr) {
 		_components.remove(old_ptr);
