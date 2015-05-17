@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 	execution_unit->set_clock(clock);
 
 	auto cpu = std::make_shared<simple_cpu>("CPU#0");
-	execution_unit->set_cpu(cpu);
+	execution_unit->set_processing_unit(cpu);
 
 	computer_system->prepare();
 	computer_system->boot();

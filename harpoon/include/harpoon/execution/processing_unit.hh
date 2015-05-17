@@ -1,5 +1,5 @@
-#ifndef HARPOON_EXECUTION_CPU_HH
-#define HARPOON_EXECUTION_CPU_HH
+#ifndef HARPOON_EXECUTION_PROCESSING_UNIT_HH
+#define HARPOON_EXECUTION_PROCESSING_UNIT_HH
 
 #include "harpoon/harpoon.hh"
 #include "harpoon/hardware_component.hh"
@@ -12,7 +12,7 @@
 namespace harpoon {
 namespace execution {
 
-class cpu : public hardware_component {
+class processing_unit : public hardware_component {
 public:
 
 	using hardware_component::hardware_component;
@@ -49,7 +49,7 @@ public:
 		return _executed_instructions;
 	}
 
-	virtual ~cpu();
+	virtual ~processing_unit();
 
 private:
 	execution_unit_weak_ptr _execution_unit{};
@@ -60,12 +60,9 @@ private:
 	std::atomic_uint_fast64_t _executed_instructions{};
 };
 
-using cpu_ptr = std::shared_ptr<cpu>;
-using cpu_weak_ptr = std::weak_ptr<cpu>;
-template<typename... Args>
-cpu_ptr make_cpu(Args&&... args) {
-	return std::make_shared<cpu>(std::forward<Args>(args)...);
-}
+using processing_unit_ptr = std::shared_ptr<processing_unit>;
+using processing_unit_weak_ptr = std::weak_ptr<processing_unit>;
+
 }
 }
 

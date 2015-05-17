@@ -1,14 +1,14 @@
 set(DIR execution)
 
 set(SOURCE_FILES
-	cpu.cc
+	processing_unit.cc
 	execution_unit.cc
 	up_execution_unit.cc
 	)
 
 set(INCLUDE_FILES
 	cycle.hh
-	cpu.hh
+	processing_unit.hh
 	execution_unit.hh
 	up_execution_unit.hh
 	)

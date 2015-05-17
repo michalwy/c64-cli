@@ -1,15 +1,15 @@
-#include "harpoon/execution/cpu.hh"
+#include "harpoon/execution/processing_unit.hh"
 
 using namespace harpoon::execution;
 
-cpu::~cpu() {}
+processing_unit::~processing_unit() {}
 
-void cpu::prepare() {
+void processing_unit::prepare() {
 	_execution_unit = std::dynamic_pointer_cast<execution_unit>(get_parent_component());
 	hardware_component::prepare();
 }
 
-void cpu::boot() {
+void processing_unit::boot() {
 	hardware_component::boot();
 
 	_executed_instructions = 0;
@@ -23,7 +23,7 @@ void cpu::boot() {
 	}));
 }
 
-void cpu::shutdown() {
+void processing_unit::shutdown() {
 	_running = false;
 	if (_thread) {
 		_thread->join();
@@ -35,9 +35,9 @@ void cpu::shutdown() {
 	hardware_component::shutdown();
 }
 
-void cpu::run() {
+void processing_unit::run() {
 
-	log(component_notice << "Running CPU loop");
+	log(component_notice << "Running processing loop");
 
 	const auto& execution_unit = get_execution_unit();
 
@@ -53,11 +53,11 @@ void cpu::run() {
 		}
 	}
 
-	log(component_notice << "Exiting CPU loop");
+	log(component_notice << "Exiting processing loop");
 
 }
 
-cycle cpu::wait_for_cycle(std::uint_fast64_t cycles) {
+cycle processing_unit::wait_for_cycle(std::uint_fast64_t cycles) {
 	_last_tick = get_execution_unit()->get_clock()->wait_for_tick(_last_tick + cycles);
 	if (get_execution_unit()->get_clock()->is_running()) {
 		_cycle += cycles;

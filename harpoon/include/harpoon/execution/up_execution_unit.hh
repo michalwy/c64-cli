@@ -3,7 +3,7 @@
 
 #include "harpoon/harpoon.hh"
 #include "harpoon/execution/execution_unit.hh"
-#include "harpoon/execution/cpu.hh"
+#include "harpoon/execution/processing_unit.hh"
 
 namespace harpoon {
 namespace execution {
@@ -15,17 +15,17 @@ public:
 
 	virtual ~up_execution_unit() {};
 
-	void set_cpu(const cpu_ptr& cpu) {
-		replace_component(_cpu, cpu);
-		_cpu = cpu;
+	void set_processing_unit(const processing_unit_ptr& processing_unit) {
+		replace_component(_processing_unit, processing_unit);
+		_processing_unit = processing_unit;
 	}
 
-	cpu_ptr get_cpu() const {
-		return _cpu.lock();
+	processing_unit_ptr get_processing_unit() const {
+		return _processing_unit.lock();
 	}
 
 private:
-	cpu_weak_ptr _cpu{};
+	processing_unit_weak_ptr _processing_unit{};
 };
 
 using up_execution_unit_ptr = std::shared_ptr<up_execution_unit>;
