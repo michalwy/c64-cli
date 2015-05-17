@@ -13,7 +13,7 @@ public:
 
 	using execution_unit::execution_unit;
 
-	virtual ~up_execution_unit() {};
+	virtual ~up_execution_unit();
 
 	void set_processing_unit(const processing_unit_ptr& processing_unit) {
 		replace_component(_processing_unit, processing_unit);
