@@ -17,15 +17,27 @@ void hardware_component::add_component(const hardware_component_weak_ptr& compon
 	log(component_debug << "Adding component: " << ptr->get_name());
 }
 
+void hardware_component::remove_component(const hardware_component_weak_ptr& component) {
+
+	hardware_component_ptr ptr = component.lock();
+
+	_components.remove(ptr);
+	ptr->set_parent_component(hardware_component_weak_ptr{});
+
+	log(component_debug << "Removing component: " << ptr->get_name());
+}
 
 void hardware_component::replace_component(const hardware_component_weak_ptr& old_component,
 										   const hardware_component_weak_ptr& new_component) {
 	hardware_component_ptr old_ptr = old_component.lock();
 	if (old_ptr) {
-		_components.remove(old_ptr);
-		old_ptr->set_parent_component(nullptr);
+		remove_component(old_ptr);
 	}
 	add_component(new_component);
+}
+
+void hardware_component::set_parent_component(const hardware_component_weak_ptr& parent_component) {
+	_parent_component = parent_component;
 }
 
 const log::log_ptr& hardware_component::get_log() const {

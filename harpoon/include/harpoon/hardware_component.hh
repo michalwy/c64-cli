@@ -38,7 +38,7 @@ public:
 	}
 
 	void add_component(const hardware_component_weak_ptr& component);
-
+	void remove_component(const hardware_component_weak_ptr& component);
 	void replace_component(const hardware_component_weak_ptr& old_component,
 						   const hardware_component_weak_ptr& new_component);
 
@@ -61,9 +61,7 @@ public:
 	}
 
 private:
-	void set_parent_component(const hardware_component_ptr& parent_component) {
-		_parent_component = parent_component;
-	}
+	void set_parent_component(const hardware_component_weak_ptr& parent_component);
 
 	std::string _name{};
 	hardware_component_weak_ptr _parent_component{};
