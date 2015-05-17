@@ -2,7 +2,9 @@ language: cpp
 
 env:
   global:
+    - GH_URL=https://github.com/${TRAVIS_REPO_SLUG} DOC_BRANCH=master
     - secure: "kFPcTSi1z80VfIOxFqZYXqfmaWX1+S5e0ZQ9Fr9DN5NcWB0UqKpzTumtxiOs5GHduQOSczFR6I3ISvXbcQyFoPayfzGwC2gcIUvYA9YMTTEpWE/tH0FazORsp3wqnIMsQc9SLkxlchJGgmCWC+Cmbfz+1B6SmuFVCAZyxkRXrwA="
+    - secure: "GjQCfkyjb/5U2hp4Vy51DHkMmJTlgUi6yMp/qsQi/rp3g8LhwFb2UAZ1OCGWzR5x4K8NlAN4DYfY9DStcrI/PxYsxE9AWG0px2cMsDmSH4l0m3xsyidzDTpO937IEU5bVDHpmvBkOPFNXkFimXh6RHTNYt3J/K+afTrIgrtPsew="
 
 matrix:
   include:
@@ -15,7 +17,7 @@ matrix:
     - compiler: clang
       env: LLVM_VERSION=3.5
     - compiler: clang
-      env: LLVM_VERSION=3.6
+      env: LLVM_VERSION=3.6 PUBLISH_DOC=1
     - compiler: clang
       env: LLVM_VERSION=3.7
 
@@ -25,6 +27,7 @@ before_install:
   - sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.5 main'
   - sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.6 main'
   - sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main'
+  - sudo add-apt-repository -y ppa:libreoffice/ppa
   - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
   - sudo apt-get update -qq --allow-unauthenticated
 
@@ -42,12 +45,35 @@ install:
       export CXX="clang++-${LLVM_VERSION}"; $CXX --version;
     fi
 
+  - if [ ${PUBLISH_DOC} = 1 -a ${TRAVIS_BRANCH} = ${DOC_BRANCH} -a ${TRAVIS_PULL_REQUEST} = false ]; then
+      sudo apt-get install -qq doxygen;
+      doxygen --version;
+    fi
+
 before_script:
   - mkdir build
   - cd build
   - cmake ..
 
 script: if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then make ; fi
+
+after_success:
+  - if [ ${PUBLISH_DOC} = 1 -a ${TRAVIS_BRANCH} = ${DOC_BRANCH} -a ${TRAVIS_PULL_REQUEST} = false ]; then
+      git config --global user.name "${GIT_NAME}" &&
+      git config --global user.email ${GIT_EMAIL} &&
+      mkdir publish &&
+      cd publish &&
+      git clone ${GH_URL} . &&
+      git checkout gh-pages &&
+      cd .. &&
+      make doc &&
+      rm -rf publish/api &&
+      cp -r harpoon/doc/html publish/api &&
+      cd publish &&
+      git add --all . &&
+      git commit -m 'Auto-update API documentation' &&
+      git push https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG} gh-pages;
+    fi
 
 addons:
   coverity_scan:
