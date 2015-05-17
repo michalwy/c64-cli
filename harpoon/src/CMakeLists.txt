@@ -18,4 +18,5 @@ add_subdirectory(exception)
 add_subdirectory(log)
 add_subdirectory(clock)
 add_subdirectory(execution)
+add_subdirectory(memory)
 

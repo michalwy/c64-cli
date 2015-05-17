@@ -5,6 +5,8 @@
 #include "harpoon/clock/clock.hh"
 #include "harpoon/clock/generator/threaded_generator.hh"
 #include "harpoon/execution/up_execution_unit.hh"
+#include "harpoon/memory/random_access_memory.hh"
+#include "harpoon/memory/linear_memory.hh"
 
 #include <memory>
 #include <condition_variable>
@@ -23,30 +25,39 @@ static void signal_handler(int signal) {
 int main(int argc, char* argv[]) {
 
 	auto console_log = harpoon::log::make_console_log();
-	auto computer_system = std::make_shared<simple_computer_system>();
-	computer_system->set_log(console_log);
 
-	auto execution_unit = harpoon::execution::make_up_execution_unit("Execution unit");
-	computer_system->set_main_execution_unit(execution_unit);
+	try {
+		auto computer_system = std::make_shared<simple_computer_system>();
+		computer_system->set_log(console_log);
 
-	auto clock = harpoon::clock::make_clock(
-		std::static_pointer_cast<harpoon::clock::generator::generator>(
-			harpoon::clock::generator::make_threaded_generator(1000)), "Clock#1");
-	execution_unit->set_clock(clock);
+		auto execution_unit = harpoon::execution::make_up_execution_unit("Execution unit");
+		computer_system->set_main_execution_unit(execution_unit);
 
-	auto cpu = std::make_shared<simple_cpu>("CPU#0");
-	execution_unit->set_processing_unit(cpu);
+		auto clock = harpoon::clock::make_clock(
+			std::static_pointer_cast<harpoon::clock::generator::generator>(
+				harpoon::clock::generator::make_threaded_generator(1000)), "Clock#1");
+		execution_unit->set_clock(clock);
 
-	computer_system->prepare();
-	computer_system->boot();
+		auto cpu = std::make_shared<simple_cpu>("CPU#0");
+		execution_unit->set_processing_unit(cpu);
 
-	std::unique_lock<std::mutex> lk(signal_mutex);
+		auto memory = harpoon::memory::make_random_access_memory<harpoon::memory::linear_memory>("RAM");
+		memory->get_address_range().set_start_and_length(0x1000, 0x1000);
+		computer_system->set_main_memory(memory);
 
-	signal(SIGINT, signal_handler);
+		computer_system->prepare();
+		computer_system->boot();
 
-	signal_condition_variable.wait(lk);
-	signal(SIGINT, SIG_IGN);
+		std::unique_lock<std::mutex> lk(signal_mutex);
 
-	computer_system->shutdown();
-	computer_system->cleanup();
+		signal(SIGINT, signal_handler);
+
+		signal_condition_variable.wait(lk);
+		signal(SIGINT, SIG_IGN);
+
+		computer_system->shutdown();
+		computer_system->cleanup();
+	} catch (std::exception& error) {
+		console_log->out(log_critical << error.what());
+	}
 }

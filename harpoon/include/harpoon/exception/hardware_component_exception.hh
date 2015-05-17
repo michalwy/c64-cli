@@ -11,7 +11,7 @@ class hardware_component_exception : public harpoon_exception {
 public:
 
 	hardware_component_exception(const std::string& component,
-								 const std::string& what,
+								 const std::string& what = {},
 								 const std::string& file = {},
 								 uint32_t line = {},
 								 const std::string& function = {})
@@ -23,7 +23,7 @@ private:
 	std::string _component{};
 };
 
-#define MAKE_HARDWARE_COMPONENT_EXCEPTION(EXCEPTION, ...)	\
+#define COMPONENT_EXCEPTION(EXCEPTION, ...)	\
 	MAKE_HARPOON_EXCEPTION(EXCEPTION, this->get_name(), __VA_ARGS__);
 
 }

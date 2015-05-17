@@ -15,11 +15,22 @@ public:
 					  const std::string& file = {},
 					  uint32_t line = {},
 					  const std::string& function = {})
-		: std::runtime_error(what), _file(file), _line(line), _function(function) {}
+		: std::runtime_error(what), _what(what), _file(file), _line(line), _function(function) {}
+
+	void set_what(const std::string& what) {
+		_what = what;
+	}
+
+	const std::string& get_what() const {
+		return _what;
+	}
+
+	virtual const char* what() const;
 
 	virtual ~harpoon_exception();
 
 private:
+	std::string _what{};
 	std::string _file{};
 	std::uint32_t _line{};
 	std::string _function{};

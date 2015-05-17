@@ -4,6 +4,7 @@
 #include "harpoon/harpoon.hh"
 #include "harpoon/hardware_component.hh"
 #include "harpoon/execution/execution_unit.hh"
+#include "harpoon/memory/memory.hh"
 
 namespace harpoon {
 
@@ -13,15 +14,23 @@ public:
 
 	virtual ~computer_system();
 
-	void set_main_execution_unit(const execution::execution_unit_ptr& main_execution_unit);
+	void set_main_execution_unit(const execution::execution_unit_weak_ptr& main_execution_unit);
+
 	execution::execution_unit_ptr get_main_execution_unit() const {
 		return _main_execution_unit.lock();
+	}
+
+	void set_main_memory(const memory::memory_weak_ptr& main_memory);
+
+	memory::memory_ptr get_main_memory() const {
+		return _main_memory.lock();
 	}
 
 	virtual void run();
 
 private:
 	execution::execution_unit_weak_ptr _main_execution_unit{};
+	memory::memory_weak_ptr _main_memory{};
 };
 
 using computer_system_ptr = std::shared_ptr<computer_system>;
