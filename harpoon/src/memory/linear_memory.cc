@@ -25,6 +25,12 @@ void linear_memory::prepare() {
 	memory::prepare();
 }
 
+void linear_memory::cleanup() {
+	memory::cleanup();
+	log(component_notice << "Freeing memory");
+	_memory.reset();
+}
+
 void linear_memory::get(address address, uint8_t& value) {
 	if (!has_address(address)) {
 		throw COMPONENT_EXCEPTION(exception::read_access_violation, address);

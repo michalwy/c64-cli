@@ -18,6 +18,7 @@ public:
 	linear_memory& operator=(const linear_memory&) = delete;
 
 	virtual void prepare();
+	virtual void cleanup();
 
 	virtual void get(address address, uint8_t& value);
 	virtual void set(address address, uint8_t value);
