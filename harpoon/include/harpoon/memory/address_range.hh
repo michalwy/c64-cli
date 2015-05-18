@@ -1,5 +1,5 @@
 #ifndef HARPOON_MEMORY_ADDRESS_RANGE_HH
-#define HARPOON_MEMORY_ADDRESS_RANGR_HH
+#define HARPOON_MEMORY_ADDRESS_RANGE_HH
 
 #include "harpoon/harpoon.hh"
 #include "harpoon/memory/address.hh"

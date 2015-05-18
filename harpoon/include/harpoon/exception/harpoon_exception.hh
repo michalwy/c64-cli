@@ -25,7 +25,7 @@ public:
 		return _what;
 	}
 
-	virtual const char* what() const;
+	virtual const char* what() const noexcept(true);
 
 	virtual ~harpoon_exception();
 

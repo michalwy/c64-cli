@@ -3,6 +3,8 @@
 #include "harpoon/memory/exception/read_access_violation.hh"
 #include "harpoon/memory/exception/write_access_violation.hh"
 
+#include <limits>
+
 using namespace harpoon::memory;
 
 linear_memory::~linear_memory() {}
