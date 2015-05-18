@@ -12,7 +12,10 @@ namespace memory {
 class linear_memory : public memory {
 public:
 
-	using memory::memory;
+	linear_memory(const std::string& name = {}, const address_range& address_range = {})
+		: memory(name, address_range) {}
+	linear_memory(const linear_memory&) = delete;
+	linear_memory& operator=(const linear_memory&) = delete;
 
 	virtual void prepare();
 

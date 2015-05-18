@@ -7,7 +7,7 @@ using namespace harpoon::log;
 message::~message() {}
 
 std::string message::get_text() const {
-	return _streambuf.str();
+	return _streambuf->str();
 }
 
 message::streambuf::~streambuf() {}

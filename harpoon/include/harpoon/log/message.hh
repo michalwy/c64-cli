@@ -22,6 +22,10 @@ public:
 	class streambuf : public std::stringbuf {
 	public:
 
+		streambuf(message& message) : _message(message) {}
+		streambuf(const streambuf&) = delete;
+		streambuf& operator=(const streambuf&) = delete;
+
 		virtual ~streambuf();
 
 		const message& get_message() const {
@@ -29,10 +33,6 @@ public:
 		}
 
 	private:
-		streambuf(message& message) : _message(message) {}
-		streambuf(const streambuf&) = delete;
-		streambuf& operator=(const streambuf&) = delete;
-
 		message& _message;
 
 		friend class message;
@@ -47,9 +47,10 @@ public:
 		_file(file),
 		_line(line),
 		_function(function),
-		_component(component),
-		_streambuf(*this),
-		_stream(&_streambuf) {}
+		_component(component) {
+		_streambuf = std::make_shared<streambuf>(*this);
+		_stream = std::make_shared<std::ostream>(_streambuf.get());
+	}
 
 	message(const message&) = default;
 	message& operator=(const message&) = default;
@@ -79,7 +80,7 @@ public:
 	std::string get_text() const;
 
 	std::ostream& get_stream() {
-		return _stream;
+		return *(_stream.get());
 	}
 
 private:
@@ -88,8 +89,8 @@ private:
 	unsigned int _line{};
 	std::string _function{};
 	std::string _component{};
-	streambuf _streambuf;
-	std::ostream _stream;
+	std::shared_ptr<streambuf> _streambuf{};
+	std::shared_ptr<std::ostream> _stream{};
 };
 
 #define harpoon_log(__level) \

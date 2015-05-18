@@ -18,9 +18,8 @@ using memory_weak_ptr = std::weak_ptr<memory>;
 class memory : public hardware_component {
 public:
 
-	using hardware_component::hardware_component;
-	memory(const address_range& address_range)
-		: _address_range(address_range) {}
+	memory(const std::string& name = {}, const address_range& address_range = {})
+		: hardware_component(name), _address_range(address_range) {}
 
 	void add_memory_block(const memory_weak_ptr& memory_block, bool owner = true);
 
