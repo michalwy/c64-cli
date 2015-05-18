@@ -1,10 +1,18 @@
+/**
+ * @file harpoon.hh
+ * @brief Harpoon library common header file.
+ */
 #ifndef HARPOON_HARPOON_HH
 #define HARPOON_HARPOON_HH
-
-#define __HARPOON_EXPORT
 
 #include <string>
 #include <memory>
 #include <utility>
+
+/**
+ * @brief Main Harpoon library namespace.
+ */
+namespace harpoon {
+}
 
 #endif
