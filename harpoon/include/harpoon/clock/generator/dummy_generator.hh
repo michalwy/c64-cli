@@ -40,3 +40,4 @@ dummy_generator_ptr make_dummy_generator(Args&&... args) {
 }
 
 #endif
+

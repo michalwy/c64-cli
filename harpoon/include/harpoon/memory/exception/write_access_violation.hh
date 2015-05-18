@@ -12,10 +12,13 @@ class write_access_violation : public access_violation {
 public:
 
 	write_access_violation(const std::string& component,
-						   address address,
-						   const std::string& file = {},
-						   uint32_t line = {},
-						   const std::string& function = {});
+					 address address,
+					 const std::string& file = {},
+					 int line = {},
+					 const std::string& function = {});
+
+	write_access_violation(const write_access_violation&) = default;
+	write_access_violation& operator=(const write_access_violation&) = default;
 
 	virtual ~write_access_violation();
 };
@@ -25,3 +28,4 @@ public:
 }
 
 #endif
+

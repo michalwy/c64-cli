@@ -9,3 +9,4 @@ std::uint_fast64_t simple_cpu::fetch() {
 std::uint_fast64_t simple_cpu::execute() {
 	return 4;
 }
+

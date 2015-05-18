@@ -15,8 +15,11 @@ public:
 	access_violation(const std::string& component,
 					 address address,
 					 const std::string& file = {},
-					 uint32_t line = {},
+					 int line = {},
 					 const std::string& function = {});
+
+	access_violation(const access_violation&) = default;
+	access_violation& operator=(const access_violation&) = default;
 
 	address get_address() const {
 		return _address;
@@ -33,3 +36,4 @@ private:
 }
 
 #endif
+

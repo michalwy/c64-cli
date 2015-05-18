@@ -13,18 +13,20 @@
 #include <mutex>
 #include <csignal>
 
-static std::condition_variable signal_condition_variable{};
+static std::condition_variable* signal_condition_variable{};
 static std::mutex signal_mutex{};
 
 static void signal_handler(int signal) {
+	(void)signal;
 	std::unique_lock<std::mutex> lk(signal_mutex);
 
-	signal_condition_variable.notify_all();
+	signal_condition_variable->notify_all();
 }
 
-int main(int argc, char* argv[]) {
+int main() {
 
 	auto console_log = harpoon::log::make_console_log();
+	signal_condition_variable = new std::condition_variable;
 
 	try {
 		auto computer_system = std::make_shared<simple_computer_system>();
@@ -52,7 +54,7 @@ int main(int argc, char* argv[]) {
 
 		signal(SIGINT, signal_handler);
 
-		signal_condition_variable.wait(lk);
+		signal_condition_variable->wait(lk);
 		signal(SIGINT, SIG_IGN);
 
 		computer_system->shutdown();
@@ -60,4 +62,6 @@ int main(int argc, char* argv[]) {
 	} catch (std::exception& error) {
 		console_log->out(log_critical << error.what());
 	}
+
+	delete signal_condition_variable;
 }

@@ -52,3 +52,4 @@ console_log_ptr make_console_log(Args&&... args) {
 }
 
 #endif
+

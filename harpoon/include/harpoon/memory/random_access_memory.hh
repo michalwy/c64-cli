@@ -12,7 +12,7 @@ public:
 
 	using MemoryImplementation::MemoryImplementation;
 
-	virtual ~random_access_memory() {};
+	virtual ~random_access_memory() {}
 };
 
 template<typename MemoryImplementation>

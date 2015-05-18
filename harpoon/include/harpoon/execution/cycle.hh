@@ -15,3 +15,4 @@ using atomic_cycle = std::atomic_uint_fast64_t;
 }
 
 #endif
+

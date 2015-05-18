@@ -8,7 +8,7 @@ using namespace harpoon::memory::exception;
 read_access_violation::read_access_violation(const std::string& component,
 											 harpoon::memory::address address,
 											 const std::string& file,
-											 uint32_t line,
+											 int line,
 											 const std::string& function)
 	: access_violation(component, address, file, line, function) {
 	std::stringstream stream;

@@ -26,3 +26,4 @@ using log_weak_ptr = std::weak_ptr<log>;
 }
 
 #endif
+

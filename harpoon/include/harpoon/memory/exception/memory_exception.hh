@@ -13,6 +13,9 @@ public:
 
 	using harpoon::exception::hardware_component_exception::hardware_component_exception;
 
+	memory_exception(const memory_exception&) = default;
+	memory_exception& operator=(const memory_exception&) = default;
+
 	virtual ~memory_exception();
 
 };
@@ -22,3 +25,4 @@ public:
 }
 
 #endif
+

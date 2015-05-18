@@ -84,3 +84,4 @@ using generator_weak_ptr = std::weak_ptr<generator>;
 }
 
 #endif
+

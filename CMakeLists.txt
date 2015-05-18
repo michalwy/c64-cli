@@ -6,12 +6,21 @@ include(functions)
 
 project(harpoon)
 
+set(CMAKE_CLANG_CXX_FLAGS
+	-std=c++11
+	-Werror
+	-Weverything
+	-Wno-c++98-compat
+	-Wno-c++98-compat-pedantic
+	-Wno-padded
+	)
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	string(REGEX REPLACE ";" " " CMAKE_CXX_FLAGS "${CMAKE_CLANG_CXX_FLAGS}")
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

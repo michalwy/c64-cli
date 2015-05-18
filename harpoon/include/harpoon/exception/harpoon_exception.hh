@@ -13,9 +13,12 @@ public:
 
 	harpoon_exception(const std::string& what,
 					  const std::string& file = {},
-					  uint32_t line = {},
+					  int line = {},
 					  const std::string& function = {})
 		: std::runtime_error(what), _what(what), _file(file), _line(line), _function(function) {}
+
+	harpoon_exception(const harpoon_exception&) = default;
+	harpoon_exception& operator=(const harpoon_exception&) = default;
 
 	void set_what(const std::string& what) {
 		_what = what;
@@ -32,7 +35,7 @@ public:
 private:
 	std::string _what{};
 	std::string _file{};
-	std::uint32_t _line{};
+	int _line{};
 	std::string _function{};
 };
 
@@ -48,3 +51,4 @@ Exception make_harpoon_exception(Args&&... args) {
 }
 
 #endif
+

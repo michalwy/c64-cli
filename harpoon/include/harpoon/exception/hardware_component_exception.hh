@@ -13,12 +13,14 @@ public:
 	hardware_component_exception(const std::string& component,
 								 const std::string& what = {},
 								 const std::string& file = {},
-								 uint32_t line = {},
+								 int line = {},
 								 const std::string& function = {})
 		: harpoon_exception(what, file, line, function), _component(component) {}
 
-	virtual ~hardware_component_exception();
+	hardware_component_exception(const hardware_component_exception&) = default;
+	hardware_component_exception& operator=(const hardware_component_exception&) = default;
 
+	virtual ~hardware_component_exception();
 private:
 	std::string _component{};
 };
@@ -30,3 +32,4 @@ private:
 }
 
 #endif
+

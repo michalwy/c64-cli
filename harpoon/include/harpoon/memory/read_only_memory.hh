@@ -18,7 +18,7 @@ public:
 		throw COMPONENT_EXCEPTION(exception::write_access_violation, address);
 	}
 
-	virtual ~read_only_memory() {};
+	virtual ~read_only_memory() {}
 };
 
 template<typename MemoryImplementation>
@@ -36,3 +36,4 @@ read_only_memory_ptr<MemoryImplementation> make_read_only_memory(Args&&... args)
 }
 
 #endif
+

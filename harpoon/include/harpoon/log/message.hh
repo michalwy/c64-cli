@@ -22,6 +22,8 @@ public:
 	class streambuf : public std::stringbuf {
 	public:
 
+		virtual ~streambuf();
+
 		const message& get_message() const {
 			return _message;
 		}
@@ -90,22 +92,22 @@ private:
 	std::ostream _stream;
 };
 
-#define __harpoon_log(__level) \
+#define harpoon_log(__level) \
 	((harpoon::log::message((__level), __FILE__, __LINE__, __FUNCTION__)).get_stream())
 
-#define __harpoon_log_c(__level, __component) \
+#define harpoon_log_c(__level, __component) \
 	((harpoon::log::message((__level), __FILE__, __LINE__, __FUNCTION__, (__component))).get_stream())
 
-#define log_critical __harpoon_log(harpoon::log::message::Level::CRITICAL)
-#define log_critical_c(__component) __harpoon_log_c(harpoon::log::message::Level::CRITICAL, __component)
-#define log_error __harpoon_log(harpoon::log::message::Level::ERROR)
-#define log_error_c(__component) __harpoon_log_c(harpoon::log::message::Level::ERROR, __component)
-#define log_warning __harpoon_log(harpoon::log::message::Level::WARNING)
-#define log_warning_c(__component) __harpoon_log_c(harpoon::log::message::Level::WARNING, __component)
-#define log_notice __harpoon_log(harpoon::log::message::Level::NOTICE)
-#define log_notice_c(__component) __harpoon_log_c(harpoon::log::message::Level::NOTICE, __component)
-#define log_debug __harpoon_log(harpoon::log::message::Level::DEBUG)
-#define log_debug_c(__component) __harpoon_log_c(harpoon::log::message::Level::DEBUG, __component)
+#define log_critical harpoon_log(harpoon::log::message::Level::CRITICAL)
+#define log_critical_c(__component) harpoon_log_c(harpoon::log::message::Level::CRITICAL, __component)
+#define log_error harpoon_log(harpoon::log::message::Level::ERROR)
+#define log_error_c(__component) harpoon_log_c(harpoon::log::message::Level::ERROR, __component)
+#define log_warning harpoon_log(harpoon::log::message::Level::WARNING)
+#define log_warning_c(__component) harpoon_log_c(harpoon::log::message::Level::WARNING, __component)
+#define log_notice harpoon_log(harpoon::log::message::Level::NOTICE)
+#define log_notice_c(__component) harpoon_log_c(harpoon::log::message::Level::NOTICE, __component)
+#define log_debug harpoon_log(harpoon::log::message::Level::DEBUG)
+#define log_debug_c(__component) harpoon_log_c(harpoon::log::message::Level::DEBUG, __component)
 
 }
 }

@@ -12,10 +12,13 @@ class read_access_violation : public access_violation {
 public:
 
 	read_access_violation(const std::string& component,
-						  address address,
-						  const std::string& file = {},
-						  uint32_t line = {},
-						  const std::string& function = {});
+					 address address,
+					 const std::string& file = {},
+					 int line = {},
+					 const std::string& function = {});
+
+	read_access_violation(const read_access_violation&) = default;
+	read_access_violation& operator=(const read_access_violation&) = default;
 
 	virtual ~read_access_violation();
 };
@@ -25,3 +28,4 @@ public:
 }
 
 #endif
+
