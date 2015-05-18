@@ -4,8 +4,6 @@
 #include "harpoon/harpoon.hh"
 #include "harpoon/memory/memory.hh"
 
-#include <array>
-
 namespace harpoon {
 namespace memory {
 

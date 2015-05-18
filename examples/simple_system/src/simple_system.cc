@@ -6,7 +6,7 @@
 #include "harpoon/clock/generator/threaded_generator.hh"
 #include "harpoon/execution/up_execution_unit.hh"
 #include "harpoon/memory/random_access_memory.hh"
-#include "harpoon/memory/linear_memory.hh"
+#include "harpoon/memory/chunked_memory.hh"
 
 #include <memory>
 #include <condition_variable>
@@ -43,8 +43,8 @@ int main() {
 		auto cpu = std::make_shared<simple_cpu>("CPU#0");
 		execution_unit->set_processing_unit(cpu);
 
-		auto memory = harpoon::memory::make_random_access_memory<harpoon::memory::linear_memory>("RAM");
-		memory->get_address_range().set_start_and_length(0x1000, 0x1000);
+		auto memory = harpoon::memory::make_random_access_memory<harpoon::memory::chunked_memory>("RAM");
+		memory->get_address_range().set_start_and_length(0, 0x100000);
 		computer_system->set_main_memory(memory);
 
 		computer_system->prepare();
