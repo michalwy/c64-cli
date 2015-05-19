@@ -47,6 +47,7 @@ install:
 
   - if [ ${PUBLISH_DOC} = 1 -a ${TRAVIS_BRANCH} = ${DOC_BRANCH} -a ${TRAVIS_PULL_REQUEST} = false ]; then
       sudo apt-get install -qq doxygen;
+      sudo apt-get install -qq graphviz;
       doxygen --version;
     fi
 
