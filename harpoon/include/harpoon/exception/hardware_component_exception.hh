@@ -20,6 +20,10 @@ public:
 	hardware_component_exception(const hardware_component_exception&) = default;
 	hardware_component_exception& operator=(const hardware_component_exception&) = default;
 
+	const std::string& get_component() const {
+		return _component;
+	}
+
 	virtual ~hardware_component_exception();
 private:
 	std::string _component{};

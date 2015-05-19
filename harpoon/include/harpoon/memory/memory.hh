@@ -21,8 +21,6 @@ public:
 	memory(const std::string& name = {}, const address_range& address_range = {})
 		: hardware_component(name), _address_range(address_range) {}
 
-	void add_memory_block(const memory_weak_ptr& memory_block, bool owner = true);
-
 	const address_range& get_address_range() const {
 		return _address_range;
 	}
@@ -47,8 +45,6 @@ public:
 
 private:
 	address_range _address_range{};
-
-	std::list<memory_weak_ptr> _memory_blocks;
 };
 
 }

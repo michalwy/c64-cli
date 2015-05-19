@@ -4,6 +4,8 @@
 #include "harpoon/harpoon.hh"
 #include "harpoon/memory/address.hh"
 
+#include <limits>
+
 namespace harpoon {
 namespace memory {
 
@@ -58,6 +60,10 @@ public:
 
 	bool overlaps(const address_range& second) const {
 		return has_address(second.get_start()) || has_address(second.get_end());
+	}
+
+	static inline address max() {
+		return std::numeric_limits<address>::max();
 	}
 
 private:

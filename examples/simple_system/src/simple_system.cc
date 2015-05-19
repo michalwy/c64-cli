@@ -7,6 +7,8 @@
 #include "harpoon/execution/up_execution_unit.hh"
 #include "harpoon/memory/random_access_memory.hh"
 #include "harpoon/memory/chunked_memory.hh"
+#include "harpoon/memory/main_memory.hh"
+#include "harpoon/exception/hardware_component_exception.hh"
 
 #include <memory>
 #include <condition_variable>
@@ -43,12 +45,22 @@ int main() {
 		auto cpu = std::make_shared<simple_cpu>("CPU#0");
 		execution_unit->set_processing_unit(cpu);
 
+		auto main_memory = harpoon::memory::make_main_memory("Memory");
+		computer_system->set_main_memory(main_memory);
+
 		auto memory = harpoon::memory::make_random_access_memory<harpoon::memory::chunked_memory>("RAM");
 		memory->get_address_range().set_start_and_length(0, 0x100000);
-		computer_system->set_main_memory(memory);
+
+		main_memory->add_memory(memory);
 
 		computer_system->prepare();
 		computer_system->boot();
+
+		uint8_t tmp = 0;
+		main_memory->set(0x10, 100);
+		main_memory->set(0x20001, 200);
+		main_memory->set(0x500000, 100);
+		main_memory->get(0x500000, tmp);
 
 		std::unique_lock<std::mutex> lk(signal_mutex);
 
@@ -59,6 +71,8 @@ int main() {
 
 		computer_system->shutdown();
 		computer_system->cleanup();
+	} catch (harpoon::exception::hardware_component_exception& error) {
+		console_log->out(log_critical_c(error.get_component()) << error.what());
 	} catch (std::exception& error) {
 		console_log->out(log_critical << error.what());
 	}
