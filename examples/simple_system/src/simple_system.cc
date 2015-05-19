@@ -5,9 +5,8 @@
 #include "harpoon/clock/clock.hh"
 #include "harpoon/clock/generator/threaded_generator.hh"
 #include "harpoon/execution/up_execution_unit.hh"
-#include "harpoon/memory/random_access_memory.hh"
-#include "harpoon/memory/chunked_memory.hh"
 #include "harpoon/memory/main_memory.hh"
+#include "harpoon/memory/chunked_random_access_memory.hh"
 #include "harpoon/exception/hardware_component_exception.hh"
 
 #include <memory>
@@ -48,7 +47,7 @@ int main() {
 		auto main_memory = harpoon::memory::make_main_memory("Memory");
 		computer_system->set_main_memory(main_memory);
 
-		auto memory = harpoon::memory::make_random_access_memory<harpoon::memory::chunked_memory>("RAM");
+		auto memory = harpoon::memory::make_chunked_random_access_memory("RAM");
 		memory->get_address_range().set_start_and_length(0, 0x100000);
 
 		main_memory->add_memory(memory);

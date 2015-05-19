@@ -15,6 +15,7 @@ public:
 	using MemoryImplementation::MemoryImplementation;
 
 	virtual void set(address address, uint8_t value) {
+		(void)value;
 		throw COMPONENT_EXCEPTION(exception::write_access_violation, address);
 	}
 

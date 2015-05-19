@@ -7,6 +7,10 @@ set(SOURCE_FILES
 	chunked_memory.cc
 	random_access_memory.cc
 	read_only_memory.cc
+	linear_random_access_memory.cc
+	linear_read_only_memory.cc
+	chunked_random_access_memory.cc
+	chunked_read_only_memory.cc
 	)
 
 set(INCLUDE_FILES
@@ -18,6 +22,10 @@ set(INCLUDE_FILES
 	chunked_memory.hh
 	random_access_memory.hh
 	read_only_memory.hh
+	linear_random_access_memory.hh
+	linear_read_only_memory.hh
+	chunked_random_access_memory.hh
+	chunked_read_only_memory.hh
 	)
 
 add_sources()
