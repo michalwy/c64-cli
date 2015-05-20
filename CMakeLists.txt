@@ -20,6 +20,8 @@ endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	set(CMAKE_COMMON_CXX_FLAGS
 		-std=c++11
+		-Wall
+		-Werror
 		)
 endif()
 
