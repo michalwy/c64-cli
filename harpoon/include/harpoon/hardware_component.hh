@@ -145,6 +145,19 @@ public:
 		_log = log;
 	}
 
+	/**
+	 * @brief Dump state of component to log.
+	 * @param[in] subcomponents If true, state of all subcomponents will also be logged.
+	 * @param[in] level Log level to be used.
+	 */
+	virtual void log_state(bool subcomponents = true, log::message::Level level = log::message::Level::DEBUG) const;
+
+	/**
+	* @brief Dump state of component to log.
+	* @param[in] level Log level to be used.
+	*/
+	virtual void log_state(log::message::Level level) const;
+
 private:
 	void set_parent_component(const hardware_component_weak_ptr& parent_component);
 
@@ -155,6 +168,7 @@ private:
 	std::atomic_bool _running{false};
 };
 
+#define component_log(__level) (harpoon_log_c(__level, get_name()))
 #define component_critical (log_debug_c(get_name()))
 #define component_error (log_error_c(get_name()))
 #define component_warning (log_warning_c(get_name()))

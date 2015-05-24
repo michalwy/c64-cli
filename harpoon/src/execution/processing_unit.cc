@@ -64,3 +64,13 @@ cycle processing_unit::wait_for_cycle(std::uint_fast64_t cycles) {
 	}
 	return _cycle;
 }
+
+void processing_unit::log_state(harpoon::log::message::Level level) const {
+	hardware_component::log_state(level);
+	log(component_log(level) << "Current cycle: " << _cycle);
+	log(component_log(level) << "Executed instructions: " << _executed_instructions);
+	log_registers(level);
+}
+
+void processing_unit::log_registers(harpoon::log::message::Level) const {
+}

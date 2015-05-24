@@ -90,3 +90,18 @@ void hardware_component::shutdown() {
 		component->shutdown();
 	}
 }
+
+void hardware_component::log_state(bool subcomponents, log::message::Level level) const {
+	log_state(level);
+	if (subcomponents) {
+		for (const auto& component : _components) {
+			component->log_state(subcomponents, level);
+		}
+	}
+}
+
+void hardware_component::log_state(log::message::Level level) const {
+	if (is_running()) {
+		log(component_log(level) << "RUNNING");
+	}
+}

@@ -49,6 +49,9 @@ public:
 		return _executed_instructions;
 	}
 
+	virtual void log_state(log::message::Level level = log::message::Level::DEBUG) const;
+	virtual void log_registers(log::message::Level level) const;
+
 	virtual ~processing_unit();
 
 private:
