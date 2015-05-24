@@ -17,8 +17,8 @@ public:
 	basic_register(const basic_register&) = default;
 	basic_register(const T& value) : _value(value) {}
 	basic_register& operator=(const basic_register&) = default;
-	basic_register& operator=(const T&) {
-		set_value(T);
+	basic_register& operator=(const T& value) {
+		set_value(value);
 		return *this;
 	}
 
