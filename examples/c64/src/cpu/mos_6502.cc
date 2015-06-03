@@ -42,12 +42,11 @@ std::uint_fast64_t mos_6502::begin_execution() {
 	return 9;
 }
 
-std::uint_fast64_t mos_6502::fetch() {
+std::uint_fast64_t mos_6502::fetch_decode(harpoon::execution::instruction& instruction) {
+	instruction = [this](harpoon::execution::processing_unit * cpu) -> std::uint_fast64_t {
+		return 10;
+	};
 	return 1;
-}
-
-std::uint_fast64_t mos_6502::execute() {
-	return 4;
 }
 
 void mos_6502::log_registers(harpoon::log::message::Level level) const {

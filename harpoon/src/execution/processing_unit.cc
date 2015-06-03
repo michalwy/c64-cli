@@ -40,14 +40,15 @@ void processing_unit::run() {
 	log(component_notice << "Running processing loop");
 
 	const auto& execution_unit = get_execution_unit();
+	instruction instruction;
 
 	wait_for_cycle(begin_execution());
 
 	while (is_running()) {
 		if (execution_unit->is_running()) {
-			wait_for_cycle(fetch());
+			wait_for_cycle(fetch_decode(instruction));
 			if (execution_unit->is_running()) {
-				wait_for_cycle(execute());
+				wait_for_cycle(execute(instruction));
 				++_executed_instructions;
 			}
 		} else {
@@ -56,7 +57,10 @@ void processing_unit::run() {
 	}
 
 	log(component_notice << "Exiting processing loop");
+}
 
+std::uint_fast64_t processing_unit::execute(instruction& instruction) {
+	return instruction(this);
 }
 
 cycle processing_unit::wait_for_cycle(std::uint_fast64_t cycles) {

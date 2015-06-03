@@ -5,6 +5,7 @@
 #include "harpoon/hardware_component.hh"
 #include "harpoon/execution/execution_unit.hh"
 #include "harpoon/execution/cycle.hh"
+#include "harpoon/execution/instruction.hh"
 
 #include <thread>
 #include <atomic>
@@ -31,8 +32,8 @@ public:
 	}
 
 	virtual std::uint_fast64_t begin_execution() = 0;
-	virtual std::uint_fast64_t fetch() = 0;
-	virtual std::uint_fast64_t execute() = 0;
+	virtual std::uint_fast64_t fetch_decode(instruction& instruction) = 0;
+	virtual std::uint_fast64_t execute(instruction& instruction);
 
 	bool is_running() const {
 		return _running;

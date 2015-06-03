@@ -6,11 +6,6 @@ std::uint_fast64_t simple_cpu::begin_execution() {
 	return 0;
 }
 
-std::uint_fast64_t simple_cpu::fetch() {
+std::uint_fast64_t simple_cpu::fetch_decode(harpoon::execution::instruction& instruction) {
 	return 1;
 }
-
-std::uint_fast64_t simple_cpu::execute() {
-	return 4;
-}
-
