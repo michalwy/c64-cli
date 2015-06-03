@@ -3,18 +3,94 @@
 
 #include "harpoon/execution/processing_unit.hh"
 #include "harpoon/execution/basic_register.hh"
+#include "harpoon/memory/memory.hh"
 
 namespace commodore {
 namespace cpu {
 
 class mos_6502 : public harpoon::execution::processing_unit {
 public:
+
+	struct registers {
+		harpoon::execution::basic_register<std::uint8_t> A{};
+		harpoon::execution::basic_register<std::uint8_t> X{};
+		harpoon::execution::basic_register<std::uint8_t> Y{};
+		harpoon::execution::basic_register<std::uint8_t> SP{};
+		harpoon::execution::basic_register<std::uint16_t> PC{};
+		harpoon::execution::basic_register<std::uint8_t> IR{};
+	};
+
 	using harpoon::execution::processing_unit::processing_unit;
 
 	virtual void boot();
 
+	virtual std::uint_fast64_t begin_execution();
 	virtual std::uint_fast64_t fetch();
 	virtual std::uint_fast64_t execute();
+
+	void set_memory(const harpoon::memory::memory_weak_ptr& memory) {
+		_memory = memory;
+	}
+
+	harpoon::memory::memory_ptr get_memory() const {
+		return _memory.lock();
+	}
+
+	const struct registers& get_registers() const {
+		return _registers;
+	}
+
+	struct registers& get_registers() {
+		return _registers;
+	}
+
+	void set_A(std::uint8_t value) {
+		_registers.A.set(value);
+	}
+
+	void set_X(std::uint8_t value) {
+		_registers.X.set(value);
+	}
+
+	void set_Y(std::uint8_t value) {
+		_registers.Y.set(value);
+	}
+
+	void set_SP(std::uint8_t value) {
+		_registers.SP.set(value);
+	}
+
+	void set_PC(std::uint16_t value) {
+		_registers.PC.set(value);
+	}
+
+	void set_IR(std::uint8_t value) {
+		_registers.IR.set(value);
+	}
+
+	std::uint8_t get_A() const {
+		return _registers.A;
+	}
+
+	std::uint8_t get_X() const {
+		return _registers.X;
+	}
+
+	std::uint8_t get_Y() const {
+		return _registers.Y;
+	}
+
+	std::uint8_t get_SP() const {
+		return _registers.SP;
+	}
+
+	std::uint16_t get_PC() const {
+		return _registers.PC;
+	}
+
+	std::uint8_t get_IR() const {
+		return _registers.IR;
+	}
 
 	void log_registers(harpoon::log::message::Level level) const;
 
@@ -24,13 +100,8 @@ private:
 
 	void init_registers();
 
-	struct {
-		harpoon::execution::basic_register<uint8_t> A{};
-		harpoon::execution::basic_register<uint8_t> X{};
-		harpoon::execution::basic_register<uint8_t> Y{};
-		harpoon::execution::basic_register<uint8_t> S{};
-		harpoon::execution::basic_register<uint16_t> PC{};
-	} _registers;
+	struct registers _registers{};
+	harpoon::memory::memory_weak_ptr _memory{};
 };
 
 }

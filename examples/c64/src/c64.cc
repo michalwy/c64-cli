@@ -1,9 +1,11 @@
 #include "c64.hh"
 #include "cpu/mos_6502.hh"
 
-#include "harpoon/execution/up_execution_unit.hh"
 #include "harpoon/clock/clock.hh"
 #include "harpoon/clock/generator/threaded_generator.hh"
+#include "harpoon/execution/up_execution_unit.hh"
+#include "harpoon/memory/main_memory.hh"
+#include "harpoon/memory/linear_read_only_memory.hh"
 
 using namespace commodore;
 
@@ -15,6 +17,7 @@ c64::c64(const harpoon::log::log_ptr& log)
 c64::~c64() {}
 
 void c64::create() {
+	create_memory();
 	create_execution_unit();
 }
 
@@ -29,4 +32,20 @@ void c64::create_execution_unit() {
 
 	auto cpu = std::make_shared<cpu::mos_6502>("CPU");
 	execution_unit->set_processing_unit(cpu);
+}
+
+void c64::create_memory() {
+	auto main_memory = harpoon::memory::make_main_memory("Memory", harpoon::memory::address_range{0, 0xffff});
+	set_main_memory(main_memory);
+
+	auto kernal = make_linear_read_only_memory("Kernal", harpoon::memory::address_range{0xe000, 0xffff});
+	main_memory->add_memory(kernal);
+	_kernal = kernal;
+}
+
+void c64::prepare() {
+	auto execution_unit = std::static_pointer_cast<harpoon::execution::up_execution_unit>(get_main_execution_unit());
+	auto cpu = std::static_pointer_cast<cpu::mos_6502>(execution_unit->get_processing_unit());
+	cpu->set_memory(get_main_memory());
+	harpoon::computer_system::prepare();
 }
