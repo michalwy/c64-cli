@@ -18,22 +18,52 @@ public:
 	basic_register(const T& value) : _value(value) {}
 	basic_register& operator=(const basic_register&) = default;
 	basic_register& operator=(const T& value) {
-		set_value(value);
+		set(value);
 		return *this;
 	}
 
-	const T& get_value() const {
+	operator const T&() const {
 		return _value;
 	}
 
-	void set_value(const T& value) {
+	operator T&() {
+		return _value;
+	}
+
+	T operator++() {
+		return increment();
+	}
+
+	T operator++(int) {
+		return increment()-1;
+	}
+
+	T operator--() {
+		return decrement();
+	}
+
+	T operator--(int) {
+		return decrement()+1;
+	}
+
+	T get() const {
+		return _value;
+	}
+
+	void set(const T& value) {
 		_value = value;
 	}
 
+	T increment() {
+		return ++_value;
+	}
+
+	T decrement() {
+		return --_value;
+	}
+
 private:
-
 	T _value{};
-
 };
 
 template<typename T>
@@ -43,7 +73,7 @@ inline std::ostream& operator<<(std::ostream& stream, const basic_register<T>& r
 		<< std::hex 
 		<< std::setfill('0') 
 		<< std::setw(sizeof(T) * 2) 
-		<< reg.get_value() 
+		<< reg.get()
 		<< "]";
 }
 
@@ -54,7 +84,7 @@ inline std::ostream& operator<<(std::ostream& stream, const basic_register<std::
 		<< std::hex
 		<< std::setfill('0')
 		<< std::setw(2)
-		<< static_cast<std::uint32_t>(reg.get_value())
+		<< static_cast<std::uint32_t>(reg.get())
 		<< "]";
 }
 
