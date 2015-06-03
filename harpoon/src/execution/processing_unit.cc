@@ -41,6 +41,8 @@ void processing_unit::run() {
 
 	const auto& execution_unit = get_execution_unit();
 
+	wait_for_cycle(begin_execution());
+
 	while (is_running()) {
 		if (execution_unit->is_running()) {
 			wait_for_cycle(fetch());

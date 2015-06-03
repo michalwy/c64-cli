@@ -30,6 +30,7 @@ public:
 		return wait_for_cycle(1);
 	}
 
+	virtual std::uint_fast64_t begin_execution() = 0;
 	virtual std::uint_fast64_t fetch() = 0;
 	virtual std::uint_fast64_t execute() = 0;
 
