@@ -10,6 +10,7 @@
 
 #include <list>
 #include <atomic>
+#include <mutex>
 
 namespace harpoon {
 
@@ -166,6 +167,7 @@ private:
 	std::list<hardware_component_ptr> _components{};
 	log::log_ptr _log{};
 	std::atomic_bool _running{false};
+	mutable std::mutex _mutex;
 };
 
 #define component_log(__level) (harpoon_log_c(__level, get_name()))

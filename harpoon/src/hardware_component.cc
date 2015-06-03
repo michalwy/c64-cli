@@ -92,6 +92,7 @@ void hardware_component::shutdown() {
 }
 
 void hardware_component::log_state(bool subcomponents, log::message::Level level) const {
+	std::lock_guard<std::mutex> _lk(_mutex);
 	log_state(level);
 	if (subcomponents) {
 		for (const auto& component : _components) {
