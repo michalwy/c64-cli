@@ -8,6 +8,7 @@
 #include <string>
 #include <memory>
 #include <utility>
+#include <cstdint>
 
 /**
  * @brief Main Harpoon library namespace.

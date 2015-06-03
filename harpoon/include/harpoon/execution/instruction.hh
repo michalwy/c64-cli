@@ -10,7 +10,32 @@ namespace execution {
 
 class processing_unit;
 
-using instruction = std::function<std::uint_fast64_t(processing_unit *)>;
+using instruction_handler = std::function<std::uint_fast64_t(processing_unit *)>;
+
+template<typename CPU>
+class instruction {
+public:
+
+	static constexpr const std::uint_fast64_t CYCLES_DECODE = 0;
+	static constexpr const std::uint_fast64_t CYCLES_EXECUTE = 0;
+	static constexpr const std::uint32_t OPCODE = 0x00;
+	static constexpr const std::size_t LENGTH = 0;
+
+	void decode() { };
+	void execute() { };
+
+	void set_cpu(CPU * cpu) {
+		_cpu = cpu;
+	}
+
+protected:
+	CPU * get_cpu() const {
+		return _cpu;
+	}
+
+private:
+	CPU * _cpu{};
+};
 
 }
 }

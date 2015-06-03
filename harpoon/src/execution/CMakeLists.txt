@@ -10,6 +10,8 @@ set(SOURCE_FILES
 set(INCLUDE_FILES
 	cycle.hh
 	instruction.hh
+	instruction_decoder.hh
+	instruction_invoker.hh
 	processing_unit.hh
 	execution_unit.hh
 	up_execution_unit.hh

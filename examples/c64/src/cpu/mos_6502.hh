@@ -8,6 +8,8 @@
 namespace commodore {
 namespace cpu {
 
+class mos_6502_decoder;
+
 class mos_6502 : public harpoon::execution::processing_unit {
 public:
 
@@ -22,10 +24,11 @@ public:
 
 	using harpoon::execution::processing_unit::processing_unit;
 
+	virtual void prepare();
 	virtual void boot();
 
 	virtual std::uint_fast64_t begin_execution();
-	virtual std::uint_fast64_t fetch_decode(harpoon::execution::instruction& instruction);
+	virtual std::uint_fast64_t fetch_decode(harpoon::execution::instruction_handler& instruction_handler);
 
 	void set_memory(const harpoon::memory::memory_weak_ptr& memory) {
 		_memory = memory;
@@ -101,6 +104,7 @@ private:
 
 	struct registers _registers{};
 	harpoon::memory::memory_weak_ptr _memory{};
+	std::shared_ptr<mos_6502_decoder> _decoder{};
 };
 
 }

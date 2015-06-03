@@ -6,6 +6,7 @@
 #include "harpoon/execution/up_execution_unit.hh"
 #include "harpoon/memory/main_memory.hh"
 #include "harpoon/memory/linear_read_only_memory.hh"
+#include "harpoon/memory/linear_random_access_memory.hh"
 
 using namespace commodore;
 
@@ -41,6 +42,9 @@ void c64::create_memory() {
 	auto kernal = make_linear_read_only_memory("Kernal", harpoon::memory::address_range{0xe000, 0xffff});
 	main_memory->add_memory(kernal);
 	_kernal = kernal;
+
+	auto ram = make_linear_random_access_memory("RAM", harpoon::memory::address_range{0, 0xdfff});
+	main_memory->add_memory(ram);
 }
 
 void c64::prepare() {

@@ -32,8 +32,8 @@ public:
 	}
 
 	virtual std::uint_fast64_t begin_execution() = 0;
-	virtual std::uint_fast64_t fetch_decode(instruction& instruction) = 0;
-	virtual std::uint_fast64_t execute(instruction& instruction);
+	virtual std::uint_fast64_t fetch_decode(instruction_handler& instruction_handler) = 0;
+	virtual std::uint_fast64_t execute(instruction_handler& instruction_handler);
 
 	bool is_running() const {
 		return _running;
