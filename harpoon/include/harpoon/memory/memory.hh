@@ -37,9 +37,17 @@ public:
 		return get_address_range().has_address(address);
 	}
 
-	virtual void get(address address, uint8_t& value) = 0;
+	virtual void get(address address, std::uint8_t& value) = 0;
+	virtual void set(address address, std::uint8_t value) = 0;
 
-	virtual void set(address address, uint8_t value) = 0;
+	virtual void get(address address, std::uint16_t& value);
+	virtual void set(address address, std::uint16_t value);
+
+	virtual void get(address address, std::uint32_t& value);
+	virtual void set(address address, std::uint32_t value);
+
+	virtual void get(address address, std::uint64_t& value);
+	virtual void set(address address, std::uint64_t value);
 
 	virtual ~memory();
 
