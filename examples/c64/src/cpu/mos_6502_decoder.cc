@@ -2,11 +2,6 @@
 #include "mos_6502.hh"
 #include "instructions/mos_6502.hh"
 
-#include "harpoon/execution/instruction_decoder.hh"
-
-#include <array>
-#include <functional>
-
 using namespace commodore::cpu;
 
 namespace {
@@ -16,15 +11,19 @@ class mos_6502_instruction_decoder : public harpoon::execution::instruction_deco
 
 }
 
-static std::array<harpoon::execution::instruction_decode_handler<mos_6502>, 256>
-_mos_6502_instruction_map = {
-	mos_6502_instruction_decoder<instructions::nop>()
-};
+template<typename T>
+void mos_6502_decoder::register_instruction() {
+	_instruction_map[T::OPCODE] = mos_6502_instruction_decoder<T>();
+}
+
+mos_6502_decoder::mos_6502_decoder(mos_6502 * cpu) : _cpu(cpu) {
+	register_instruction<instructions::nop>();
+}
 
 std::uint_fast64_t mos_6502_decoder::decode(harpoon::execution::instruction_handler& instruction_handler) {
 	std::uint8_t opcode = get_instruction_byte(0);
 	std::size_t pc_increment = 0;
-	const auto& decoder = _mos_6502_instruction_map[opcode];
+	const auto& decoder = _instruction_map[opcode];
 
 	if (!decoder) {
 		throw std::runtime_error("unknown opcode");

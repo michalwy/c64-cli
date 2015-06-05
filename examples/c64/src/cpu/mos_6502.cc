@@ -4,11 +4,7 @@
 using namespace commodore::cpu;
 
 namespace {
-	static constexpr const std::uint16_t STACK_OFFSET = 0x100;
-
-	static constexpr const std::uint16_t NMI_VECTOR = 0xfffa;
 	static constexpr const std::uint16_t RESET_VECTOR = 0xfffc;
-	static constexpr const std::uint16_t IRQ_VECTOR = 0xfffe;
 }
 
 mos_6502::~mos_6502() {}

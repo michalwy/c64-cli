@@ -8,7 +8,7 @@ void memory::get(address address, std::uint16_t& value) {
 	std::uint8_t lo, hi;
 	get(address, lo);
 	get(address+1, hi);
-	value = ((static_cast<std::uint16_t>(hi) << 8) | lo);
+	value = ((static_cast<std::uint16_t>(hi << 8)) | lo);
 }
 
 void memory::set(address address, std::uint16_t value) {
