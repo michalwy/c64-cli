@@ -32,7 +32,7 @@ std::uint_fast64_t mos_6502_decoder::decode(harpoon::execution::instruction_hand
 
 	auto cycles = decoder(_cpu, instruction_handler, pc_increment);
 
-	_cpu->get_registers().PC += pc_increment;
+	_cpu->get_registers().PC += static_cast<std::uint16_t>(pc_increment);
 
 	return cycles;
 }

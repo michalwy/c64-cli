@@ -21,8 +21,8 @@ public:
 	static constexpr const std::uint32_t OPCODE = 0x00;
 	static constexpr const std::size_t LENGTH = 0;
 
-	void decode() { };
-	void execute() { };
+	void decode() { }
+	void execute() { }
 
 	void set_cpu(CPU * cpu) {
 		_cpu = cpu;
