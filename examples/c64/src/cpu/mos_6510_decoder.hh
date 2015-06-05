@@ -19,6 +19,8 @@ public:
 
 	std::uint_fast64_t decode(harpoon::execution::instruction_handler& instruction_handler);
 
+	virtual ~mos_6510_decoder();
+
 private:
 
 	template<typename T>

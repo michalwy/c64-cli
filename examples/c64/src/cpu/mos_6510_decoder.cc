@@ -13,14 +13,16 @@ class mos_6510_instruction_decoder : public harpoon::execution::instruction_deco
 
 }
 
-template<typename T>
-void mos_6510_decoder::register_instruction() {
-	_instruction_map[T::OPCODE] = mos_6510_instruction_decoder<T>();
-}
-
 mos_6510_decoder::mos_6510_decoder(mos_6510 * cpu, const std::string& name)
 	: harpoon::hardware_component(name), _cpu(cpu) {
 	register_instruction<instructions::nop>();
+}
+
+mos_6510_decoder::~mos_6510_decoder() {}
+
+template<typename T>
+void mos_6510_decoder::register_instruction() {
+	_instruction_map[T::OPCODE] = mos_6510_instruction_decoder<T>();
 }
 
 std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_handler& instruction_handler) {

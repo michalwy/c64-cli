@@ -17,6 +17,8 @@ public:
 
 	virtual void seek_memory_block(const memory * memory, const address_range& range) = 0;
 	virtual std::size_t read(uint8_t * data, std::size_t length) = 0;
+
+	virtual ~serializer();
 };
 
 }
