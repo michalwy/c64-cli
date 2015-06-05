@@ -33,6 +33,8 @@ void c64::create_execution_unit() {
 
 	auto cpu = std::make_shared<cpu::mos_6502>("CPU");
 	execution_unit->set_processing_unit(cpu);
+
+	cpu->create();
 }
 
 void c64::create_memory() {

@@ -32,6 +32,9 @@ private:
 #define COMPONENT_EXCEPTION(EXCEPTION, ...)	\
 	MAKE_HARPOON_EXCEPTION(EXCEPTION, this->get_name(), __VA_ARGS__);
 
+#define COMPONENT_EXCEPTION0(EXCEPTION) \
+	MAKE_HARPOON_EXCEPTION(EXCEPTION, this->get_name());
+
 }
 }
 

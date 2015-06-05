@@ -1,4 +1,5 @@
 #include "harpoon/execution/processing_unit.hh"
+#include "harpoon/execution/exception/execution_exception.hh"
 
 using namespace harpoon::execution;
 
@@ -43,17 +44,22 @@ void processing_unit::run() {
 
 	wait_for_cycle(begin_execution());
 
-	while (is_running()) {
-		if (execution_unit->is_running()) {
-			instruction_handler instruction_handler;
-			wait_for_cycle(fetch_decode(instruction_handler));
+	try {
+		while (is_running()) {
 			if (execution_unit->is_running()) {
-				wait_for_cycle(execute(instruction_handler));
-				++_executed_instructions;
+				instruction_handler instruction_handler;
+				wait_for_cycle(fetch_decode(instruction_handler));
+				if (execution_unit->is_running()) {
+					wait_for_cycle(execute(instruction_handler));
+					++_executed_instructions;
+				}
+			} else {
+				wait_for_next_cycle();
 			}
-		} else {
-			wait_for_next_cycle();
 		}
+	} catch (const exception::execution_exception& error) {
+		log(component_error << "Execution exception: " << error.what());
+		log_state();
 	}
 
 	log(component_notice << "Exiting processing loop");

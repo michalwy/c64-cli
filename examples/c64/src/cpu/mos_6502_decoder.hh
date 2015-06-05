@@ -1,6 +1,7 @@
 #ifndef CPU_MOS_6502_DECODER_HH
 #define CPU_MOS_6502_DECODER_HH
 
+#include "harpoon/hardware_component.hh"
 #include "harpoon/execution/instruction.hh"
 #include "harpoon/execution/instruction_decoder.hh"
 
@@ -11,10 +12,10 @@ namespace cpu {
 
 class mos_6502;
 
-class mos_6502_decoder {
+class mos_6502_decoder : public harpoon::hardware_component {
 public:
 
-	mos_6502_decoder(mos_6502 * cpu);
+	mos_6502_decoder(mos_6502 * cpu, const std::string& name = {});
 
 	std::uint_fast64_t decode(harpoon::execution::instruction_handler& instruction_handler);
 

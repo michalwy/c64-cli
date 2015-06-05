@@ -24,7 +24,8 @@ public:
 
 	using harpoon::execution::processing_unit::processing_unit;
 
-	virtual void prepare();
+	void create();
+
 	virtual void boot();
 
 	virtual std::uint_fast64_t begin_execution();
@@ -104,7 +105,7 @@ private:
 
 	struct registers _registers{};
 	harpoon::memory::memory_weak_ptr _memory{};
-	std::shared_ptr<mos_6502_decoder> _decoder{};
+	std::weak_ptr<mos_6502_decoder> _decoder{};
 };
 
 }

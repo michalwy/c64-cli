@@ -9,9 +9,10 @@ namespace {
 
 mos_6502::~mos_6502() {}
 
-void mos_6502::prepare() {
-	_decoder = std::make_shared<mos_6502_decoder>(this);
-	harpoon::execution::processing_unit::prepare();
+void mos_6502::create() {
+	auto decoder = std::make_shared<mos_6502_decoder>(this, "Decoder");
+	add_component(decoder);
+	_decoder = decoder;
 }
 
 void mos_6502::init_registers() {
@@ -45,7 +46,7 @@ std::uint_fast64_t mos_6502::begin_execution() {
 }
 
 std::uint_fast64_t mos_6502::fetch_decode(harpoon::execution::instruction_handler& instruction_handler) {
-	return _decoder->decode(instruction_handler);
+	return _decoder.lock()->decode(instruction_handler);
 }
 
 void mos_6502::log_registers(harpoon::log::message::Level level) const {

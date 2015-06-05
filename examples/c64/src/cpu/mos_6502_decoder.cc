@@ -2,6 +2,8 @@
 #include "mos_6502.hh"
 #include "instructions/mos_6502.hh"
 
+#include "harpoon/execution/exception/invalid_instruction.hh"
+
 using namespace commodore::cpu;
 
 namespace {
@@ -16,17 +18,20 @@ void mos_6502_decoder::register_instruction() {
 	_instruction_map[T::OPCODE] = mos_6502_instruction_decoder<T>();
 }
 
-mos_6502_decoder::mos_6502_decoder(mos_6502 * cpu) : _cpu(cpu) {
+mos_6502_decoder::mos_6502_decoder(mos_6502 * cpu, const std::string& name)
+	: harpoon::hardware_component(name), _cpu(cpu) {
 	register_instruction<instructions::nop>();
 }
 
 std::uint_fast64_t mos_6502_decoder::decode(harpoon::execution::instruction_handler& instruction_handler) {
 	std::uint8_t opcode = get_instruction_byte(0);
 	std::size_t pc_increment = 0;
-	const auto& decoder = _instruction_map[opcode];
 
+	_cpu->get_registers().IR = opcode;
+
+	const auto& decoder = _instruction_map[opcode];
 	if (!decoder) {
-		throw std::runtime_error("unknown opcode");
+		throw COMPONENT_EXCEPTION0(harpoon::execution::exception::invalid_instruction);
 	}
 
 	auto cycles = decoder(_cpu, instruction_handler, pc_increment);
