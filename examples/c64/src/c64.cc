@@ -1,5 +1,5 @@
 #include "c64.hh"
-#include "cpu/mos_6502.hh"
+#include "cpu/mos_6510.hh"
 
 #include "harpoon/clock/clock.hh"
 #include "harpoon/clock/generator/threaded_generator.hh"
@@ -32,7 +32,7 @@ void c64::create_execution_unit() {
 			harpoon::clock::generator::make_threaded_generator(1000000)), "Clock");
 	execution_unit->set_clock(clock);
 
-	auto cpu = std::make_shared<cpu::mos_6502>("CPU");
+	auto cpu = std::make_shared<cpu::mos_6510>("CPU");
 	execution_unit->set_processing_unit(cpu);
 
 	cpu->create();
@@ -52,7 +52,7 @@ void c64::create_memory() {
 
 void c64::prepare() {
 	auto execution_unit = std::static_pointer_cast<harpoon::execution::up_execution_unit>(get_main_execution_unit());
-	auto cpu = std::static_pointer_cast<cpu::mos_6502>(execution_unit->get_processing_unit());
+	auto cpu = std::static_pointer_cast<cpu::mos_6510>(execution_unit->get_processing_unit());
 	cpu->set_memory(get_main_memory());
 	harpoon::computer_system::prepare();
 

@@ -1,6 +1,6 @@
-#include "mos_6502_decoder.hh"
-#include "mos_6502.hh"
-#include "instructions/mos_6502.hh"
+#include "mos_6510_decoder.hh"
+#include "mos_6510.hh"
+#include "instructions/mos_6510.hh"
 
 #include "harpoon/execution/exception/invalid_instruction.hh"
 
@@ -9,21 +9,21 @@ using namespace commodore::cpu;
 namespace {
 
 template<typename T>
-class mos_6502_instruction_decoder : public harpoon::execution::instruction_decoder<T, mos_6502> {};
+class mos_6510_instruction_decoder : public harpoon::execution::instruction_decoder<T, mos_6510> {};
 
 }
 
 template<typename T>
-void mos_6502_decoder::register_instruction() {
-	_instruction_map[T::OPCODE] = mos_6502_instruction_decoder<T>();
+void mos_6510_decoder::register_instruction() {
+	_instruction_map[T::OPCODE] = mos_6510_instruction_decoder<T>();
 }
 
-mos_6502_decoder::mos_6502_decoder(mos_6502 * cpu, const std::string& name)
+mos_6510_decoder::mos_6510_decoder(mos_6510 * cpu, const std::string& name)
 	: harpoon::hardware_component(name), _cpu(cpu) {
 	register_instruction<instructions::nop>();
 }
 
-std::uint_fast64_t mos_6502_decoder::decode(harpoon::execution::instruction_handler& instruction_handler) {
+std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_handler& instruction_handler) {
 	std::uint8_t opcode = get_instruction_byte(0);
 	std::size_t pc_increment = 0;
 
@@ -41,7 +41,7 @@ std::uint_fast64_t mos_6502_decoder::decode(harpoon::execution::instruction_hand
 	return cycles;
 }
 
-std::uint8_t mos_6502_decoder::get_instruction_byte(std::uint_fast64_t offset) {
+std::uint8_t mos_6510_decoder::get_instruction_byte(std::uint_fast64_t offset) {
 	std::uint8_t opbyte{};
 	const auto& memory = _cpu->get_memory();
 

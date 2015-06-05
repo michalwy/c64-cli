@@ -1,13 +1,13 @@
 #ifndef CPU_INSTRUCTIONS_NOP_HH
 #define CPU_INSTRUCTIONS_NOP_HH
 
-#include "mos_6502_instruction.hh"
+#include "mos_6510_instruction.hh"
 
 namespace commodore {
 namespace cpu {
 namespace instructions {
 
-class nop : public mos_6502_instruction {
+class nop : public mos_6510_instruction {
 public:
 
 	static constexpr const std::uint_fast64_t CYCLES_EXECUTE = 10;

@@ -1,5 +1,5 @@
-#ifndef CPU_MOS_6502_HH
-#define CPU_MOS_6502_HH
+#ifndef CPU_MOS_6510_HH
+#define CPU_MOS_6510_HH
 
 #include "harpoon/execution/processing_unit.hh"
 #include "harpoon/execution/basic_register.hh"
@@ -8,9 +8,9 @@
 namespace commodore {
 namespace cpu {
 
-class mos_6502_decoder;
+class mos_6510_decoder;
 
-class mos_6502 : public harpoon::execution::processing_unit {
+class mos_6510 : public harpoon::execution::processing_unit {
 public:
 
 	struct registers {
@@ -97,7 +97,7 @@ public:
 
 	void log_registers(harpoon::log::message::Level level) const;
 
-	virtual ~mos_6502();
+	virtual ~mos_6510();
 
 private:
 
@@ -105,7 +105,7 @@ private:
 
 	struct registers _registers{};
 	harpoon::memory::memory_weak_ptr _memory{};
-	std::weak_ptr<mos_6502_decoder> _decoder{};
+	std::weak_ptr<mos_6510_decoder> _decoder{};
 };
 
 }

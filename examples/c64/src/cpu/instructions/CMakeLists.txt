@@ -5,7 +5,8 @@ set(SOURCE_FILES
 	)
 
 set(INCLUDE_FILES
-	mos_6502.hh
+	mos_6510_instruction.hh
+	mos_6510.hh
 	nop.hh
 	)
 
