@@ -20,7 +20,7 @@ void mos_6510::init_registers() {
 	_registers.X = 0;
 	_registers.Y = 0;
 	_registers.PC = 0;
-	_registers.SP = 0;
+	_registers.S = 0;
 	_registers.IR = 0;
 }
 
@@ -33,12 +33,12 @@ std::uint_fast64_t mos_6510::begin_execution() {
 
 	auto memory = get_memory();
 
-	_registers.SP = 0;
+	_registers.S = 0;
 	_registers.IR = 0;
 
-	_registers.SP--;
-	_registers.SP--;
-	_registers.SP--;
+	_registers.S--;
+	_registers.S--;
+	_registers.S--;
 
 	memory->get(RESET_VECTOR, _registers.PC);
 
@@ -50,6 +50,7 @@ std::uint_fast64_t mos_6510::fetch_decode(harpoon::execution::instruction_handle
 }
 
 void mos_6510::log_registers(harpoon::log::message::Level level) const {
-	log(component_log(level) << "A:  " << _registers.A << "    X: " << _registers.X << "  Y: " << _registers.Y);
-	log(component_log(level) << "PC: " << _registers.PC << " SP: " << _registers.SP << " IR: " << _registers.IR);
+	log(component_log(level) << "A:  " << _registers.A << "   X: " << _registers.X << "  Y: " << _registers.Y);
+	log(component_log(level) << "PC: " << _registers.PC << " S: " << _registers.S << " IR: " << _registers.IR);
+	log(component_log(level) << "P:  " << _registers.P);
 }

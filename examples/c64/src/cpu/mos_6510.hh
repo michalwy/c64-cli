@@ -1,6 +1,8 @@
 #ifndef CPU_MOS_6510_HH
 #define CPU_MOS_6510_HH
 
+#include "mos_6510_flags.hh"
+
 #include "harpoon/execution/processing_unit.hh"
 #include "harpoon/execution/basic_register.hh"
 #include "harpoon/memory/memory.hh"
@@ -17,9 +19,10 @@ public:
 		harpoon::execution::basic_register<std::uint8_t> A{};
 		harpoon::execution::basic_register<std::uint8_t> X{};
 		harpoon::execution::basic_register<std::uint8_t> Y{};
-		harpoon::execution::basic_register<std::uint8_t> SP{};
+		harpoon::execution::basic_register<std::uint8_t> S{};
 		harpoon::execution::basic_register<std::uint16_t> PC{};
 		harpoon::execution::basic_register<std::uint8_t> IR{};
+		mos_6510_flags P{};
 	};
 
 	using harpoon::execution::processing_unit::processing_unit;
@@ -37,6 +40,10 @@ public:
 
 	harpoon::memory::memory_ptr get_memory() const {
 		return _memory.lock();
+	}
+
+	std::shared_ptr<mos_6510_decoder> get_decoder() const {
+		return _decoder.lock();
 	}
 
 	const struct registers& get_registers() const {
@@ -59,8 +66,8 @@ public:
 		_registers.Y.set(value);
 	}
 
-	void set_SP(std::uint8_t value) {
-		_registers.SP.set(value);
+	void set_S(std::uint8_t value) {
+		_registers.S.set(value);
 	}
 
 	void set_PC(std::uint16_t value) {
@@ -83,8 +90,8 @@ public:
 		return _registers.Y;
 	}
 
-	std::uint8_t get_SP() const {
-		return _registers.SP;
+	std::uint8_t get_S() const {
+		return _registers.S;
 	}
 
 	std::uint16_t get_PC() const {

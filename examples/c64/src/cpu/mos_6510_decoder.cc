@@ -14,15 +14,25 @@ class mos_6510_instruction_decoder : public harpoon::execution::instruction_deco
 }
 
 mos_6510_decoder::mos_6510_decoder(mos_6510 * cpu, const std::string& name)
-	: harpoon::hardware_component(name), _cpu(cpu) {
-	register_instruction<instructions::nop>();
-}
+	: harpoon::hardware_component(name), _cpu(cpu) {}
 
 mos_6510_decoder::~mos_6510_decoder() {}
 
 template<typename T>
 void mos_6510_decoder::register_instruction() {
 	_instruction_map[T::OPCODE] = mos_6510_instruction_decoder<T>();
+	log(component_debug << "Registered instruction with opcode 0x"
+		<< std::hex << std::setfill('0') << std::setw(2) << static_cast<std::uint32_t>(T::OPCODE));
+}
+
+void mos_6510_decoder::prepare() {
+	register_instruction<instructions::cld>();
+	register_instruction<instructions::jsr>();
+	register_instruction<instructions::lda_absolute_x>();
+	register_instruction<instructions::ldx_immediate>();
+	register_instruction<instructions::nop>();
+	register_instruction<instructions::sei>();
+	register_instruction<instructions::txs>();
 }
 
 std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_handler& instruction_handler) {
@@ -45,8 +55,6 @@ std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_hand
 
 std::uint8_t mos_6510_decoder::get_instruction_byte(std::uint_fast64_t offset) {
 	std::uint8_t opbyte{};
-	const auto& memory = _cpu->get_memory();
-
-	memory->get(_cpu->get_PC() + offset, opbyte);
+	get_program_code(opbyte, offset);
 	return opbyte;
 }

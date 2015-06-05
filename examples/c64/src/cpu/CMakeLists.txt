@@ -6,6 +6,7 @@ set(SOURCE_FILES
 	)
 
 set(INCLUDE_FILES
+	mos_6510_flags.hh
 	mos_6510.hh
 	mos_6510_decoder.hh
 	)

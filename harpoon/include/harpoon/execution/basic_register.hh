@@ -46,7 +46,11 @@ public:
 		return decrement()+1;
 	}
 
-	T get() const {
+	const T& get() const {
+		return _value;
+	}
+
+	T& get() {
 		return _value;
 	}
 

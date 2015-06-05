@@ -6,7 +6,7 @@
 #include "harpoon/execution/up_execution_unit.hh"
 #include "harpoon/memory/main_memory.hh"
 #include "harpoon/memory/linear_read_only_memory.hh"
-#include "harpoon/memory/linear_random_access_memory.hh"
+#include "harpoon/memory/chunked_random_access_memory.hh"
 #include "harpoon/memory/serializer/binary_file.hh"
 
 using namespace commodore;
@@ -46,7 +46,7 @@ void c64::create_memory() {
 	main_memory->add_memory(kernal);
 	_kernal = kernal;
 
-	auto ram = make_linear_random_access_memory("RAM", harpoon::memory::address_range{0, 0xdfff});
+	auto ram = make_chunked_random_access_memory("RAM", harpoon::memory::address_range{0, 0xdfff}, 8*1024);
 	main_memory->add_memory(ram);
 }
 
