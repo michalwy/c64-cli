@@ -10,6 +10,10 @@
 namespace harpoon {
 namespace memory {
 
+namespace serializer {
+class serializer;
+}
+
 class memory;
 
 using memory_ptr = std::shared_ptr<memory>;
@@ -37,6 +41,10 @@ public:
 		return get_address_range().has_address(address);
 	}
 
+	address get_offset(address address) const {
+		return get_address_range().get_offset(address);
+	}
+
 	virtual void get(address address, std::uint8_t& value) = 0;
 	virtual void set(address address, std::uint8_t value) = 0;
 
@@ -48,6 +56,9 @@ public:
 
 	virtual void get(address address, std::uint64_t& value);
 	virtual void set(address address, std::uint64_t value);
+
+	virtual void serialize(serializer::serializer& serializer);
+	virtual void deserialize(serializer::serializer& serializer);
 
 	virtual ~memory();
 

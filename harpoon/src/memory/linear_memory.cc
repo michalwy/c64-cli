@@ -1,4 +1,5 @@
 #include "harpoon/memory/linear_memory.hh"
+#include "harpoon/memory/serializer/serializer.hh"
 #include "harpoon/memory/exception/memory_exception.hh"
 #include "harpoon/memory/exception/read_access_violation.hh"
 #include "harpoon/memory/exception/write_access_violation.hh"
@@ -55,4 +56,15 @@ void linear_memory::set(address address, uint8_t value) {
 	 */
 	size_t offset = static_cast<size_t>(address - get_address_range().get_start());
 	_memory[offset] = value;
+}
+
+void linear_memory::serialize(serializer::serializer& serializer) {
+	serializer.start_memory_block(this, get_address_range());
+	serializer.write(_memory.get(), get_address_range().get_length());
+	serializer.end_memory_block();
+}
+
+void linear_memory::deserialize(serializer::serializer& serializer) {
+	serializer.seek_memory_block(this, get_address_range());
+	serializer.read(_memory.get(), get_address_range().get_length());
 }

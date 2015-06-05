@@ -21,6 +21,8 @@ private:
 	void create_execution_unit();
 	void create_memory();
 
+	void load_kernal();
+
 	harpoon::memory::memory_weak_ptr _kernal{};
 };
 

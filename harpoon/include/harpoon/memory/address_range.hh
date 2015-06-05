@@ -58,6 +58,10 @@ public:
 		return address >= get_start() && address <= get_end();
 	}
 
+	address get_offset(address address) const {
+		return address - get_start();
+	}
+
 	bool overlaps(const address_range& second) const {
 		return has_address(second.get_start()) || has_address(second.get_end());
 	}

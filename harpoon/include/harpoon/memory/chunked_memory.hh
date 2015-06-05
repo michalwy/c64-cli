@@ -30,15 +30,19 @@ public:
 	virtual void get(address address, uint8_t& value);
 	virtual void set(address address, uint8_t value);
 
+	virtual void serialize(serializer::serializer& serializer);
+	virtual void deserialize(serializer::serializer& serializer);
+
 	virtual ~chunked_memory();
 
 protected:
+
 	chunk_index get_chunk_index(address address) const {
-		return static_cast<chunk_index>(address / _chunk_length);
+		return static_cast<chunk_index>(get_offset(address) / _chunk_length);
 	}
 
 	chunk_offset get_chunk_offset(address address) const {
-		return address % _chunk_length;
+		return get_offset(address) % _chunk_length;
 	}
 
 	const chunk_ptr& get_chunk(address address) const {
@@ -48,6 +52,8 @@ protected:
 	chunk_ptr& get_chunk(address address) {
 		return _memory[get_chunk_index(address)];
 	}
+
+	inline void allocate_chunk(chunk_ptr& chunk, address address);
 
 private:
 	chunk_length _chunk_length{};

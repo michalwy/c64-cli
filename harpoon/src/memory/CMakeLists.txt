@@ -31,3 +31,4 @@ set(INCLUDE_FILES
 add_sources()
 
 add_subdirectory(exception)
+add_subdirectory(serializer)

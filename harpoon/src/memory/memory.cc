@@ -1,4 +1,5 @@
 #include "harpoon/memory/memory.hh"
+#include "harpoon/memory/serializer/serializer.hh"
 
 using namespace harpoon::memory;
 
@@ -38,4 +39,13 @@ void memory::get(address address, std::uint64_t& value) {
 void memory::set(address address, std::uint64_t value) {
 	set(address, static_cast<std::uint32_t>(value & 0xffffffff));
 	set(address+4, static_cast<std::uint32_t>((value >> 32) & 0xffffffff));
+}
+
+void memory::serialize(serializer::serializer& serializer) {
+	serializer.start_memory_block(this, _address_range);
+	serializer.end_memory_block();
+}
+
+void memory::deserialize(serializer::serializer& serializer) {
+	serializer.seek_memory_block(this, _address_range);
 }

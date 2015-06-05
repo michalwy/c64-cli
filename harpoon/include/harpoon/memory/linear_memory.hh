@@ -21,6 +21,9 @@ public:
 	virtual void get(address address, uint8_t& value);
 	virtual void set(address address, uint8_t value);
 
+	virtual void serialize(serializer::serializer& serializer);
+	virtual void deserialize(serializer::serializer& serializer);
+
 	virtual ~linear_memory();
 
 private:

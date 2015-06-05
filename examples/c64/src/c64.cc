@@ -7,6 +7,7 @@
 #include "harpoon/memory/main_memory.hh"
 #include "harpoon/memory/linear_read_only_memory.hh"
 #include "harpoon/memory/linear_random_access_memory.hh"
+#include "harpoon/memory/serializer/binary_file.hh"
 
 using namespace commodore;
 
@@ -54,4 +55,11 @@ void c64::prepare() {
 	auto cpu = std::static_pointer_cast<cpu::mos_6502>(execution_unit->get_processing_unit());
 	cpu->set_memory(get_main_memory());
 	harpoon::computer_system::prepare();
+
+	load_kernal();
+}
+
+void c64::load_kernal() {
+	harpoon::memory::serializer::binary_file kernal_bin("kernal.rom");
+	_kernal.lock()->deserialize(kernal_bin);
 }
