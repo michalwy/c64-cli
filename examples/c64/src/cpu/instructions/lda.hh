@@ -12,7 +12,7 @@ public:
 	void execute() {
 		get_cpu()->get_memory()->get(_operand + get_cpu()->get_registers().X, get_cpu()->get_registers().A);
 		get_cpu()->get_registers().P.Z() = (get_cpu()->get_registers().A == 0);
-		get_cpu()->get_registers().P.N() = (get_cpu()->get_registers().A & 0x80);
+		get_cpu()->get_registers().P.N() = ((get_cpu()->get_registers().A & 0x80) == 0x80);
 	}
 };
 

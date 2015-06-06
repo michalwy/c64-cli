@@ -60,11 +60,11 @@ void linear_memory::set(address address, uint8_t value) {
 
 void linear_memory::serialize(serializer::serializer& serializer) {
 	serializer.start_memory_block(this, get_address_range());
-	serializer.write(_memory.get(), get_address_range().get_length());
+	serializer.write(_memory.get(), static_cast<std::size_t>(get_address_range().get_length()));
 	serializer.end_memory_block();
 }
 
 void linear_memory::deserialize(serializer::serializer& serializer) {
 	serializer.seek_memory_block(this, get_address_range());
-	serializer.read(_memory.get(), get_address_range().get_length());
+	serializer.read(_memory.get(), static_cast<std::size_t>(get_address_range().get_length()));
 }
