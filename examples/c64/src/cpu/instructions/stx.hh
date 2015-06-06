@@ -12,6 +12,10 @@ public:
 	void execute() {
 		get_cpu()->get_memory()->set(_operand, get_cpu()->get_registers().X);
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "STX");
+	}
 };
 
 }

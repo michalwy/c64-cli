@@ -24,7 +24,7 @@ public:
 
 	void decode() { }
 	void execute() { }
-	void disassemble(std::ostream&) { }
+	void disassemble(std::ostream&) const { }
 
 	void set_cpu(CPU * cpu) {
 		_cpu = cpu;

@@ -15,6 +15,10 @@ public:
 			get_cpu()->get_registers().PC += offset;
 		}
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_relative(stream, "BNE");
+	}
 };
 
 }

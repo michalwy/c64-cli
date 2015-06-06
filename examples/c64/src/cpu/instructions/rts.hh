@@ -13,6 +13,10 @@ public:
 		get_cpu()->pop(get_cpu()->get_registers().PC);
 		get_cpu()->get_registers().PC++;
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble(stream, "RTS");
+	}
 };
 
 }

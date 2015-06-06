@@ -31,8 +31,6 @@ int main() {
 		computer_system->prepare();
 		computer_system->boot();
 
-		computer_system->log_state();
-
 		std::unique_lock<std::mutex> lk(signal_mutex);
 
 		signal(SIGINT, signal_handler);

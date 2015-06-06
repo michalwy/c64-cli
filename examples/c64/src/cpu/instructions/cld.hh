@@ -12,6 +12,10 @@ public:
 	void execute() {
 		get_cpu()->get_registers().P.D() = false;
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble(stream, "CLD");
+	}
 };
 
 }

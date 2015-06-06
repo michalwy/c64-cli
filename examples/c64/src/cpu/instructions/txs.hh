@@ -12,6 +12,10 @@ public:
 	void execute() {
 		get_cpu()->get_registers().SP = get_cpu()->get_registers().X;
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble(stream, "TXS");
+	}
 };
 
 }

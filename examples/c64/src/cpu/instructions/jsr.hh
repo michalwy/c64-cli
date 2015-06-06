@@ -13,6 +13,10 @@ public:
 		get_cpu()->push(static_cast<std::uint16_t>(get_cpu()->get_registers().PC - 1));
 		get_cpu()->get_registers().PC = _operand;
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "JSR");
+	}
 };
 
 }

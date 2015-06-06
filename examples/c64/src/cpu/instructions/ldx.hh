@@ -12,6 +12,11 @@ public:
 	void execute() {
 		this->get_cpu()->get_registers().X = _operand;
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_immediate(stream, "LDX");
+	}
+
 };
 
 }

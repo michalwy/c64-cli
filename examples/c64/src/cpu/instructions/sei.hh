@@ -12,6 +12,10 @@ public:
 	void execute() {
 		get_cpu()->get_registers().P.I() = true;
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble(stream, "SEI");
+	}
 };
 
 }

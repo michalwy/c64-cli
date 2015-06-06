@@ -7,7 +7,12 @@ namespace commodore {
 namespace cpu {
 namespace instructions {
 
-class nop : public mos_6510_nullary_instruction<0xEA, 2> {};
+class nop : public mos_6510_nullary_instruction<0xEA, 2> {
+public:
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble(stream, "NOP");
+	}
+};
 
 }
 }

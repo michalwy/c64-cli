@@ -14,6 +14,10 @@ public:
 		get_cpu()->get_registers().P.Z() = (get_cpu()->get_registers().A == 0);
 		get_cpu()->get_registers().P.N() = ((get_cpu()->get_registers().A & 0x80) == 0x80);
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_x(stream, "LDA");
+	}
 };
 
 }

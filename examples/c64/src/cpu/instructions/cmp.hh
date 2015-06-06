@@ -15,6 +15,10 @@ public:
 		a = get_cpu()->get_registers().A;
 		get_cpu()->get_registers().P.Z() = (a == mem);
 	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_x(stream, "CMP");
+	}
 };
 
 }
