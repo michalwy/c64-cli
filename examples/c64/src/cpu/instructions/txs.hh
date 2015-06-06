@@ -10,7 +10,7 @@ namespace instructions {
 class txs : public mos_6510_nullary_instruction<0x78, 2> {
 public:
 	void execute() {
-		get_cpu()->get_registers().S = get_cpu()->get_registers().X;
+		get_cpu()->get_registers().SP = get_cpu()->get_registers().X;
 	}
 };
 

@@ -15,11 +15,14 @@ class mos_6510_decoder;
 class mos_6510 : public harpoon::execution::processing_unit {
 public:
 
+	static constexpr const std::uint16_t STACK_ADDRESS = 0x100;
+	static constexpr const std::uint16_t RESET_VECTOR = 0xfffc;
+
 	struct registers {
 		harpoon::execution::basic_register<std::uint8_t> A{};
 		harpoon::execution::basic_register<std::uint8_t> X{};
 		harpoon::execution::basic_register<std::uint8_t> Y{};
-		harpoon::execution::basic_register<std::uint8_t> S{};
+		harpoon::execution::basic_register<std::uint8_t> SP{};
 		harpoon::execution::basic_register<std::uint16_t> PC{};
 		harpoon::execution::basic_register<std::uint8_t> IR{};
 		mos_6510_flags P{};
@@ -66,8 +69,8 @@ public:
 		_registers.Y.set(value);
 	}
 
-	void set_S(std::uint8_t value) {
-		_registers.S.set(value);
+	void set_SP(std::uint8_t value) {
+		_registers.SP.set(value);
 	}
 
 	void set_PC(std::uint16_t value) {
@@ -90,8 +93,8 @@ public:
 		return _registers.Y;
 	}
 
-	std::uint8_t get_S() const {
-		return _registers.S;
+	std::uint8_t get_SP() const {
+		return _registers.SP;
 	}
 
 	std::uint16_t get_PC() const {
@@ -100,6 +103,18 @@ public:
 
 	std::uint8_t get_IR() const {
 		return _registers.IR;
+	}
+
+	template<typename T>
+	void push(T val) {
+		get_memory()->set(STACK_ADDRESS + get_registers().SP - sizeof(T) + 1, val);
+		get_registers().SP -= sizeof(T);
+	}
+
+	template<typename T>
+	void pop(T& val) {
+		get_memory()->get(STACK_ADDRESS + get_registers().SP + 1, val);
+		get_registers().SP += sizeof(T);
 	}
 
 	void log_registers(harpoon::log::message::Level level) const;

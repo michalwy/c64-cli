@@ -26,12 +26,16 @@ void mos_6510_decoder::register_instruction() {
 }
 
 void mos_6510_decoder::prepare() {
+	register_instruction<instructions::bne>();
 	register_instruction<instructions::cld>();
+	register_instruction<instructions::cmp_absolute_x>();
 	register_instruction<instructions::jsr>();
 	register_instruction<instructions::lda_absolute_x>();
 	register_instruction<instructions::ldx_immediate>();
 	register_instruction<instructions::nop>();
+	register_instruction<instructions::rts>();
 	register_instruction<instructions::sei>();
+	register_instruction<instructions::stx_absolute>();
 	register_instruction<instructions::txs>();
 }
 
