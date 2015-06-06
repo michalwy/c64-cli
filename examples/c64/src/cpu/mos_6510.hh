@@ -35,7 +35,7 @@ public:
 	virtual void boot();
 
 	virtual std::uint_fast64_t begin_execution();
-	virtual std::uint_fast64_t fetch_decode(harpoon::execution::instruction_handler& instruction_handler);
+	virtual std::uint_fast64_t fetch_decode(harpoon::execution::instruction_handler& instruction_handler, harpoon::execution::disassemble_handler& disassemble_handler);
 
 	void set_memory(const harpoon::memory::memory_weak_ptr& memory) {
 		_memory = memory;

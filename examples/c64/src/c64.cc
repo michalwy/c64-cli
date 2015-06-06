@@ -35,6 +35,8 @@ void c64::create_execution_unit() {
 	auto cpu = std::make_shared<cpu::mos_6510>("CPU");
 	execution_unit->set_processing_unit(cpu);
 
+	cpu->enable_disassemble();
+
 	cpu->create();
 }
 

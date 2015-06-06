@@ -19,7 +19,7 @@ public:
 
 	virtual void prepare();
 
-	std::uint_fast64_t decode(harpoon::execution::instruction_handler& instruction_handler);
+	std::uint_fast64_t decode(harpoon::execution::instruction_handler& instruction_handler, harpoon::execution::disassemble_handler& disassemble_handler);
 
 	virtual ~mos_6510_decoder();
 

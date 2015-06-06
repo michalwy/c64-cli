@@ -11,6 +11,7 @@ namespace execution {
 class processing_unit;
 
 using instruction_handler = std::function<std::uint_fast64_t(processing_unit *)>;
+using disassemble_handler = std::function<void(std::ostream&)>;
 
 template<typename CPU>
 class instruction {
@@ -23,6 +24,7 @@ public:
 
 	void decode() { }
 	void execute() { }
+	void disassemble(std::ostream&) { }
 
 	void set_cpu(CPU * cpu) {
 		_cpu = cpu;

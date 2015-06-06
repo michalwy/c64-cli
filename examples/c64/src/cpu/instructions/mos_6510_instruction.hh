@@ -15,6 +15,15 @@ public:
 	static constexpr const std::uint8_t OPCODE = OP;
 	static constexpr const std::uint_fast64_t CYCLES_EXECUTE = CYCLES;
 	static constexpr const std::size_t LENGTH = LEN;
+
+	template<typename T>
+	void disassemble_hex(std::ostream& stream, T value) {
+		stream << std::uppercase << std::hex << std::setw(sizeof(T) << 1) << std::setfill('0') << value;
+	}
+
+	void disassemble(std::ostream& stream) {
+		disassemble_hex(stream, static_cast<std::uint16_t>(get_cpu()->get_registers().PC - LEN));
+	}
 };
 
 template<std::uint8_t OP, std::uint_fast64_t CYCLES>

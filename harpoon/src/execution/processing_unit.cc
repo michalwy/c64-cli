@@ -48,7 +48,15 @@ void processing_unit::run() {
 		while (is_running()) {
 			if (execution_unit->is_running()) {
 				instruction_handler instruction_handler;
-				wait_for_cycle(fetch_decode(instruction_handler));
+				disassemble_handler disassemble_handler;
+				wait_for_cycle(fetch_decode(instruction_handler, disassemble_handler));
+
+				if (_disassemble) {
+					std::stringstream stream;
+					disassemble_handler(stream);
+					log(component_debug << stream.str());
+				}
+
 				if (execution_unit->is_running()) {
 					wait_for_cycle(execute(instruction_handler));
 					++_executed_instructions;

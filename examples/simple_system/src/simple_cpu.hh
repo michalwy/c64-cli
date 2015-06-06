@@ -9,7 +9,7 @@ public:
 	using harpoon::execution::processing_unit::processing_unit;
 
 	virtual std::uint_fast64_t begin_execution();
-	virtual std::uint_fast64_t fetch_decode(harpoon::execution::instruction_handler& instruction_handler);
+	virtual std::uint_fast64_t fetch_decode(harpoon::execution::instruction_handler& instruction_handler, harpoon::execution::disassemble_handler& disassemble_handler);
 
 	virtual ~simple_cpu();
 

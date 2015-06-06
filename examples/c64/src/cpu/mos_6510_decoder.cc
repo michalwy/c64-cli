@@ -39,7 +39,7 @@ void mos_6510_decoder::prepare() {
 	register_instruction<instructions::txs>();
 }
 
-std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_handler& instruction_handler) {
+std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_handler& instruction_handler, harpoon::execution::disassemble_handler& disassemle_handler) {
 	std::uint8_t opcode = get_instruction_byte(0);
 	std::size_t pc_increment = 0;
 
@@ -50,7 +50,7 @@ std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_hand
 		throw COMPONENT_EXCEPTION0(harpoon::execution::exception::invalid_instruction);
 	}
 
-	auto cycles = decoder(_cpu, instruction_handler, pc_increment);
+	auto cycles = decoder(_cpu, instruction_handler, disassemle_handler, pc_increment);
 
 	_cpu->get_registers().PC += static_cast<std::uint16_t>(pc_increment);
 

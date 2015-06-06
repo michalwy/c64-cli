@@ -4,6 +4,7 @@
 #include "harpoon/harpoon.hh"
 #include "harpoon/execution/instruction.hh"
 #include "harpoon/execution/instruction_invoker.hh"
+#include "harpoon/execution/instruction_disassembler.hh"
 
 namespace harpoon {
 namespace execution {
@@ -16,18 +17,21 @@ public:
 	instruction_decoder(const instruction_decoder<T, CPU>&) = default;
 	instruction_decoder<T, CPU>& operator=(const instruction_decoder<T, CPU>&) = default;
 
-	std::uint_fast64_t operator()(CPU * cpu, instruction_handler& invoker, std::size_t& length) {
+	std::uint_fast64_t operator()(CPU * cpu, instruction_handler& invoker,
+								  disassemble_handler& disassembler,
+								  std::size_t& length) {
 		T instruction;
 		instruction.set_cpu(cpu);
 		instruction.decode();
 		invoker = instruction_invoker<T>(instruction);
+		disassembler = instruction_disassembler<T>(instruction);
 		length = T::LENGTH;
 		return T::CYCLES_DECODE;
 	}
 };
 
 template<typename CPU>
-using instruction_decode_handler = std::function<std::uint_fast64_t(CPU *, instruction_handler&, std::size_t&)>;
+using instruction_decode_handler = std::function<std::uint_fast64_t(CPU *, instruction_handler&, disassemble_handler&, std::size_t&)>;
 
 }
 }

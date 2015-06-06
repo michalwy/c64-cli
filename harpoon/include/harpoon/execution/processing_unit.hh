@@ -32,7 +32,7 @@ public:
 	}
 
 	virtual std::uint_fast64_t begin_execution() = 0;
-	virtual std::uint_fast64_t fetch_decode(instruction_handler& instruction_handler) = 0;
+	virtual std::uint_fast64_t fetch_decode(instruction_handler& instruction_handler, disassemble_handler& disassemble_handler) = 0;
 	virtual std::uint_fast64_t execute(instruction_handler& instruction_handler);
 
 	bool is_running() const {
@@ -51,6 +51,18 @@ public:
 		return _executed_instructions;
 	}
 
+	void enable_disassemble() {
+		set_disassemble(true);
+	}
+
+	void disable_disassemble() {
+		set_disassemble(false);
+	}
+
+	void set_disassemble(bool disassemble) {
+		_disassemble = disassemble;
+	}
+
 	virtual void log_state(log::message::Level level = log::message::Level::DEBUG) const;
 	virtual void log_registers(log::message::Level level) const;
 
@@ -63,6 +75,7 @@ private:
 	clock::tick _last_tick{};
 	atomic_cycle _cycle{};
 	std::atomic_uint_fast64_t _executed_instructions{};
+	bool _disassemble{};
 };
 
 using processing_unit_ptr = std::shared_ptr<processing_unit>;

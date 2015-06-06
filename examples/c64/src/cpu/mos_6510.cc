@@ -41,8 +41,8 @@ std::uint_fast64_t mos_6510::begin_execution() {
 	return 9;
 }
 
-std::uint_fast64_t mos_6510::fetch_decode(harpoon::execution::instruction_handler& instruction_handler) {
-	return _decoder.lock()->decode(instruction_handler);
+std::uint_fast64_t mos_6510::fetch_decode(harpoon::execution::instruction_handler& instruction_handler, harpoon::execution::disassemble_handler& disassemble_handler) {
+	return _decoder.lock()->decode(instruction_handler, disassemble_handler);
 }
 
 void mos_6510::log_registers(harpoon::log::message::Level level) const {
