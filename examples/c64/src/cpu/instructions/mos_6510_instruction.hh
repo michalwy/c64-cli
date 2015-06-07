@@ -60,6 +60,85 @@ public:
 	}
 
 protected:
+
+	template<typename T>
+	void get_zero_page(T& val) {
+		get_cpu()->get_memory()->get(_operand & 0xff, val);
+	}
+
+	template<typename T>
+	void get_zero_page_x(T& val) {
+		get_cpu()->get_memory()->get((_operand & 0xff) + get_cpu()->get_registers().X, val);
+	}
+
+	template<typename T>
+	void get_absolute(T& val) {
+		get_cpu()->get_memory()->get(_operand, val);
+	}
+
+	template<typename T>
+	void get_absolute_x(T& val) {
+		get_cpu()->get_memory()->get(_operand + get_cpu()->get_registers().X, val);
+	}
+
+	template<typename T>
+	void get_absolute_y(T& val) {
+		get_cpu()->get_memory()->get(_operand + get_cpu()->get_registers().Y, val);
+	}
+
+	template<typename T>
+	void get_indirect_x(T& val) {
+		std::uint16_t pointer{};
+		get_cpu()->get_memory()->get((_operand & 0xff)+ get_cpu()->get_registers().X, pointer);
+		get_cpu()->get_memory()->get(pointer, val);
+	}
+
+	template<typename T>
+	void get_indirect_y(T& val) {
+		std::uint16_t pointer{};
+		get_cpu()->get_memory()->get(_operand & 0xff, pointer);
+		get_cpu()->get_memory()->get(pointer + get_cpu()->get_registers().Y, val);
+	}
+
+	template<typename T>
+	void set_zero_page(T val) {
+		get_cpu()->get_memory()->set(_operand & 0xff, val);
+	}
+
+	template<typename T>
+	void set_zero_page_x(T val) {
+		get_cpu()->get_memory()->set((_operand & 0xff) + get_cpu()->get_registers().X, val);
+	}
+
+	template<typename T>
+	void set_absolute(T val) {
+		get_cpu()->get_memory()->set(_operand, val);
+	}
+
+	template<typename T>
+	void set_absolute_x(T val) {
+		get_cpu()->get_memory()->set(_operand + get_cpu()->get_registers().X, val);
+	}
+
+	template<typename T>
+	void set_absolute_y(T val) {
+		get_cpu()->get_memory()->set(_operand + get_cpu()->get_registers().Y, val);
+	}
+
+	template<typename T>
+	void set_indirect_x(T val) {
+		std::uint16_t pointer{};
+		get_cpu()->get_memory()->get((_operand & 0xff) + get_cpu()->get_registers().X, pointer);
+		get_cpu()->get_memory()->set(pointer, val);
+	}
+
+	template<typename T>
+	void set_indirect_y(T val) {
+		std::uint16_t pointer{};
+		get_cpu()->get_memory()->get(_operand & 0xff, pointer);
+		get_cpu()->get_memory()->set(pointer + get_cpu()->get_registers().Y, val);
+	}
+
 	void disassemble_operand(std::ostream& stream, std::uint8_t operand) const {
 		disassemble_hex(stream, operand);
 		stream << "   ";
@@ -96,6 +175,20 @@ protected:
 		stream << ",X";
 	}
 
+	void mos_disassemble_absolute_y(std::ostream& stream, const std::string& mnemonic) const {
+		mos_disassemble(stream, mnemonic);
+		stream << "$";
+		disassemble_hex(stream, _operand);
+		stream << ",Y";
+	}
+
+	void mos_disassemble_indirect_y(std::ostream& stream, const std::string& mnemonic) const {
+		mos_disassemble(stream, mnemonic);
+		stream << "($";
+		disassemble_hex(stream, _operand);
+		stream << "),Y";
+	}
+
 	void mos_disassemble_relative(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "$";
@@ -106,6 +199,79 @@ protected:
 	}
 
 	OPERAND _operand{};
+};
+
+class mos_6510_arith_instruction {
+protected:
+
+	void update_flag_Z(mos_6510 * cpu, std::uint8_t val) {
+		cpu->get_registers().P.Z() = (val == 0);
+	}
+
+	void update_flag_N(mos_6510 * cpu, std::uint8_t val) {
+		cpu->get_registers().P.N() = ((val & 0x80) == 0x80);
+	}
+
+	void update_flags_ZN(mos_6510 * cpu, std::uint8_t val) {
+		update_flag_Z(cpu, val);
+		update_flag_N(cpu, val);
+	}
+};
+
+class mos_6510_a_instruction : public mos_6510_arith_instruction {
+protected:
+	using mos_6510_arith_instruction::update_flags_ZN;
+	void update_flags_ZN(mos_6510 * cpu) {
+		update_flags_ZN(cpu, cpu->get_registers().A);
+	}
+};
+
+class mos_6510_x_instruction : public mos_6510_arith_instruction {
+protected:
+	using mos_6510_arith_instruction::update_flags_ZN;
+	void update_flags_ZN(mos_6510 * cpu) {
+		update_flags_ZN(cpu, cpu->get_registers().X);
+	}
+};
+
+class mos_6510_y_instruction : public mos_6510_arith_instruction {
+protected:
+	using mos_6510_arith_instruction::update_flags_ZN;
+	void update_flags_ZN(mos_6510 * cpu) {
+		update_flags_ZN(cpu, cpu->get_registers().Y);
+	}
+};
+
+template<std::uint8_t OP, std::uint_fast64_t CYCLES>
+class mos_6510_a_nullary_instruction : public mos_6510_nullary_instruction<OP, CYCLES>, public mos_6510_a_instruction {};
+
+template<std::uint8_t OP, std::uint_fast64_t CYCLES>
+class mos_6510_x_nullary_instruction : public mos_6510_nullary_instruction<OP, CYCLES>, public mos_6510_x_instruction {};
+
+template<std::uint8_t OP, std::uint_fast64_t CYCLES>
+class mos_6510_y_nullary_instruction : public mos_6510_nullary_instruction<OP, CYCLES>, public mos_6510_y_instruction {};
+
+template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
+class mos_6510_a_unary_instruction : public mos_6510_unary_instruction<OP, OPERAND, CYCLES>, public mos_6510_a_instruction {};
+
+template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
+class mos_6510_x_unary_instruction : public mos_6510_unary_instruction<OP, OPERAND, CYCLES>, public mos_6510_x_instruction {};
+
+template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
+class mos_6510_y_unary_instruction : public mos_6510_unary_instruction<OP, OPERAND, CYCLES>, public mos_6510_y_instruction {};
+
+template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
+class mos_6510_mem_unary_instruction : public mos_6510_unary_instruction<OP, OPERAND, CYCLES>, public mos_6510_arith_instruction {};
+
+template<std::uint8_t OP, std::uint_fast64_t CYCLES>
+class mos_6510_relative_branch_instruction : public mos_6510_unary_instruction<OP, std::uint8_t, CYCLES> {
+protected:
+	void branch(bool condition) {
+		if (condition) {
+			std::int8_t offset = static_cast<std::int8_t>(_operand);
+			get_cpu()->get_registers().PC += offset;
+		}
+	}
 };
 
 }

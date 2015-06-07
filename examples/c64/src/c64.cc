@@ -2,7 +2,7 @@
 #include "cpu/mos_6510.hh"
 
 #include "harpoon/clock/clock.hh"
-#include "harpoon/clock/generator/threaded_generator.hh"
+#include "harpoon/clock/generator/dummy_generator.hh"
 #include "harpoon/execution/up_execution_unit.hh"
 #include "harpoon/memory/main_memory.hh"
 #include "harpoon/memory/linear_read_only_memory.hh"
@@ -29,13 +29,13 @@ void c64::create_execution_unit() {
 
 	auto clock = harpoon::clock::make_clock(
 		std::static_pointer_cast<harpoon::clock::generator::generator>(
-			harpoon::clock::generator::make_threaded_generator(1000000)), "Clock");
+			harpoon::clock::generator::make_dummy_generator(1000000)), "Clock");
 	execution_unit->set_clock(clock);
 
 	auto cpu = std::make_shared<cpu::mos_6510>("CPU");
 	execution_unit->set_processing_unit(cpu);
 
-	cpu->enable_disassemble();
+	//cpu->enable_disassemble();
 
 	cpu->create();
 }

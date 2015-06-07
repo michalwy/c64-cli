@@ -7,10 +7,21 @@ namespace commodore {
 namespace cpu {
 namespace instructions {
 
+class stx_zero_page : public mos_6510_unary_instruction<0x86, std::uint8_t, 3> {
+public:
+	void execute() {
+		set_zero_page(get_cpu()->get_registers().X);
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "STX");
+	}
+};
+
 class stx_absolute : public mos_6510_unary_instruction<0x8E, std::uint16_t, 4> {
 public:
 	void execute() {
-		get_cpu()->get_memory()->set(_operand, get_cpu()->get_registers().X);
+		set_absolute(get_cpu()->get_registers().X);
 	}
 
 	void disassemble(std::ostream& stream) const {

@@ -7,13 +7,10 @@ namespace commodore {
 namespace cpu {
 namespace instructions {
 
-class bne : public mos_6510_unary_instruction<0xD0, std::uint8_t, 2> {
+class bne : public mos_6510_relative_branch_instruction<0xD0, 3> {
 public:
 	void execute() {
-		if (!get_cpu()->get_registers().P.Z()) {
-			std::int8_t offset = static_cast<std::int8_t>(_operand);
-			get_cpu()->get_registers().PC += offset;
-		}
+		branch(!get_cpu()->get_registers().P.Z());
 	}
 
 	void disassemble(std::ostream& stream) const {
