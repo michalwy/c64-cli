@@ -15,6 +15,24 @@ void main_memory::add_memory(const memory_weak_ptr& memory, bool owner) {
 	_memory.push_back(memory);
 }
 
+void main_memory::remove_memory(const memory_weak_ptr& memory, bool owner) {
+	if (owner) {
+		remove_component(memory);
+	}
+	_memory.remove_if([&memory](const memory_weak_ptr& ptr) {
+		return ptr.lock() == memory.lock();
+	});
+}
+
+void main_memory::replace_memory(const memory_weak_ptr& old_memory,
+								 const memory_weak_ptr& new_memory,
+								 bool owner) {
+	if (!old_memory.expired()) {
+		remove_memory(old_memory, owner);
+	}
+	add_memory(new_memory, owner);
+}
+
 memory_ptr main_memory::get_memory(address address) {
 	if (!_last_used_memory.expired() && _last_used_range.has_address(address)) {
 		return _last_used_memory.lock();

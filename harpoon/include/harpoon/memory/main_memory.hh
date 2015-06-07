@@ -18,6 +18,8 @@ public:
 	main_memory& operator=(const main_memory&) = delete;
 
 	void add_memory(const memory_weak_ptr& memory, bool owner = true);
+	void remove_memory(const memory_weak_ptr& memory, bool owner = true);
+	void replace_memory(const memory_weak_ptr& old_memory, const memory_weak_ptr& new_memory, bool owner = true);
 
 	virtual void get(address address, uint8_t& value);
 	virtual void set(address address, uint8_t value);
