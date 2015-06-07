@@ -13,3 +13,4 @@ set(INCLUDE_FILES
 add_sources()
 
 add_subdirectory(cpu)
+add_subdirectory(memory)
