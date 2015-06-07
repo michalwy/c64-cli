@@ -16,7 +16,7 @@ public:
 	virtual ~dummy_generator();
 
 	tick wait_for_tick(tick tick) {
-		while (get_atomic_tick() < tick) {
+		while (get_atomic_tick() < tick && is_running()) {
 			this->next_tick();
 		}
 		return get_atomic_tick();
