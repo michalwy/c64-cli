@@ -7,11 +7,16 @@ set(INCLUDE_FILES
 	mos_6510_instruction.hh
 	mos_6510.hh
 	and.hh
+	bcc.hh
+	bcs.hh
 	beq.hh
 	bne.hh
+	bpl.hh
+	clc.hh
 	cld.hh
 	cmp.hh
 	dex.hh
+	dey.hh
 	inc.hh
 	inx.hh
 	iny.hh
@@ -33,6 +38,7 @@ set(INCLUDE_FILES
 	tay.hh
 	txa.hh
 	txs.hh
+	tya.hh
 	)
 
 add_sources()

@@ -2,11 +2,16 @@
 #define CPU_INSTRUCTIONS_MOS_6510_HH
 
 #include "and.hh"
+#include "bcc.hh"
+#include "bcs.hh"
 #include "beq.hh"
 #include "bne.hh"
+#include "bpl.hh"
+#include "clc.hh"
 #include "cld.hh"
 #include "cmp.hh"
 #include "dex.hh"
+#include "dey.hh"
 #include "inc.hh"
 #include "inx.hh"
 #include "iny.hh"
@@ -28,6 +33,7 @@
 #include "tay.hh"
 #include "txa.hh"
 #include "txs.hh"
+#include "tya.hh"
 
 #endif
 

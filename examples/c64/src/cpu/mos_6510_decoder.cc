@@ -27,12 +27,17 @@ void mos_6510_decoder::register_instruction() {
 
 void mos_6510_decoder::prepare() {
 	register_instruction<instructions::and_immediate>();
+	register_instruction<instructions::bcc>();
+	register_instruction<instructions::bcs>();
 	register_instruction<instructions::beq>();
 	register_instruction<instructions::bne>();
+	register_instruction<instructions::bpl>();
 	register_instruction<instructions::cld>();
+	register_instruction<instructions::clc>();
 	register_instruction<instructions::cmp_absolute_x>();
 	register_instruction<instructions::cmp_indirect_y>();
 	register_instruction<instructions::dex>();
+	register_instruction<instructions::dey>();
 	register_instruction<instructions::inc_zero_page>();
 	register_instruction<instructions::inx>();
 	register_instruction<instructions::iny>();
@@ -41,9 +46,11 @@ void mos_6510_decoder::prepare() {
 	register_instruction<instructions::lda_immediate>();
 	register_instruction<instructions::lda_absolute>();
 	register_instruction<instructions::lda_absolute_x>();
+	register_instruction<instructions::lda_absolute_y>();
 	register_instruction<instructions::lda_indirect_y>();
 	register_instruction<instructions::ldx_immediate>();
 	register_instruction<instructions::ldy_immediate>();
+	register_instruction<instructions::ldy_zero_page>();
 	register_instruction<instructions::nop>();
 	register_instruction<instructions::ora_immediate>();
 	register_instruction<instructions::rol_accumulator>();
@@ -62,6 +69,7 @@ void mos_6510_decoder::prepare() {
 	register_instruction<instructions::tay>();
 	register_instruction<instructions::txa>();
 	register_instruction<instructions::txs>();
+	register_instruction<instructions::tya>();
 }
 
 std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_handler& instruction_handler, harpoon::execution::disassemble_handler& disassemle_handler) {

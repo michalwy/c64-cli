@@ -47,6 +47,18 @@ public:
 	}
 };
 
+class lda_absolute_y : public lda<0xB9, std::uint16_t, 4> {
+public:
+	void execute() {
+		get_absolute_y(get_cpu()->get_registers().A);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_y(stream, "LDA");
+	}
+};
+
 class lda_indirect_y : public lda<0xB1, std::uint8_t, 5> {
 public:
 	void execute() {

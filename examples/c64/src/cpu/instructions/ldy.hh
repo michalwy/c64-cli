@@ -23,6 +23,19 @@ public:
 
 };
 
+class ldy_zero_page : public ldy<0xA4, std::uint8_t, 3> {
+public:
+	void execute() {
+		get_zero_page(get_cpu()->get_registers().Y);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "LDY");
+	}
+};
+
+
 }
 }
 }
