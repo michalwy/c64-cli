@@ -1,15 +1,19 @@
 #ifndef CPU_INSTRUCTIONS_MOS_6510_HH
 #define CPU_INSTRUCTIONS_MOS_6510_HH
 
+#include "adc.hh"
 #include "and.hh"
 #include "bcc.hh"
 #include "bcs.hh"
 #include "beq.hh"
+#include "bmi.hh"
 #include "bne.hh"
 #include "bpl.hh"
 #include "clc.hh"
 #include "cld.hh"
+#include "cli.hh"
 #include "cmp.hh"
+#include "cpx.hh"
 #include "dex.hh"
 #include "dey.hh"
 #include "inc.hh"

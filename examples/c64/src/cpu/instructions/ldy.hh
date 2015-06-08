@@ -35,6 +35,42 @@ public:
 	}
 };
 
+class ldy_zero_page_x : public ldy<0xB4, std::uint8_t, 4> {
+public:
+	void execute() {
+		get_zero_page_x(get_cpu()->get_registers().Y);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_x(stream, "LDY");
+	}
+};
+
+class ldy_absolute : public ldy<0xAC, std::uint16_t, 4> {
+public:
+	void execute() {
+		get_absolute(get_cpu()->get_registers().Y);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "LDY");
+	}
+};
+
+class ldy_absolute_x : public ldy<0xBC, std::uint16_t, 4> {
+public:
+	void execute() {
+		get_absolute_x(get_cpu()->get_registers().Y);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_x(stream, "LDY");
+	}
+};
+
 
 }
 }

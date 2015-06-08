@@ -23,6 +23,30 @@ public:
 
 };
 
+class lda_zero_page : public lda<0xA5, std::uint8_t, 3> {
+public:
+	void execute() {
+		get_zero_page(get_cpu()->get_registers().A);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "LDA");
+	}
+};
+
+class lda_zero_page_x : public lda<0xB5, std::uint8_t, 4> {
+public:
+	void execute() {
+		get_zero_page_x(get_cpu()->get_registers().A);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_x(stream, "LDA");
+	}
+};
+
 class lda_absolute : public lda<0xAD, std::uint16_t, 4> {
 public:
 	void execute() {
@@ -56,6 +80,18 @@ public:
 
 	void disassemble(std::ostream& stream) const {
 		mos_disassemble_absolute_y(stream, "LDA");
+	}
+};
+
+class lda_indirect_x : public lda<0xA1, std::uint8_t, 6> {
+public:
+	void execute() {
+		get_indirect_x(get_cpu()->get_registers().A);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_indirect_x(stream, "LDA");
 	}
 };
 

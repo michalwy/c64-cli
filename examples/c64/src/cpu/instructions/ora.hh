@@ -23,6 +23,21 @@ public:
 
 };
 
+class ora_absolute : public ora<0x0D, std::uint16_t, 4> {
+public:
+	void execute() {
+		std::uint8_t val{};
+		get_absolute(val);
+		get_cpu()->get_registers().A |= val;
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "ORA");
+	}
+
+};
+
 }
 }
 }

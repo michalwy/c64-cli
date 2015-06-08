@@ -6,15 +6,19 @@ set(SOURCE_FILES
 set(INCLUDE_FILES
 	mos_6510_instruction.hh
 	mos_6510.hh
+	adc.hh
 	and.hh
 	bcc.hh
 	bcs.hh
 	beq.hh
+	bmi.hh
 	bne.hh
 	bpl.hh
 	clc.hh
 	cld.hh
+	cli.hh
 	cmp.hh
+	cpx.hh
 	dex.hh
 	dey.hh
 	inc.hh

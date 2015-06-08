@@ -18,6 +18,17 @@ public:
 	}
 };
 
+class sta_zero_page_x : public mos_6510_unary_instruction<0x95, std::uint8_t, 4> {
+public:
+	void execute() {
+		set_zero_page_x(get_cpu()->get_registers().A);
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_x(stream, "STA");
+	}
+};
+
 class sta_absolute : public mos_6510_unary_instruction<0x8D, std::uint16_t, 4> {
 public:
 	void execute() {
@@ -26,6 +37,17 @@ public:
 
 	void disassemble(std::ostream& stream) const {
 		mos_disassemble_absolute(stream, "STA");
+	}
+};
+
+class sta_absolute_x : public mos_6510_unary_instruction<0x9D, std::uint16_t, 5> {
+public:
+	void execute() {
+		set_absolute_x(get_cpu()->get_registers().A);
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_x(stream, "STA");
 	}
 };
 

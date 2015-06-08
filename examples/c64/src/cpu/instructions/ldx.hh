@@ -23,6 +23,58 @@ public:
 
 };
 
+class ldx_zero_page : public ldx<0xA6, std::uint8_t, 3> {
+public:
+	void execute() {
+		get_zero_page(get_cpu()->get_registers().X);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "LDX");
+	}
+
+};
+
+class ldx_zero_page_y : public ldx<0xB6, std::uint8_t, 4> {
+public:
+	void execute() {
+		get_zero_page_y(get_cpu()->get_registers().X);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_y(stream, "LDX");
+	}
+
+};
+
+class ldx_absolute : public ldx<0xAE, std::uint16_t, 4> {
+public:
+	void execute() {
+		get_absolute(get_cpu()->get_registers().X);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute(stream, "LDX");
+	}
+
+};
+
+class ldx_absolute_y : public ldx<0xBE, std::uint16_t, 4> {
+public:
+	void execute() {
+		get_absolute_y(get_cpu()->get_registers().X);
+		update_flags_ZN(get_cpu());
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_y(stream, "LDX");
+	}
+
+};
+
 }
 }
 }

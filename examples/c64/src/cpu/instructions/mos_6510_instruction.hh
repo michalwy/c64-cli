@@ -72,6 +72,11 @@ protected:
 	}
 
 	template<typename T>
+	void get_zero_page_y(T& val) {
+		get_cpu()->get_memory()->get((_operand & 0xff) + get_cpu()->get_registers().Y, val);
+	}
+
+	template<typename T>
 	void get_absolute(T& val) {
 		get_cpu()->get_memory()->get(_operand, val);
 	}
@@ -108,6 +113,11 @@ protected:
 	template<typename T>
 	void set_zero_page_x(T val) {
 		get_cpu()->get_memory()->set((_operand & 0xff) + get_cpu()->get_registers().X, val);
+	}
+
+	template<typename T>
+	void set_zero_page_y(T val) {
+		get_cpu()->get_memory()->set((_operand & 0xff) + get_cpu()->get_registers().Y, val);
 	}
 
 	template<typename T>
@@ -182,6 +192,20 @@ protected:
 		stream << ",Y";
 	}
 
+	void mos_disassemble_indirect(std::ostream& stream, const std::string& mnemonic) const {
+		mos_disassemble(stream, mnemonic);
+		stream << "($";
+		disassemble_hex(stream, _operand);
+		stream << ")";
+	}
+
+	void mos_disassemble_indirect_x(std::ostream& stream, const std::string& mnemonic) const {
+		mos_disassemble(stream, mnemonic);
+		stream << "($";
+		disassemble_hex(stream, _operand);
+		stream << ",X)";
+	}
+
 	void mos_disassemble_indirect_y(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "($";
@@ -216,6 +240,12 @@ protected:
 		update_flag_Z(cpu, val);
 		update_flag_N(cpu, val);
 	}
+
+	void update_flags_ZNCV(mos_6510 * cpu, std::uint8_t val, bool C, bool V) {
+		update_flags_ZN(cpu, val);
+		cpu->get_registers().P.C() = C;
+		cpu->get_registers().P.V() = V;
+	}
 };
 
 class mos_6510_a_instruction : public mos_6510_arith_instruction {
@@ -223,6 +253,11 @@ protected:
 	using mos_6510_arith_instruction::update_flags_ZN;
 	void update_flags_ZN(mos_6510 * cpu) {
 		update_flags_ZN(cpu, cpu->get_registers().A);
+	}
+
+	using mos_6510_arith_instruction::update_flags_ZNCV;
+	void update_flags_ZNCV(mos_6510 * cpu, bool C, bool V) {
+		update_flags_ZNCV(cpu, cpu->get_registers().A, C, V);
 	}
 };
 

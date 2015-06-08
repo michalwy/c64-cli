@@ -26,50 +26,71 @@ void mos_6510_decoder::register_instruction() {
 }
 
 void mos_6510_decoder::prepare() {
+	register_instruction<instructions::adc_immediate>();
 	register_instruction<instructions::and_immediate>();
 	register_instruction<instructions::bcc>();
 	register_instruction<instructions::bcs>();
 	register_instruction<instructions::beq>();
+	register_instruction<instructions::bmi>();
 	register_instruction<instructions::bne>();
 	register_instruction<instructions::bpl>();
 	register_instruction<instructions::cld>();
 	register_instruction<instructions::clc>();
+	register_instruction<instructions::cli>();
 	register_instruction<instructions::cmp_absolute_x>();
 	register_instruction<instructions::cmp_indirect_y>();
+	register_instruction<instructions::cpx_immediate>();
 	register_instruction<instructions::dex>();
 	register_instruction<instructions::dey>();
 	register_instruction<instructions::inc_zero_page>();
 	register_instruction<instructions::inx>();
 	register_instruction<instructions::iny>();
 	register_instruction<instructions::jmp_absolute>();
+	register_instruction<instructions::jmp_indirect>();
 	register_instruction<instructions::jsr>();
 	register_instruction<instructions::lda_immediate>();
+	register_instruction<instructions::lda_zero_page>();
+	register_instruction<instructions::lda_zero_page_x>();
 	register_instruction<instructions::lda_absolute>();
 	register_instruction<instructions::lda_absolute_x>();
 	register_instruction<instructions::lda_absolute_y>();
+	register_instruction<instructions::lda_indirect_x>();
 	register_instruction<instructions::lda_indirect_y>();
 	register_instruction<instructions::ldx_immediate>();
+	register_instruction<instructions::ldx_zero_page>();
+	register_instruction<instructions::ldx_zero_page_y>();
+	register_instruction<instructions::ldx_absolute>();
+	register_instruction<instructions::ldx_absolute_y>();
 	register_instruction<instructions::ldy_immediate>();
 	register_instruction<instructions::ldy_zero_page>();
+	register_instruction<instructions::ldy_zero_page_x>();
+	register_instruction<instructions::ldy_absolute>();
+	register_instruction<instructions::ldy_absolute_x>();
 	register_instruction<instructions::nop>();
 	register_instruction<instructions::ora_immediate>();
+	register_instruction<instructions::ora_absolute>();
 	register_instruction<instructions::rol_accumulator>();
 	register_instruction<instructions::ror_accumulator>();
 	register_instruction<instructions::rts>();
 	register_instruction<instructions::sei>();
 	register_instruction<instructions::sta_zero_page>();
+	register_instruction<instructions::sta_zero_page_x>();
 	register_instruction<instructions::sta_absolute>();
+	register_instruction<instructions::sta_absolute_x>();
 	register_instruction<instructions::sta_absolute_y>();
 	register_instruction<instructions::sta_indirect_y>();
 	register_instruction<instructions::stx_zero_page>();
 	register_instruction<instructions::stx_absolute>();
 	register_instruction<instructions::sty_zero_page>();
+	register_instruction<instructions::sty_zero_page_x>();
 	register_instruction<instructions::sty_absolute>();
 	register_instruction<instructions::tax>();
 	register_instruction<instructions::tay>();
 	register_instruction<instructions::txa>();
 	register_instruction<instructions::txs>();
 	register_instruction<instructions::tya>();
+
+	log(component_notice << "Registered " << _instruction_map.size() << " instructions");
 }
 
 std::uint_fast64_t mos_6510_decoder::decode(harpoon::execution::instruction_handler& instruction_handler, harpoon::execution::disassemble_handler& disassemle_handler) {
