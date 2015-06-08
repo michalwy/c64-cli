@@ -31,6 +31,7 @@ void memory::create() {
 
 	auto ram = make_chunked_random_access_memory("RAM $0000", harpoon::memory::address_range{0, 0x3fff}, 1024);
 	add_component(ram);
+	_ram_0000_3fff = ram;
 	read_memory->add_memory(ram, false);
 	write_memory->add_memory(ram, false);
 
@@ -69,6 +70,11 @@ void memory::prepare() {
 	harpoon::memory::main_memory::prepare();
 
 	load_kernal();
+}
+
+void memory::shutdown() {
+	harpoon::memory::serializer::binary_file mem0000("ram_0000.bin");
+	_ram_0000_3fff.lock()->serialize(mem0000);
 }
 
 void memory::load_kernal() {

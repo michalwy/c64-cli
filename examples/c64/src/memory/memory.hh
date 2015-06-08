@@ -15,6 +15,8 @@ public:
 
 	virtual void prepare();
 
+	virtual void shutdown();
+
 	virtual void get(harpoon::memory::address address, std::uint8_t& value);
 	virtual void set(harpoon::memory::address address, std::uint8_t value);
 
@@ -29,6 +31,7 @@ private:
 
 	harpoon::memory::memory_weak_ptr _basic_a000_bfff{};
 	harpoon::memory::memory_weak_ptr _kernal_e000_ffff{};
+	harpoon::memory::memory_weak_ptr _ram_0000_3fff{};
 	harpoon::memory::memory_weak_ptr _ram_e000_ffff{};
 };
 
