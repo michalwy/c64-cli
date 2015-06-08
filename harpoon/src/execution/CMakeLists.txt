@@ -12,6 +12,7 @@ set(INCLUDE_FILES
 	instruction.hh
 	instruction_decoder.hh
 	instruction_invoker.hh
+	breakpoint.hh
 	processing_unit.hh
 	execution_unit.hh
 	up_execution_unit.hh

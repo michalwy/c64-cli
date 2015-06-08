@@ -49,6 +49,14 @@ void processing_unit::run() {
 			if (execution_unit->is_running()) {
 				instruction_handler instruction_handler;
 				disassemble_handler disassemble_handler;
+
+				for (const auto& breakpoint : _breakpoints) {
+					if (breakpoint.check_condition(this)) {
+						log(component_debug << "EXECUTION BREAKPOINT");
+						breakpoint.do_action(this);
+					}
+				}
+
 				wait_for_cycle(fetch_decode(instruction_handler, disassemble_handler));
 
 				if (_disassemble) {

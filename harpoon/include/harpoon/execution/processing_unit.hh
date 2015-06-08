@@ -6,9 +6,11 @@
 #include "harpoon/execution/execution_unit.hh"
 #include "harpoon/execution/cycle.hh"
 #include "harpoon/execution/instruction.hh"
+#include "harpoon/execution/breakpoint.hh"
 
 #include <thread>
 #include <atomic>
+#include <list>
 
 namespace harpoon {
 namespace execution {
@@ -34,6 +36,10 @@ public:
 	virtual std::uint_fast64_t begin_execution() = 0;
 	virtual std::uint_fast64_t fetch_decode(instruction_handler& instruction_handler, disassemble_handler& disassemble_handler) = 0;
 	virtual std::uint_fast64_t execute(instruction_handler& instruction_handler);
+
+	void add_breakpoint(const breakpoint& breakpoint) {
+		_breakpoints.push_back(breakpoint);
+	}
 
 	bool is_running() const {
 		return _running;
@@ -76,6 +82,7 @@ private:
 	atomic_cycle _cycle{};
 	std::atomic_uint_fast64_t _executed_instructions{};
 	bool _disassemble{};
+	std::list<breakpoint> _breakpoints{};
 };
 
 using processing_unit_ptr = std::shared_ptr<processing_unit>;
