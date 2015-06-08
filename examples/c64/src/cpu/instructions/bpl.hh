@@ -10,7 +10,7 @@ namespace instructions {
 class bpl : public mos_6510_relative_branch_instruction<0x10, 3> {
 public:
 	void execute() {
-		branch(get_cpu()->get_registers().P.N());
+		branch(!get_cpu()->get_registers().P.N());
 	}
 
 	void disassemble(std::ostream& stream) const {
