@@ -34,12 +34,12 @@ void c64::create_execution_unit() {
 
 	cpu->add_breakpoint({
 		[](harpoon::execution::processing_unit * processing_unit) -> bool {
-			cpu::mos_6510 * cpu = static_cast<cpu::mos_6510 *>(processing_unit);
-			return cpu->get_registers().PC == 0xFCFB;
+			cpu::mos_6510 * mos = static_cast<cpu::mos_6510 *>(processing_unit);
+			return mos->get_registers().PC == 0xFF61;
 		},
 		[](harpoon::execution::processing_unit * processing_unit) {
-			processing_unit->log_state();
-			processing_unit->enable_disassemble();
+			cpu::mos_6510 * mos = static_cast<cpu::mos_6510 *>(processing_unit);
+			mos->get_registers().P.Z() = true;
 		}
 	});
 

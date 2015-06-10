@@ -10,7 +10,7 @@ namespace instructions {
 class rts : public mos_6510_nullary_instruction<0x60, 6> {
 public:
 	void execute() {
-		get_cpu()->pop(get_cpu()->get_registers().PC);
+		pop(get_cpu()->get_registers().PC);
 		get_cpu()->get_registers().PC++;
 	}
 

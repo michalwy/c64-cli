@@ -14,7 +14,7 @@ class lda_immediate : public lda<0xA9, std::uint8_t, 2> {
 public:
 	void execute() {
 		this->get_cpu()->get_registers().A = _operand;
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
@@ -27,7 +27,7 @@ class lda_zero_page : public lda<0xA5, std::uint8_t, 3> {
 public:
 	void execute() {
 		get_zero_page(get_cpu()->get_registers().A);
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
@@ -39,7 +39,7 @@ class lda_zero_page_x : public lda<0xB5, std::uint8_t, 4> {
 public:
 	void execute() {
 		get_zero_page_x(get_cpu()->get_registers().A);
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
@@ -51,7 +51,7 @@ class lda_absolute : public lda<0xAD, std::uint16_t, 4> {
 public:
 	void execute() {
 		get_absolute(get_cpu()->get_registers().A);
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
@@ -63,7 +63,7 @@ class lda_absolute_x : public lda<0xBD, std::uint16_t, 4> {
 public:
 	void execute() {
 		get_absolute_x(get_cpu()->get_registers().A);
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
@@ -75,7 +75,7 @@ class lda_absolute_y : public lda<0xB9, std::uint16_t, 4> {
 public:
 	void execute() {
 		get_absolute_y(get_cpu()->get_registers().A);
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
@@ -87,7 +87,7 @@ class lda_indirect_x : public lda<0xA1, std::uint8_t, 6> {
 public:
 	void execute() {
 		get_indirect_x(get_cpu()->get_registers().A);
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
@@ -99,7 +99,7 @@ class lda_indirect_y : public lda<0xB1, std::uint8_t, 5> {
 public:
 	void execute() {
 		get_indirect_y(get_cpu()->get_registers().A);
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {

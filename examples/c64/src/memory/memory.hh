@@ -25,6 +25,7 @@ public:
 private:
 
 	void load_kernal();
+	void load_basic();
 
 	harpoon::memory::memory_weak_ptr _read_memory{};
 	harpoon::memory::memory_weak_ptr _write_memory{};
@@ -32,6 +33,8 @@ private:
 	harpoon::memory::memory_weak_ptr _basic_a000_bfff{};
 	harpoon::memory::memory_weak_ptr _kernal_e000_ffff{};
 	harpoon::memory::memory_weak_ptr _ram_0000_3fff{};
+	harpoon::memory::memory_weak_ptr _ram_4000_7fff{};
+	harpoon::memory::memory_weak_ptr _ram_d000_dfff{};
 	harpoon::memory::memory_weak_ptr _ram_e000_ffff{};
 };
 

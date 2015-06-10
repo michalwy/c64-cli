@@ -37,6 +37,7 @@ void memory::create() {
 
 	ram = make_chunked_random_access_memory("RAM $4000", harpoon::memory::address_range{0x4000, 0x7fff}, 1024);
 	add_component(ram);
+	_ram_4000_7fff = ram;
 	read_memory->add_memory(ram, false);
 	write_memory->add_memory(ram, false);
 
@@ -57,6 +58,7 @@ void memory::create() {
 
 	ram = make_chunked_random_access_memory("RAM $D000", harpoon::memory::address_range{0xd000, 0xdfff}, 1024);
 	add_component(ram);
+	_ram_d000_dfff = ram;
 	read_memory->add_memory(ram, false);
 	write_memory->add_memory(ram, false);
 
@@ -70,16 +72,28 @@ void memory::prepare() {
 	harpoon::memory::main_memory::prepare();
 
 	load_kernal();
+	load_basic();
 }
 
 void memory::shutdown() {
 	harpoon::memory::serializer::binary_file mem0000("ram_0000.bin");
 	_ram_0000_3fff.lock()->serialize(mem0000);
+
+	harpoon::memory::serializer::binary_file mem4000("ram_4000.bin");
+	_ram_4000_7fff.lock()->serialize(mem4000);
+
+	harpoon::memory::serializer::binary_file memd000("ram_d000.bin");
+	_ram_d000_dfff.lock()->serialize(memd000);
 }
 
 void memory::load_kernal() {
 	harpoon::memory::serializer::binary_file kernal_bin("kernal.rom");
 	_kernal_e000_ffff.lock()->deserialize(kernal_bin);
+}
+
+void memory::load_basic() {
+	harpoon::memory::serializer::binary_file basic_bin("basic.rom");
+	_basic_a000_bfff.lock()->deserialize(basic_bin);
 }
 
 void memory::get(harpoon::memory::address address, std::uint8_t& value) {

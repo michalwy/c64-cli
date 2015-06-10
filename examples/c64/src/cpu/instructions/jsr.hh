@@ -10,7 +10,7 @@ namespace instructions {
 class jsr : public mos_6510_unary_instruction<0x20, std::uint16_t, 6> {
 public:
 	void execute() {
-		get_cpu()->push(static_cast<std::uint16_t>(get_cpu()->get_registers().PC - 1));
+		push(static_cast<std::uint16_t>(get_cpu()->get_registers().PC - 1));
 		get_cpu()->get_registers().PC = _operand;
 	}
 

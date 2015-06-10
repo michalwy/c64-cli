@@ -8,19 +8,27 @@ set(INCLUDE_FILES
 	mos_6510.hh
 	adc.hh
 	and.hh
+	asl.hh
 	bcc.hh
 	bcs.hh
 	beq.hh
+	bit.hh
 	bmi.hh
 	bne.hh
 	bpl.hh
+	bvc.hh
+	bvs.hh
 	clc.hh
 	cld.hh
 	cli.hh
+	clv.hh
 	cmp.hh
 	cpx.hh
+	cpy.hh
+	dec.hh
 	dex.hh
 	dey.hh
+	eor.hh
 	inc.hh
 	inx.hh
 	iny.hh
@@ -29,17 +37,27 @@ set(INCLUDE_FILES
 	lda.hh
 	ldx.hh
 	ldy.hh
+	lsr.hh
 	nop.hh
 	ora.hh
+	pha.hh
+	php.hh
+	pla.hh
+	plp.hh
 	rol.hh
 	ror.hh
+	rti.hh
 	rts.hh
+	sbc.hh
+	sec.hh
+	sed.hh
 	sei.hh
 	sta.hh
 	stx.hh
 	sty.hh
 	tax.hh
 	tay.hh
+	tsx.hh
 	txa.hh
 	txs.hh
 	tya.hh

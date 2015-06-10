@@ -11,7 +11,7 @@ class dey : public mos_6510_y_nullary_instruction<0x88, 2> {
 public:
 	void execute() {
 		get_cpu()->get_registers().Y--;
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {

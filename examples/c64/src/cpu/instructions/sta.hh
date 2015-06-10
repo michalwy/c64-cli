@@ -62,6 +62,17 @@ public:
 	}
 };
 
+class sta_indirect_x : public mos_6510_unary_instruction<0x81, std::uint8_t, 6> {
+public:
+	void execute() {
+		set_indirect_x(get_cpu()->get_registers().A);
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_indirect_x(stream, "STA");
+	}
+};
+
 class sta_indirect_y : public mos_6510_unary_instruction<0x91, std::uint8_t, 6> {
 public:
 	void execute() {

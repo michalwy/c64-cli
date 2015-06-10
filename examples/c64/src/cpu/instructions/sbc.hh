@@ -1,5 +1,5 @@
-#ifndef CPU_INSTRUCTIONS_ADC_HH
-#define CPU_INSTRUCTIONS_ADC_HH
+#ifndef CPU_INSTRUCTIONS_SBC_HH
+#define CPU_INSTRUCTIONS_SBC_HH
 
 #include "mos_6510_instruction.hh"
 
@@ -8,11 +8,11 @@ namespace cpu {
 namespace instructions {
 
 template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
-class adc : public mos_6510_a_unary_instruction<OP, OPERAND, CYCLES> {
+class sbc : public mos_6510_a_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
-	void do_adc(std::uint8_t val) {
+	void do_sbc(std::uint8_t val) {
 		std::uint8_t x = get_cpu()->get_registers().A;
-		std::uint8_t y = val;
+		std::uint8_t y = ~val;
 		std::uint16_t res = {};
 		res = x + y;
 		if (get_cpu()->get_registers().P.C()) {
@@ -25,112 +25,112 @@ protected:
 	}
 };
 
-class adc_immediate : public adc<0x69, std::uint8_t, 2> {
+class sbc_immediate : public sbc<0xE9, std::uint8_t, 2> {
 public:
 	void execute() {
-		do_adc(_operand);
+		do_sbc(_operand);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_immediate(stream, "ADC");
+		mos_disassemble_immediate(stream, "SBC");
 	}
 
 };
 
-class adc_zero_page : public adc<0x65, std::uint8_t, 3> {
+class sbc_zero_page : public sbc<0xE5, std::uint8_t, 3> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_zero_page(val);
-		do_adc(val);
+		do_sbc(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute(stream, "ADC");
+		mos_disassemble_absolute(stream, "SBC");
 	}
 
 };
 
-class adc_zero_page_x : public adc<0x75, std::uint8_t, 4> {
+class sbc_zero_page_x : public sbc<0xF5, std::uint8_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_zero_page_x(val);
-		do_adc(val);
+		do_sbc(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute_x(stream, "ADC");
+		mos_disassemble_absolute_x(stream, "SBC");
 	}
 
 };
 
-class adc_absolute : public adc<0x6D, std::uint16_t, 4> {
+class sbc_absolute : public sbc<0xED, std::uint16_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_absolute(val);
-		do_adc(val);
+		do_sbc(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute(stream, "ADC");
+		mos_disassemble_absolute(stream, "SBC");
 	}
 
 };
 
-class adc_absolute_x : public adc<0x7D, std::uint16_t, 4> {
+class sbc_absolute_x : public sbc<0xFD, std::uint16_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_absolute_x(val);
-		do_adc(val);
+		do_sbc(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute_x(stream, "ADC");
+		mos_disassemble_absolute_x(stream, "SBC");
 	}
 
 };
 
-class adc_absolute_y : public adc<0x79, std::uint16_t, 4> {
+class sbc_absolute_y : public sbc<0xF9, std::uint16_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_absolute_y(val);
-		do_adc(val);
+		do_sbc(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute_y(stream, "ADC");
+		mos_disassemble_absolute_y(stream, "SBC");
 	}
 
 };
 
-class adc_indirect_x : public adc<0x61, std::uint8_t, 6> {
+class sbc_indirect_x : public sbc<0xE1, std::uint8_t, 6> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_indirect_x(val);
-		do_adc(val);
+		do_sbc(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_indirect_x(stream, "ADC");
+		mos_disassemble_indirect_x(stream, "SBC");
 	}
 
 };
 
-class adc_indirect_y : public adc<0x71, std::uint8_t, 5> {
+class sbc_indirect_y : public sbc<0xF1, std::uint8_t, 5> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_indirect_y(val);
-		do_adc(val);
+		do_sbc(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_indirect_y(stream, "ADC");
+		mos_disassemble_indirect_y(stream, "SBC");
 	}
 
 };

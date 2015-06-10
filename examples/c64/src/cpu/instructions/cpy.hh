@@ -1,5 +1,5 @@
-#ifndef CPU_INSTRUCTIONS_CPX_HH
-#define CPU_INSTRUCTIONS_CPX_HH
+#ifndef CPU_INSTRUCTIONS_CPY_HH
+#define CPU_INSTRUCTIONS_CPY_HH
 
 #include "mos_6510_instruction.hh"
 
@@ -8,10 +8,10 @@ namespace cpu {
 namespace instructions {
 
 template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
-class cpx : public mos_6510_x_unary_instruction<OP, OPERAND, CYCLES> {
+class cpy : public mos_6510_y_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
-	void do_cpx(std::uint8_t val) {
-		std::uint8_t x = get_cpu()->get_registers().X;
+	void do_cpy(std::uint8_t val) {
+		std::uint8_t x = get_cpu()->get_registers().Y;
 		std::uint8_t y = val;
 		std::uint8_t res = x - y;
 		get_cpu()->get_registers().P.N() = ((res & 0x80) == 0x80);
@@ -20,40 +20,40 @@ protected:
 	}
 };
 
-class cpx_immediate : public cpx<0xE0, std::uint8_t, 2> {
+class cpy_immediate : public cpy<0xC0, std::uint8_t, 2> {
 public:
 	void execute() {
-		do_cpx(_operand);
+		do_cpy(_operand);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_immediate(stream, "CPX");
+		mos_disassemble_immediate(stream, "CPY");
 	}
 };
 
-class cpx_zero_page : public cpx<0xE4, std::uint8_t, 3> {
+class cpy_zero_page : public cpy<0xC4, std::uint8_t, 3> {
 public:
 	void execute() {
 		std::uint8_t mem{};
 		get_zero_page(mem);
-		do_cpx(mem);
+		do_cpy(mem);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute(stream, "CPX");
+		mos_disassemble_absolute(stream, "CPY");
 	}
 };
 
-class cpx_absolute : public cpx<0xEC, std::uint16_t, 4> {
+class cpy_absolute : public cpy<0xCC, std::uint16_t, 4> {
 public:
 	void execute() {
 		std::uint8_t mem{};
 		get_absolute(mem);
-		do_cpx(mem);
+		do_cpy(mem);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute(stream, "CPX");
+		mos_disassemble_absolute(stream, "CPY");
 	}
 };
 

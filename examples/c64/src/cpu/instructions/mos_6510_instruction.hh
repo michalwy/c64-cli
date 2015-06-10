@@ -26,6 +26,18 @@ public:
 	}
 
 protected:
+	template<typename T>
+	void push(T val) {
+		get_cpu()->get_memory()->set(mos_6510::STACK_ADDRESS + get_cpu()->get_registers().SP - sizeof(T) + 1, val);
+		get_cpu()->get_registers().SP -= sizeof(T);
+	}
+
+	template<typename T>
+	void pop(T& val) {
+		get_cpu()->get_memory()->get(mos_6510::STACK_ADDRESS + get_cpu()->get_registers().SP + 1, val);
+		get_cpu()->get_registers().SP += sizeof(T);
+	}
+
 	void mos_disassemble(std::ostream& stream) const {
 		disassemble_hex(stream, static_cast<std::uint16_t>(get_cpu()->get_registers().PC - LEN));
 		stream << ": ";
@@ -236,44 +248,33 @@ protected:
 		cpu->get_registers().P.N() = ((val & 0x80) == 0x80);
 	}
 
-	void update_flags_ZN(mos_6510 * cpu, std::uint8_t val) {
+	void update_flags_NZ(mos_6510 * cpu, std::uint8_t val) {
 		update_flag_Z(cpu, val);
 		update_flag_N(cpu, val);
-	}
-
-	void update_flags_ZNCV(mos_6510 * cpu, std::uint8_t val, bool C, bool V) {
-		update_flags_ZN(cpu, val);
-		cpu->get_registers().P.C() = C;
-		cpu->get_registers().P.V() = V;
 	}
 };
 
 class mos_6510_a_instruction : public mos_6510_arith_instruction {
 protected:
-	using mos_6510_arith_instruction::update_flags_ZN;
-	void update_flags_ZN(mos_6510 * cpu) {
-		update_flags_ZN(cpu, cpu->get_registers().A);
-	}
-
-	using mos_6510_arith_instruction::update_flags_ZNCV;
-	void update_flags_ZNCV(mos_6510 * cpu, bool C, bool V) {
-		update_flags_ZNCV(cpu, cpu->get_registers().A, C, V);
+	using mos_6510_arith_instruction::update_flags_NZ;
+	void update_flags_NZ(mos_6510 * cpu) {
+		update_flags_NZ(cpu, cpu->get_registers().A);
 	}
 };
 
 class mos_6510_x_instruction : public mos_6510_arith_instruction {
 protected:
-	using mos_6510_arith_instruction::update_flags_ZN;
-	void update_flags_ZN(mos_6510 * cpu) {
-		update_flags_ZN(cpu, cpu->get_registers().X);
+	using mos_6510_arith_instruction::update_flags_NZ;
+	void update_flags_NZ(mos_6510 * cpu) {
+		update_flags_NZ(cpu, cpu->get_registers().X);
 	}
 };
 
 class mos_6510_y_instruction : public mos_6510_arith_instruction {
 protected:
-	using mos_6510_arith_instruction::update_flags_ZN;
-	void update_flags_ZN(mos_6510 * cpu) {
-		update_flags_ZN(cpu, cpu->get_registers().Y);
+	using mos_6510_arith_instruction::update_flags_NZ;
+	void update_flags_NZ(mos_6510 * cpu) {
+		update_flags_NZ(cpu, cpu->get_registers().Y);
 	}
 };
 

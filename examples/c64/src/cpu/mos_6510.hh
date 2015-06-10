@@ -105,18 +105,6 @@ public:
 		return _registers.IR;
 	}
 
-	template<typename T>
-	void push(T val) {
-		get_memory()->set(STACK_ADDRESS + get_registers().SP - sizeof(T) + 1, val);
-		get_registers().SP -= sizeof(T);
-	}
-
-	template<typename T>
-	void pop(T& val) {
-		get_memory()->get(STACK_ADDRESS + get_registers().SP + 1, val);
-		get_registers().SP += sizeof(T);
-	}
-
 	void log_registers(harpoon::log::message::Level level) const;
 
 	virtual ~mos_6510();

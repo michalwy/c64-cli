@@ -11,7 +11,7 @@ class inx : public mos_6510_x_nullary_instruction<0xE8, 2> {
 public:
 	void execute() {
 		get_cpu()->get_registers().X++;
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {

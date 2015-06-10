@@ -1,5 +1,5 @@
-#ifndef CPU_INSTRUCTIONS_AND_HH
-#define CPU_INSTRUCTIONS_AND_HH
+#ifndef CPU_INSTRUCTIONS_EOR_HH
+#define CPU_INSTRUCTIONS_EOR_HH
 
 #include "mos_6510_instruction.hh"
 
@@ -8,117 +8,122 @@ namespace cpu {
 namespace instructions {
 
 template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
-class and_op : public mos_6510_a_unary_instruction<OP, OPERAND, CYCLES> {
+class eor : public mos_6510_a_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
-	void do_and(std::uint8_t val) {
-		get_cpu()->get_registers().A &= val;
+	void do_eor(std::uint8_t val) {
+		get_cpu()->get_registers().A ^= val;
 		update_flags_NZ(get_cpu());
 	}
 };
 
-class and_immediate : public and_op<0x29, std::uint8_t, 2> {
+class eor_immediate : public eor<0x49, std::uint8_t, 2> {
 public:
 	void execute() {
-		do_and(_operand);
+		do_eor(_operand);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_immediate(stream, "AND");
+		mos_disassemble_immediate(stream, "EOR");
 	}
 
 };
 
-class and_zero_page : public and_op<0x25, std::uint8_t, 3> {
+class eor_zero_page : public eor<0x45, std::uint8_t, 3> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_zero_page(val);
-		do_and(val);
+		do_eor(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute(stream, "AND");
+		mos_disassemble_absolute(stream, "EOR");
 	}
 
 };
 
-class and_zero_page_x : public and_op<0x35, std::uint8_t, 4> {
+class eor_zero_page_x : public eor<0x55, std::uint8_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_zero_page_x(val);
-		do_and(val);
+		do_eor(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute_x(stream, "AND");
+		mos_disassemble_absolute_x(stream, "EOR");
 	}
 
 };
 
-class and_absolute : public and_op<0x2D, std::uint16_t, 4> {
+class eor_absolute : public eor<0x4D, std::uint16_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_absolute(val);
-		do_and(val);
+		do_eor(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute(stream, "AND");
+		mos_disassemble_absolute(stream, "EOR");
 	}
+
 };
 
-class and_absolute_x : public and_op<0x3D, std::uint16_t, 4> {
+class eor_absolute_x : public eor<0x5D, std::uint16_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_absolute_x(val);
-		do_and(val);
+		do_eor(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute_x(stream, "AND");
+		mos_disassemble_absolute_x(stream, "EOR");
 	}
+
 };
 
-class and_absolute_y : public and_op<0x39, std::uint16_t, 4> {
+class eor_absolute_y : public eor<0x59, std::uint16_t, 4> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_absolute_y(val);
-		do_and(val);
+		do_eor(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute_y(stream, "AND");
+		mos_disassemble_absolute_y(stream, "EOR");
 	}
+
 };
 
-class and_indirect_x : public and_op<0x21, std::uint8_t, 6> {
+class eor_indirect_x : public eor<0x41, std::uint8_t, 6> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_indirect_x(val);
-		do_and(val);
+		do_eor(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_indirect_x(stream, "AND");
+		mos_disassemble_indirect_x(stream, "EOR");
 	}
+
 };
 
-class and_indirect_y : public and_op<0x31, std::uint8_t, 5> {
+class eor_indirect_y : public eor<0x51, std::uint8_t, 5> {
 public:
 	void execute() {
 		std::uint8_t val{};
 		get_indirect_y(val);
-		do_and(val);
+		do_eor(val);
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_indirect_y(stream, "AND");
+		mos_disassemble_indirect_y(stream, "EOR");
 	}
+
 };
 
 

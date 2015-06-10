@@ -11,7 +11,7 @@ class tay : public mos_6510_y_nullary_instruction<0xA8, 2> {
 public:
 	void execute() {
 		get_cpu()->get_registers().Y = get_cpu()->get_registers().A;
-		update_flags_ZN(get_cpu());
+		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {

@@ -1,5 +1,5 @@
-#ifndef CPU_INSTRUCTIONS_DEX_HH
-#define CPU_INSTRUCTIONS_DEX_HH
+#ifndef CPU_INSTRUCTIONS_PLA_HH
+#define CPU_INSTRUCTIONS_PLA_HH
 
 #include "mos_6510_instruction.hh"
 
@@ -7,15 +7,15 @@ namespace commodore {
 namespace cpu {
 namespace instructions {
 
-class dex : public mos_6510_x_nullary_instruction<0xCA, 2> {
+class pla : public mos_6510_a_nullary_instruction<0x68, 4> {
 public:
 	void execute() {
-		get_cpu()->get_registers().X--;
+		pop(get_cpu()->get_registers().A);
 		update_flags_NZ(get_cpu());
 	}
 
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble(stream, "DEX");
+		mos_disassemble(stream, "PLA");
 	}
 };
 

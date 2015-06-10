@@ -18,6 +18,17 @@ public:
 	}
 };
 
+class stx_zero_page_y : public mos_6510_unary_instruction<0x96, std::uint8_t, 4> {
+public:
+	void execute() {
+		set_zero_page_y(get_cpu()->get_registers().X);
+	}
+
+	void disassemble(std::ostream& stream) const {
+		mos_disassemble_absolute_y(stream, "STX");
+	}
+};
+
 class stx_absolute : public mos_6510_unary_instruction<0x8E, std::uint16_t, 4> {
 public:
 	void execute() {
