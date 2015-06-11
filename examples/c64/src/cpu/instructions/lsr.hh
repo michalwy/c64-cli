@@ -11,9 +11,9 @@ template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
 class lsr : public mos_6510_mem_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
 	void do_lsr(std::uint8_t& val) {
-		get_cpu()->get_registers().P.C() = ((val & 0x01) == 0x01);
+		this->get_cpu()->get_registers().P.C() = ((val & 0x01) == 0x01);
 		val >>= 1;
-		update_flags_NZ(get_cpu(), val);
+		this->update_flags_NZ(this->get_cpu(), val);
 	}
 };
 

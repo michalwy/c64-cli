@@ -11,12 +11,12 @@ template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
 class cmp : public mos_6510_mem_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
 	void do_cmp(std::uint8_t val) {
-		std::uint8_t x = get_cpu()->get_registers().A;
+		std::uint8_t x = this->get_cpu()->get_registers().A;
 		std::uint8_t y = val;
 		std::uint8_t res = x - y;
-		get_cpu()->get_registers().P.N() = ((res & 0x80) == 0x80);
-		get_cpu()->get_registers().P.Z() = (res == 0x00);
-		get_cpu()->get_registers().P.C() = (x >= y);
+		this->get_cpu()->get_registers().P.N() = ((res & 0x80) == 0x80);
+		this->get_cpu()->get_registers().P.Z() = (res == 0x00);
+		this->get_cpu()->get_registers().P.C() = (x >= y);
 	}
 };
 

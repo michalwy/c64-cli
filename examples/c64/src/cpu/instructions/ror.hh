@@ -13,9 +13,9 @@ protected:
 	void do_ror(std::uint8_t& val) {
 		bool new_C = ((val & 0x01) == 0x01);
 		val >>= 1;
-		val |= (get_cpu()->get_registers().P.C() ? 0x80 : 0);
-		get_cpu()->get_registers().P.C() = new_C;
-		update_flags_NZ(get_cpu(), val);
+		val |= (this->get_cpu()->get_registers().P.C() ? 0x80 : 0);
+		this->get_cpu()->get_registers().P.C() = new_C;
+		this->update_flags_NZ(this->get_cpu(), val);
 	}
 };
 

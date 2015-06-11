@@ -28,18 +28,18 @@ public:
 protected:
 	template<typename T>
 	void push(T val) {
-		get_cpu()->get_memory()->set(mos_6510::STACK_ADDRESS + get_cpu()->get_registers().SP - sizeof(T) + 1, val);
-		get_cpu()->get_registers().SP -= sizeof(T);
+		this->get_cpu()->get_memory()->set(mos_6510::STACK_ADDRESS + this->get_cpu()->get_registers().SP - sizeof(T) + 1, val);
+		this->get_cpu()->get_registers().SP -= sizeof(T);
 	}
 
 	template<typename T>
 	void pop(T& val) {
-		get_cpu()->get_memory()->get(mos_6510::STACK_ADDRESS + get_cpu()->get_registers().SP + 1, val);
-		get_cpu()->get_registers().SP += sizeof(T);
+		this->get_cpu()->get_memory()->get(mos_6510::STACK_ADDRESS + this->get_cpu()->get_registers().SP + 1, val);
+		this->get_cpu()->get_registers().SP += sizeof(T);
 	}
 
 	void mos_disassemble(std::ostream& stream) const {
-		disassemble_hex(stream, static_cast<std::uint16_t>(get_cpu()->get_registers().PC - LEN));
+		disassemble_hex(stream, static_cast<std::uint16_t>(this->get_cpu()->get_registers().PC - LEN));
 		stream << ": ";
 		disassemble_hex(stream, OPCODE);
 		stream << " ";
@@ -75,101 +75,101 @@ protected:
 
 	template<typename T>
 	void get_zero_page(T& val) {
-		get_cpu()->get_memory()->get(_operand & 0xff, val);
+		this->get_cpu()->get_memory()->get(_operand & 0xff, val);
 	}
 
 	template<typename T>
 	void get_zero_page_x(T& val) {
-		get_cpu()->get_memory()->get((_operand & 0xff) + get_cpu()->get_registers().X, val);
+		this->get_cpu()->get_memory()->get((_operand & 0xff) + this->get_cpu()->get_registers().X, val);
 	}
 
 	template<typename T>
 	void get_zero_page_y(T& val) {
-		get_cpu()->get_memory()->get((_operand & 0xff) + get_cpu()->get_registers().Y, val);
+		this->get_cpu()->get_memory()->get((_operand & 0xff) + this->get_cpu()->get_registers().Y, val);
 	}
 
 	template<typename T>
 	void get_absolute(T& val) {
-		get_cpu()->get_memory()->get(_operand, val);
+		this->get_cpu()->get_memory()->get(_operand, val);
 	}
 
 	template<typename T>
 	void get_absolute_x(T& val) {
-		get_cpu()->get_memory()->get(_operand + get_cpu()->get_registers().X, val);
+		this->get_cpu()->get_memory()->get(_operand + this->get_cpu()->get_registers().X, val);
 	}
 
 	template<typename T>
 	void get_absolute_y(T& val) {
-		get_cpu()->get_memory()->get(_operand + get_cpu()->get_registers().Y, val);
+		this->get_cpu()->get_memory()->get(_operand + this->get_cpu()->get_registers().Y, val);
 	}
 
 	template<typename T>
 	void get_indirect_x(T& val) {
 		std::uint16_t pointer{};
-		get_cpu()->get_memory()->get((_operand & 0xff)+ get_cpu()->get_registers().X, pointer);
-		get_cpu()->get_memory()->get(pointer, val);
+		this->get_cpu()->get_memory()->get((_operand & 0xff)+ this->get_cpu()->get_registers().X, pointer);
+		this->get_cpu()->get_memory()->get(pointer, val);
 	}
 
 	template<typename T>
 	void get_indirect_y(T& val) {
 		std::uint16_t pointer{};
-		get_cpu()->get_memory()->get(_operand & 0xff, pointer);
-		get_cpu()->get_memory()->get(pointer + get_cpu()->get_registers().Y, val);
+		this->get_cpu()->get_memory()->get(_operand & 0xff, pointer);
+		this->get_cpu()->get_memory()->get(pointer + this->get_cpu()->get_registers().Y, val);
 	}
 
 	template<typename T>
 	void set_zero_page(T val) {
-		get_cpu()->get_memory()->set(_operand & 0xff, val);
+		this->get_cpu()->get_memory()->set(_operand & 0xff, val);
 	}
 
 	template<typename T>
 	void set_zero_page_x(T val) {
-		get_cpu()->get_memory()->set((_operand & 0xff) + get_cpu()->get_registers().X, val);
+		this->get_cpu()->get_memory()->set((_operand & 0xff) + this->get_cpu()->get_registers().X, val);
 	}
 
 	template<typename T>
 	void set_zero_page_y(T val) {
-		get_cpu()->get_memory()->set((_operand & 0xff) + get_cpu()->get_registers().Y, val);
+		this->get_cpu()->get_memory()->set((_operand & 0xff) + this->get_cpu()->get_registers().Y, val);
 	}
 
 	template<typename T>
 	void set_absolute(T val) {
-		get_cpu()->get_memory()->set(_operand, val);
+		this->get_cpu()->get_memory()->set(_operand, val);
 	}
 
 	template<typename T>
 	void set_absolute_x(T val) {
-		get_cpu()->get_memory()->set(_operand + get_cpu()->get_registers().X, val);
+		this->get_cpu()->get_memory()->set(_operand + this->get_cpu()->get_registers().X, val);
 	}
 
 	template<typename T>
 	void set_absolute_y(T val) {
-		get_cpu()->get_memory()->set(_operand + get_cpu()->get_registers().Y, val);
+		this->get_cpu()->get_memory()->set(_operand + this->get_cpu()->get_registers().Y, val);
 	}
 
 	template<typename T>
 	void set_indirect_x(T val) {
 		std::uint16_t pointer{};
-		get_cpu()->get_memory()->get((_operand & 0xff) + get_cpu()->get_registers().X, pointer);
-		get_cpu()->get_memory()->set(pointer, val);
+		this->get_cpu()->get_memory()->get((_operand & 0xff) + this->get_cpu()->get_registers().X, pointer);
+		this->get_cpu()->get_memory()->set(pointer, val);
 	}
 
 	template<typename T>
 	void set_indirect_y(T val) {
 		std::uint16_t pointer{};
-		get_cpu()->get_memory()->get(_operand & 0xff, pointer);
-		get_cpu()->get_memory()->set(pointer + get_cpu()->get_registers().Y, val);
+		this->get_cpu()->get_memory()->get(_operand & 0xff, pointer);
+		this->get_cpu()->get_memory()->set(pointer + this->get_cpu()->get_registers().Y, val);
 	}
 
 	void disassemble_operand(std::ostream& stream, std::uint8_t operand) const {
-		disassemble_hex(stream, operand);
+		this->disassemble_hex(stream, operand);
 		stream << "   ";
 	}
 
 	void disassemble_operand(std::ostream& stream, std::uint16_t operand) const {
-		disassemble_hex(stream, static_cast<std::uint8_t>(operand & 0xff));
+		this->disassemble_hex(stream, static_cast<std::uint8_t>(operand & 0xff));
 		stream << " ";
-		disassemble_hex(stream, static_cast<std::uint8_t>((operand >> 8) & 0xff));
+		this->disassemble_hex(stream, static_cast<std::uint8_t>((operand >> 8) & 0xff));
 	}
 
 	void mos_disassemble(std::ostream& stream, const std::string& mnemonic) const {
@@ -181,56 +181,56 @@ protected:
 	void mos_disassemble_immediate(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "#$";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 	}
 
 	void mos_disassemble_absolute(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "$";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 	}
 
 	void mos_disassemble_absolute_x(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "$";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 		stream << ",X";
 	}
 
 	void mos_disassemble_absolute_y(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "$";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 		stream << ",Y";
 	}
 
 	void mos_disassemble_indirect(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "($";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 		stream << ")";
 	}
 
 	void mos_disassemble_indirect_x(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "($";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 		stream << ",X)";
 	}
 
 	void mos_disassemble_indirect_y(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "($";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 		stream << "),Y";
 	}
 
 	void mos_disassemble_relative(std::ostream& stream, const std::string& mnemonic) const {
 		mos_disassemble(stream, mnemonic);
 		stream << "$";
-		disassemble_hex(stream, static_cast<std::uint16_t>(get_cpu()->get_registers().PC + static_cast<std::int8_t>(_operand)));
+		this->disassemble_hex(stream, static_cast<std::uint16_t>(this->get_cpu()->get_registers().PC + static_cast<std::int8_t>(_operand)));
 		stream << " [#$";
-		disassemble_hex(stream, _operand);
+		this->disassemble_hex(stream, _operand);
 		stream << "]";
 	}
 
@@ -304,8 +304,8 @@ class mos_6510_relative_branch_instruction : public mos_6510_unary_instruction<O
 protected:
 	void branch(bool condition) {
 		if (condition) {
-			std::int8_t offset = static_cast<std::int8_t>(_operand);
-			get_cpu()->get_registers().PC += offset;
+			std::int8_t offset = static_cast<std::int8_t>(this->_operand);
+			this->get_cpu()->get_registers().PC += offset;
 		}
 	}
 };

@@ -11,8 +11,8 @@ template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
 class and_op : public mos_6510_a_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
 	void do_and(std::uint8_t val) {
-		get_cpu()->get_registers().A &= val;
-		update_flags_NZ(get_cpu());
+		this->get_cpu()->get_registers().A &= val;
+		this->update_flags_NZ(this->get_cpu());
 	}
 };
 

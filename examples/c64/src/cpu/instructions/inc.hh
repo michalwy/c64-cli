@@ -12,7 +12,7 @@ class inc : public mos_6510_mem_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
 	void do_inc(std::uint8_t& val) {
 		val++;
-		update_flags_NZ(get_cpu(), val);
+		this->update_flags_NZ(this->get_cpu(), val);
 	}
 };
 

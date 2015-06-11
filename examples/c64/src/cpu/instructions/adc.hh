@@ -11,17 +11,17 @@ template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
 class adc : public mos_6510_a_unary_instruction<OP, OPERAND, CYCLES> {
 protected:
 	void do_adc(std::uint8_t val) {
-		std::uint8_t x = get_cpu()->get_registers().A;
+		std::uint8_t x = this->get_cpu()->get_registers().A;
 		std::uint8_t y = val;
 		std::uint16_t res = {};
 		res = x + y;
-		if (get_cpu()->get_registers().P.C()) {
+		if (this->get_cpu()->get_registers().P.C()) {
 			res++;
 		}
-		get_cpu()->get_registers().A = (res & 0xff);
-		update_flags_NZ(get_cpu());
-		get_cpu()->get_registers().P.V() = (((~(x ^ y)) & (x ^ res) & 0x80) == 0x80);
-		get_cpu()->get_registers().P.C() = (res > 0xff);
+		this->get_cpu()->get_registers().A = (res & 0xff);
+		this->update_flags_NZ(this->get_cpu());
+		this->get_cpu()->get_registers().P.V() = (((~(x ^ y)) & (x ^ res) & 0x80) == 0x80);
+		this->get_cpu()->get_registers().P.C() = (res > 0xff);
 	}
 };
 

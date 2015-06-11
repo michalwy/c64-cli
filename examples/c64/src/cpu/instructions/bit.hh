@@ -11,14 +11,14 @@ template<std::uint8_t OP, typename OPERAND, std::uint_fast64_t CYCLES>
 class bit : public mos_6510_mem_unary_instruction<OP, OPERAND, CYCLES> {
 public:
 	void disassemble(std::ostream& stream) const {
-		mos_disassemble_absolute(stream, "BIT");
+		this->mos_disassemble_absolute(stream, "BIT");
 	}
 
 protected:
 	void do_bit(std::uint8_t val) {
-		std::uint8_t res = get_cpu()->get_registers().A & val;
-		update_flags_NZ(get_cpu(), res);
-		get_cpu()->get_registers().P.V() = ((res & 0x40) == 0x40);
+		std::uint8_t res = this->get_cpu()->get_registers().A & val;
+		this->update_flags_NZ(this->get_cpu(), res);
+		this->get_cpu()->get_registers().P.V() = ((res & 0x40) == 0x40);
 	}
 };
 
