@@ -14,7 +14,10 @@ foreach(i RANGE ${count})
 	source_group(${group} FILES ${${group_files_var}})
 endforeach()
 
+set(CMAKE_AUTOMOC ON)
+
 find_package(Threads REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 add_executable(c64 
 	${SOURCES}
@@ -23,7 +26,15 @@ add_executable(c64
 target_link_libraries(c64 
 	${CMAKE_THREAD_LIBS_INIT}
 	harpoon
+	Qt5::Widgets
 	)
+
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	set_target_properties(
+		c64
+		PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast")
+endif()
 
 include_directories(${PROJECT_SOURCE_DIR}/harpoon/include)
 
