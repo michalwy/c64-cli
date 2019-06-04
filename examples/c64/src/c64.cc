@@ -6,7 +6,7 @@
 #include "harpoon/clock/generator/dummy_generator.hh"
 #include "harpoon/execution/up_execution_unit.hh"
 
-using namespace commodore;
+namespace commodore {
 
 c64::c64(const harpoon::log::log_ptr& log)
 	: harpoon::computer_system("Commodore 64") {
@@ -58,4 +58,6 @@ void c64::prepare() {
 	auto cpu = std::static_pointer_cast<cpu::mos_6510>(execution_unit->get_processing_unit());
 	cpu->set_memory(get_main_memory());
 	harpoon::computer_system::prepare();
+}
+
 }

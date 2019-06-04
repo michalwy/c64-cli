@@ -1,5 +1,11 @@
 #include "harpoon/memory/serializer/serializer.hh"
 
-using namespace harpoon::memory::serializer;
+namespace harpoon {
+namespace memory {
+namespace serializer {
 
 serializer::~serializer() {}
+
+}
+}
+}

@@ -9,7 +9,8 @@
 #include <QTabWidget>
 #include <QDockWidget>
 
-using namespace commodore::ui;
+namespace commodore {
+namespace ui {
 
 main_window::main_window(QWidget * parent) : QMainWindow(parent) {
 
@@ -49,3 +50,5 @@ main_window::main_window(QWidget * parent) : QMainWindow(parent) {
 
 main_window::~main_window() {}
 
+}
+}

@@ -4,7 +4,8 @@
 
 #include <limits>
 
-using namespace harpoon::memory;
+namespace harpoon {
+namespace memory {
 
 main_memory::~main_memory() {}
 
@@ -74,4 +75,7 @@ void main_memory::set(address address, uint8_t value) {
 	}
 
 	memory->set(address, value);
+}
+
+}
 }

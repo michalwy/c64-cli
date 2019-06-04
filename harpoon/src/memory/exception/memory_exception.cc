@@ -1,5 +1,11 @@
 #include "harpoon/memory/exception/memory_exception.hh"
 
-using namespace harpoon::memory::exception;
+namespace harpoon {
+namespace memory {
+namespace exception {
 
 memory_exception::~memory_exception() {}
+
+}
+}
+}

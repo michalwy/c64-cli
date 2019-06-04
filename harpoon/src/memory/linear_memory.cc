@@ -6,7 +6,8 @@
 
 #include <limits>
 
-using namespace harpoon::memory;
+namespace harpoon {
+namespace memory {
 
 linear_memory::~linear_memory() {}
 
@@ -67,4 +68,7 @@ void linear_memory::serialize(serializer::serializer& serializer) {
 void linear_memory::deserialize(serializer::serializer& serializer) {
 	serializer.seek_memory_block(this, get_address_range());
 	serializer.read(_memory.get(), static_cast<std::size_t>(get_address_range().get_length()));
+}
+
+}
 }

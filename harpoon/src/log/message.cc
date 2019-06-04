@@ -2,7 +2,8 @@
 
 #include <sstream>
 
-using namespace harpoon::log;
+namespace harpoon {
+namespace log {
 
 message::~message() {}
 
@@ -12,3 +13,5 @@ std::string message::get_text() const {
 
 message::streambuf::~streambuf() {}
 
+}
+}

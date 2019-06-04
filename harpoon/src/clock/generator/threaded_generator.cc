@@ -1,6 +1,8 @@
 #include "harpoon/clock/generator/threaded_generator.hh"
 
-using namespace harpoon::clock::generator;
+namespace harpoon {
+namespace clock {
+namespace generator {
 
 threaded_generator::~threaded_generator() {}
 
@@ -28,3 +30,6 @@ void threaded_generator::stop() {
 	}
 }
 
+}
+}
+}

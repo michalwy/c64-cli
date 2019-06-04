@@ -1,7 +1,8 @@
 #include "harpoon/execution/processing_unit.hh"
 #include "harpoon/execution/exception/execution_exception.hh"
 
-using namespace harpoon::execution;
+namespace harpoon {
+namespace execution {
 
 processing_unit::~processing_unit() {}
 
@@ -101,4 +102,7 @@ void processing_unit::log_state(harpoon::log::message::Level level) const {
 }
 
 void processing_unit::log_registers(harpoon::log::message::Level) const {
+}
+
+}
 }

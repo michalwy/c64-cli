@@ -2,4 +2,12 @@
 
 using namespace harpoon::execution::exception;
 
+namespace harpoon {
+namespace execution {
+namespace exception {
+
 execution_exception::~execution_exception() {}
+
+}
+}
+}

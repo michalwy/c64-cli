@@ -1,6 +1,7 @@
 #include "qt_log.hh"
 
-using namespace commodore::ui;
+namespace commodore {
+namespace ui {
 
 qt_log::~qt_log() {
 	delete _emitter;
@@ -8,4 +9,7 @@ qt_log::~qt_log() {
 
 void qt_log::out(const harpoon::log::message& message) {
 	_emitter->emit_signal(message);
+}
+
+}
 }

@@ -1,7 +1,8 @@
 #include "mos_6510.hh"
 #include "mos_6510_decoder.hh"
 
-using namespace commodore::cpu;
+namespace commodore {
+namespace cpu {
 
 mos_6510::~mos_6510() {}
 
@@ -49,4 +50,7 @@ void mos_6510::log_registers(harpoon::log::message::Level level) const {
 	log(component_log(level) << "A:  " << _registers.A << "    X: " << _registers.X << "  Y: " << _registers.Y);
 	log(component_log(level) << "PC: " << _registers.PC << " SP: " << _registers.SP << " IR: " << _registers.IR);
 	log(component_log(level) << "P:  " << _registers.P);
+}
+
+}
 }

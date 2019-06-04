@@ -1,5 +1,9 @@
 #include "harpoon/memory/chunked_read_only_memory.hh"
 
-using namespace harpoon::memory;
+namespace harpoon {
+namespace memory {
 
 chunked_read_only_memory::~chunked_read_only_memory() {}
+
+}
+}

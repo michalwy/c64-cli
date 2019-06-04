@@ -2,6 +2,9 @@
 
 using namespace harpoon::clock;
 
+namespace harpoon {
+namespace clock {
+
 clock::~clock() {}
 
 void clock::boot() {
@@ -12,4 +15,7 @@ void clock::boot() {
 void clock::shutdown() {
 	_generator->stop();
 	hardware_component::shutdown();
+}
+
+}
 }

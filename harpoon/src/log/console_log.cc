@@ -3,7 +3,8 @@
 
 #include <iostream>
 
-using namespace harpoon::log;
+namespace harpoon {
+namespace log {
 
 console_log::~console_log() {}
 
@@ -23,4 +24,7 @@ void console_log::out(const message& message) {
 		std::cout << "@" << message.get_function() << "(): ";
 	}
 	std::cout << message.get_text() << std::endl;
+}
+
+}
 }

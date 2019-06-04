@@ -1,5 +1,9 @@
 #include "harpoon/memory/chunked_random_access_memory.hh"
 
-using namespace harpoon::memory;
+namespace harpoon {
+namespace memory {
 
 chunked_random_access_memory::~chunked_random_access_memory() {}
+
+}
+}

@@ -3,7 +3,9 @@
 #include <sstream>
 #include <iomanip>
 
-using namespace harpoon::memory::exception;
+namespace harpoon {
+namespace memory {
+namespace exception {
 
 write_access_violation::write_access_violation(const std::string& component,
 											   harpoon::memory::address address,
@@ -19,3 +21,7 @@ write_access_violation::write_access_violation(const std::string& component,
 }
 
 write_access_violation::~write_access_violation() {}
+
+}
+}
+}

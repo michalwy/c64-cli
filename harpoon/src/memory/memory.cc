@@ -1,7 +1,8 @@
 #include "harpoon/memory/memory.hh"
 #include "harpoon/memory/serializer/serializer.hh"
 
-using namespace harpoon::memory;
+namespace harpoon {
+namespace memory {
 
 memory::~memory() {}
 
@@ -48,4 +49,7 @@ void memory::serialize(serializer::serializer& serializer) {
 
 void memory::deserialize(serializer::serializer& serializer) {
 	serializer.seek_memory_block(this, _address_range);
+}
+
+}
 }

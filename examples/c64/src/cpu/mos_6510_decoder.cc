@@ -4,14 +4,11 @@
 
 #include "harpoon/execution/exception/invalid_instruction.hh"
 
-using namespace commodore::cpu;
-
-namespace {
+namespace commodore {
+namespace cpu {
 
 template<typename T>
 class mos_6510_instruction_decoder : public harpoon::execution::instruction_decoder<T, mos_6510> {};
-
-}
 
 mos_6510_decoder::mos_6510_decoder(mos_6510 * cpu, const std::string& name)
 	: harpoon::hardware_component(name), _cpu(cpu) {}
@@ -202,4 +199,7 @@ std::uint8_t mos_6510_decoder::get_instruction_byte(std::uint_fast64_t offset) {
 	std::uint8_t opbyte{};
 	get_program_code(opbyte, offset);
 	return opbyte;
+}
+
+}
 }

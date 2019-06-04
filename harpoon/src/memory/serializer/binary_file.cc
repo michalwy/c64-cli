@@ -1,7 +1,9 @@
 #include "harpoon/memory/serializer/binary_file.hh"
 #include "harpoon/memory/memory.hh"
 
-using namespace harpoon::memory::serializer;
+namespace harpoon {
+namespace memory {
+namespace serializer {
 
 void binary_file::start_memory_block(const harpoon::memory::memory * memory, const harpoon::memory::address_range& address_range) {
 	_address_range = address_range;
@@ -37,4 +39,8 @@ std::size_t binary_file::read(std::uint8_t * data, std::size_t length) {
 				<< "Reading " << length << " bytes from " << _file_name);
 	_input.read(reinterpret_cast<char *>(data), static_cast<std::streamsize>(length));
 	return static_cast<std::size_t>(_input.gcount());
+}
+
+}
+}
 }

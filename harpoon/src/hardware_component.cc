@@ -1,7 +1,7 @@
 #include "harpoon/hardware_component.hh"
 #include "harpoon/log/message.hh"
 
-using namespace harpoon;
+namespace harpoon {
 
 hardware_component::~hardware_component() {
 	log(component_debug << "Destroying");
@@ -105,4 +105,6 @@ void hardware_component::log_state(log::message::Level level) const {
 	if (is_running()) {
 		log(component_log(level) << "RUNNING");
 	}
+}
+
 }

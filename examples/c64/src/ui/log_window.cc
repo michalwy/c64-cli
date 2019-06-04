@@ -1,6 +1,7 @@
 #include "log_window.hh"
 
-using namespace commodore::ui;
+namespace commodore {
+namespace ui {
 
 log_window::log_window(QWidget * parent) : QTextEdit(parent) {
 	setAcceptRichText(false);
@@ -14,4 +15,7 @@ void log_window::log_message(const harpoon::log::message& message) {
 		setTextColor({0, 0, 0});
 	}
 	append(message.get_text().c_str());
+}
+
+}
 }

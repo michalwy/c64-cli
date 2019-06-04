@@ -4,7 +4,8 @@
 #include "harpoon/memory/chunked_random_access_memory.hh"
 #include "harpoon/memory/serializer/binary_file.hh"
 
-using namespace commodore::memory;
+namespace commodore {
+namespace memory {
 
 memory::~memory() {}
 
@@ -102,4 +103,7 @@ void memory::get(harpoon::memory::address address, std::uint8_t& value) {
 
 void memory::set(harpoon::memory::address address, std::uint8_t value) {
 	_write_memory.lock()->set(address, value);
+}
+
+}
 }

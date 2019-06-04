@@ -4,7 +4,8 @@
 #include "harpoon/memory/exception/write_access_violation.hh"
 #include "harpoon/memory/serializer/serializer.hh"
 
-using namespace harpoon::memory;
+namespace harpoon {
+namespace memory {
 
 chunked_memory::~chunked_memory() {}
 
@@ -87,4 +88,7 @@ void chunked_memory::deserialize(serializer::serializer& serializer) {
 			return;
 		}
 	}
+}
+
+}
 }

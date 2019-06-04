@@ -1,5 +1,9 @@
 #include "harpoon/exception/hardware_component_exception.hh"
 
-using namespace harpoon::exception;
+namespace harpoon {
+namespace exception {
 
 hardware_component_exception::~hardware_component_exception() {}
+
+}
+}
