@@ -25,21 +25,28 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 install:
-  - sudo apt-get install -qq qt5-default libboost-all-dev
+  - sudo apt-get install -qq libboost-all-dev
 
 before_script:
+before_script:
+  - mkdir -p .deps/.install
+  - cd .deps
+  - git clone https://github.com/harpoon-emu/harpoon
+  - mkdir -p harpoon/build
+  - cd harpoon/build
+  - cmake -DCMAKE_INSTALL_PREFIX=../../.install ..
+  - make
+  - make install
+  - cd ../..
+  - git clone https://github.com/harpoon-emu/c64-hw
+  - mkdir -p c64-hw/build
+  - cd c64-hw/build
+  - cmake -DHarpoon_DIR=../../.install/share/Harpoon/cmake -DCMAKE_INSTALL_PREFIX=../../.install ..
+  - make
+  - make install
+  - cd ../../..
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake -DHarpoon_C64-hw_DIR=.deps/.install/share/Harpoon/cmake -DCMAKE_INSTALL_PREFIX=../.deps/.install ..
 
 script: make
-
-addons:
-  coverity_scan:
-    project:
-      name: "michalwy/harpoon"
-      description: "Build submitted via Travis CI"
-    notification_email: michalwy@gmail.com
-    build_command_prepend: ""
-    build_command: "make"
-    branch_pattern: coverity_scan
