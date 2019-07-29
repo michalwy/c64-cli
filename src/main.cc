@@ -1,12 +1,13 @@
-#include "c64.hh"
 #include "console_log.hh"
 #include "counted_breakpoint_argument.hh"
-#include "cpu/mos_6510.hh"
 #include "integer.hh"
 #include "load_argument.hh"
 
-#include "harpoon/memory/deserializer/binary_file.hh"
-#include "harpoon/memory/serializer/binary_file.hh"
+#include <harpoon/c64-hw/c64.hh>
+#include <harpoon/c64-hw/cpu/mos_6510.hh>
+
+#include <harpoon/memory/deserializer/binary_file.hh>
+#include <harpoon/memory/serializer/binary_file.hh>
 
 #include <boost/program_options.hpp>
 #include <functional>

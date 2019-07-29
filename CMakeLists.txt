@@ -1,47 +1,43 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.9)
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
-include(functions)
+set(C64-cli_MAJOR_VERSION 0)
+set(C64-cli_MINOR_VERSION 1)
+set(C64-cli_PATCH_VERSION 0)
+set(C64-cli_VERSION
+  ${C64-cli_MAJOR_VERSION}.${C64-cli_MINOR_VERSION}.${C64-cli_PATCH_VERSION})
 
-project(harpoon)
+project(C64-cli LANGUAGES CXX C VERSION ${C64-cli_VERSION})
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-	set(CMAKE_COMMON_CXX_FLAGS
-		-std=c++14
-		-Werror
-		-Weverything
-		-Wno-c++98-compat
-		-Wno-c++98-compat-pedantic
-		-Wno-padded
-		-Wno-redundant-parens
-		-Wno-extra-semi-stmt
-		-Wno-unknown-warning-option
-		)
-endif()
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+find_package(Boost COMPONENTS program_options regex REQUIRED)
+find_package(Harpoon_C64-hw REQUIRED)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-	set(CMAKE_COMMON_CXX_FLAGS
-		-std=c++14
-		-Wall
-		-Werror
-		)
-endif()
+add_executable(c64-cli
+	src/main.cc
+	src/console_log.cc
+	src/console_log.hh
+	src/load_argument.hh
+	src/integer.hh
+	src/counted_breakpoint_argument.hh
+)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	set(CMAKE_COMMON_CXX_FLAGS
-		/W4
-		/WX
-		/w44265
-		/bigobj
-		)
-endif()
+target_compile_features(c64-cli
+	PRIVATE
+		cxx_lambdas
+		cxx_range_for
+)
 
-string(REGEX REPLACE ";" " " CMAKE_COMMON_CXX_FLAGS "${CMAKE_COMMON_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_COMMON_CXX_FLAGS}")
+target_link_libraries(c64-cli
+	Threads::Threads
+	Boost::program_options
+	Boost::regex
+	Harpoon::c64-hw
+)
 
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-add_subdirectory(harpoon)
-add_subdirectory(examples)
-
+install(TARGETS c64-cli
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
