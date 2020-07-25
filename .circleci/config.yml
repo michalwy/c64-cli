@@ -1,0 +1,83 @@
+version: 2.1
+commands:
+  build:
+    steps:
+      - checkout
+      - run:
+          name: Generate cmake
+          working_directory: build
+          command: cmake -DHarpoon_DIR=~/.deps/.install/share/Harpoon/cmake -DHarpoon_C64-hw_DIR=~/.deps/.install/share/Harpoon/cmake ..
+      - run:
+          name: Build
+          working_directory: build
+          command: make
+  deps:
+    steps:
+      - run:
+          name: "Harpoon: clone"
+          working_directory: ~/.deps
+          command: git clone https://github.com/harpoon-emu/harpoon
+      - run:
+          name: "Harpoon: cmake"
+          working_directory: ~/.deps/harpoon/build
+          command: cmake -DCMAKE_INSTALL_PREFIX=~/.deps/.install ..
+      - run:
+          name: "Harpoon: build"
+          working_directory: ~/.deps/harpoon/build
+          command: make
+      - run:
+          name: "Harpoon: install"
+          working_directory: ~/.deps/harpoon/build
+          command: make install
+      - run:
+          name: "C64-hw: clone"
+          working_directory: ~/.deps
+          command: git clone https://github.com/harpoon-emu/c64-hw
+      - run:
+          name: "C64-hw: cmake"
+          working_directory: ~/.deps/c64-hw/build
+          command: cmake -DCMAKE_INSTALL_PREFIX=~/.deps/.install -DHarpoon_DIR=~/.deps/.install/share/Harpoon/cmake ..
+      - run:
+          name: "C64-hw: build"
+          working_directory: ~/.deps/c64-hw/build
+          command: make
+      - run:
+          name: "C64-hw: install"
+          working_directory: ~/.deps/c64-hw/build
+          command: make install
+
+jobs:
+  build-gcc-fedora-31:
+    docker:
+      - image: harpoonemu/ci-build:gcc-fedora-31-fd8961b
+    steps:
+      - deps
+      - build
+  build-gcc-fedora-32:
+    docker:
+      - image: harpoonemu/ci-build:gcc-fedora-32-fd8961b
+    steps:
+      - deps
+      - build
+  build-clang-fedora-31:
+    docker:
+      - image: harpoonemu/ci-build:clang-fedora-31-fd8961b
+    steps:
+      - deps
+      - build
+  build-clang-fedora-32:
+    docker:
+      - image: harpoonemu/ci-build:clang-fedora-32-fd8961b
+    steps:
+      - deps
+      - build
+
+workflows:
+  build:
+    jobs:
+      - build-gcc-fedora-31
+      - build-gcc-fedora-32
+      - build-clang-fedora-31
+      - build-clang-fedora-32
+      
+      
